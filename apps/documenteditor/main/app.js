@@ -25,8 +25,8 @@ require.config({
         jszip           : '../vendor/jszip/jszip.min',
         jsziputils      : '../vendor/jszip-utils/jszip-utils.min',
         jsrsasign       : '../vendor/jsrsasign/jsrsasign-latest-all-min',
-        allfonts        : '../sdk/Common/AllFonts',
-        sdk             : '../sdk/Word/sdk-all',
+        allfonts        : '../sdkjs/common/AllFonts',
+        sdk             : '../sdkjs/word/sdk-all',
         api             : 'api/documents/api',
         core            : 'common/main/lib/core/application',
         notification    : 'common/main/lib/core/NotificationCenter',
@@ -38,7 +38,7 @@ require.config({
         locale          : 'common/locale',
         irregularstack  : 'common/IrregularStack'
     },
-//    urlArgs: "_dc=" +  (new Date()).getTime(), // debug only, be sure to remove it before deploying your code.
+
     shim: {
         underscore: {
             exports: '_'
