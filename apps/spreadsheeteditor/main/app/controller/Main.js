@@ -785,6 +785,10 @@ define([
 
                 if (!this.appOptions.isEditMailMerge && !this.appOptions.isEditDiagram) {
                     this.api.asc_registerCallback('asc_onSendThemeColors', _.bind(this.onSendThemeColors, this));
+
+                    var printController = app.getController('Print');
+                    printController && this.api && printController.setApi(this.api);
+
                 }
 
                 var celleditorController = this.getApplication().getController('CellEditor');
@@ -798,7 +802,6 @@ define([
                         toolbarController   = application.getController('Toolbar'),
                         statusbarController = application.getController('Statusbar'),
                         rightmenuController = application.getController('RightMenu'),
-                        printController = application.getController('Print'),
                         /** coauthoring begin **/
                             commentsController  = application.getController('Common.Controllers.Comments'),
                         /** coauthoring end **/
@@ -818,7 +821,6 @@ define([
                     }
 
                     rightmenuController && rightmenuController.setApi(me.api);
-                    printController && printController.setApi(me.api);
 
                     if (statusbarController) {
                         statusbarController.getView('Statusbar').changeViewMode(true);
@@ -1628,10 +1630,7 @@ define([
 
             onPrint: function() {
                 if (!this.appOptions.canPrint) return;
-                
-                if (this.api)
-                    this.api.asc_Print(undefined, Common.Utils.isChrome || Common.Utils.isSafari || Common.Utils.isOpera); // if isChrome or isSafari or isOpera == true use asc_onPrintUrl event
-                Common.component.Analytics.trackEvent('Print');
+                Common.NotificationCenter.trigger('print', this);
             },
 
             onPrintUrl: function(url) {

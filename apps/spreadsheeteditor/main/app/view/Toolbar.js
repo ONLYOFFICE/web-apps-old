@@ -189,21 +189,8 @@ define([
                 id          : 'id-toolbar-btn-print',
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-print',
-                split       : true,
                 hint        : me.tipPrint + Common.Utils.String.platformKey('Ctrl+P'),
-                lock        : [_set.editCell, _set.cantPrint],
-                menu        : new Common.UI.Menu({
-                    items: [
-                        {
-                            caption: me.textPrint,
-                            value: 'print'
-                        },
-                        {
-                            caption: me.textPrintOptions,
-                            value: 'options'
-                        }
-                    ]
-                })
+                lock        : [_set.editCell, _set.cantPrint]
             });
 
             me.btnSave = new Common.UI.Button({
@@ -1493,8 +1480,6 @@ define([
                     ]
                 })
             });
-
-            me.mnuPrint = me.btnPrint.menu;
 
             me.lockControls = [
                 me.cmbFontName, me.cmbFontSize, me.btnIncFontSize, me.btnDecFontSize, me.btnBold,
