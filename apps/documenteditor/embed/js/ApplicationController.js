@@ -696,7 +696,7 @@ var ApplicationController = new(function(){
         });
 
         window["flat_desine"] = true;
-        api = new asc_docs_api("editor_sdk");
+        api = new Asc.asc_docs_api("editor_sdk");
 
         if (api){
             api.CreateComponents();

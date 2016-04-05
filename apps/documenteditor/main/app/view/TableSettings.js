@@ -81,7 +81,7 @@ define([
             };
             this.lockedControls = [];
             this._locked = false;
-            this._originalLook = new CTablePropLook();
+            this._originalLook = new Asc.CTablePropLook();
 
             var fullwidth = 218;
             this._originalProps = null;
@@ -345,8 +345,8 @@ define([
 
         onCheckTemplateChange: function(type, field, newValue, oldValue, eOpts) {
             if (this.api)   {
-                var properties = new CTableProp();
-                var look = (this._originalLook) ? this._originalLook : new CTablePropLook();
+                var properties = new Asc.CTableProp();
+                var look = (this._originalLook) ? this._originalLook : new Asc.CTablePropLook();
                 switch (type) {
                     case 0:
                         look.put_FirstRow(field.getValue()=='checked');
@@ -375,7 +375,7 @@ define([
 
         onTableTemplateSelect: function(combo, record){
             if (this.api && !this._noApply) {
-                var properties = new CTableProp();
+                var properties = new Asc.CTableProp();
                 properties.put_TableStyle(record.get('templateId'));
                 this.api.tblApply(properties);
             }
@@ -384,7 +384,7 @@ define([
 
         onBtnWrapClick: function(btn, e) {
             if (this.api && btn.pressed && !this._noApply) {
-                var properties = new CTableProp();
+                var properties = new Asc.CTableProp();
                 properties.put_TableWrap(btn.options.posId);
                 if (btn.options.posId == c_tableWrap.TABLE_WRAP_NONE) {
                     if (this._state.TableAlignment<0)
@@ -402,7 +402,7 @@ define([
 
         onCheckRepeatRowChange: function(field, newValue, oldValue, eOpts) {
             if (this.api)   {
-                var properties = new CTableProp();
+                var properties = new Asc.CTableProp();
                 properties.put_RowsInHeader((field.getValue()=='checked') ? 1 : 0 );
                 this.api.tblApply(properties);
             }
@@ -414,8 +414,8 @@ define([
             this.CellColor = {Value: 1, Color: color};
 
             if (this.api) {
-                var properties = new CTableProp();
-                var background = new CBackground();
+                var properties = new Asc.CTableProp();
+                var background = new Asc.CBackground();
                 properties.put_CellsBackground(background);
 
                 if (this.CellColor.Color=='transparent') {
@@ -443,7 +443,7 @@ define([
         onBtnBordersClick: function(btn, eOpts){
             this._UpdateBordersStyle(btn.options.strId, true);
             if (this.api) {
-                var properties = new CTableProp();
+                var properties = new Asc.CTableProp();
                 properties.put_CellBorders(this.CellBorders);
                 properties.put_CellSelect(true);
                 this.api.tblApply(properties);
@@ -514,7 +514,7 @@ define([
 
             if (props )
             {
-                this._originalProps = new CTableProp(props);
+                this._originalProps = new Asc.CTableProp(props);
                 this._originalProps.put_CellSelect(true);
 
                 this._TblWrapStyleChanged(props.get_TableWrap());
@@ -647,7 +647,7 @@ define([
         },
 
         _UpdateBordersStyle: function(border) {
-            this.CellBorders = new CBorders();
+            this.CellBorders = new Asc.CBorders();
             var updateBorders = this.CellBorders;
 
             var visible = (border != '');

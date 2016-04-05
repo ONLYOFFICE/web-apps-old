@@ -116,7 +116,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.tableStylerColumns = this.options.tableStylerColumns;
             this.borderProps = this.options.borderProps;
             this.pageWidth = (this.options.sectionProps) ? this.options.sectionProps.get_W() - this.options.sectionProps.get_LeftMargin() - this.options.sectionProps.get_RightMargin() : 210;
-            this._originalProps = new CTableProp(this.options.tableProps);
+            this._originalProps = new Asc.CTableProp(this.options.tableProps);
         },
 
         render: function() {
@@ -334,7 +334,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this.CellMargins.Flag = field.getValue();
                 if (this._changedProps) {
                     if (this._changedProps.get_CellMargins()===undefined)
-                        this._changedProps.put_CellMargins(new CMargins());
+                        this._changedProps.put_CellMargins(new Asc.CMargins());
                     this._changedProps.get_CellMargins().put_Left( ( this.CellMargins.Left!== null) ? Common.Utils.Metric.fnRecalcToMM(this.CellMargins.Left) : null);
                     this._changedProps.get_CellMargins().put_Top((this.CellMargins.Top!==null) ? Common.Utils.Metric.fnRecalcToMM(this.CellMargins.Top) : null);
                     this._changedProps.get_CellMargins().put_Bottom((this.CellMargins.Bottom!==null) ? Common.Utils.Metric.fnRecalcToMM(this.CellMargins.Bottom) : null);
@@ -356,7 +356,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this._marginsChange( field, newValue, oldValue, eOpts, 'cell', 'Top');
                 if (this._changedProps)  {
                     if (this._changedProps.get_CellMargins()===undefined)
-                        this._changedProps.put_CellMargins(new CMargins());
+                        this._changedProps.put_CellMargins(new Asc.CMargins());
                     this._changedProps.get_CellMargins().put_Top((this.CellMargins.Top!==null) ? Common.Utils.Metric.fnRecalcToMM(this.CellMargins.Top) : null);
                     setCellFlag();
                 }
@@ -376,7 +376,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this._marginsChange( field, newValue, oldValue, eOpts, 'cell', 'Bottom');
                 if (this._changedProps)  {
                     if (this._changedProps.get_CellMargins()===undefined)
-                        this._changedProps.put_CellMargins(new CMargins());
+                        this._changedProps.put_CellMargins(new Asc.CMargins());
                     this._changedProps.get_CellMargins().put_Bottom((this.CellMargins.Bottom!==null) ? Common.Utils.Metric.fnRecalcToMM(this.CellMargins.Bottom) : null);
                     setCellFlag();
                 }
@@ -396,7 +396,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this._marginsChange( field, newValue, oldValue, eOpts, 'cell', 'Left');
                 if (this._changedProps)  {
                     if (this._changedProps.get_CellMargins()===undefined)
-                        this._changedProps.put_CellMargins(new CMargins());
+                        this._changedProps.put_CellMargins(new Asc.CMargins());
                     this._changedProps.get_CellMargins().put_Left((this.CellMargins.Left!==null) ? Common.Utils.Metric.fnRecalcToMM(this.CellMargins.Left) : null);
                     setCellFlag();
                 }
@@ -416,7 +416,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this._marginsChange( field, newValue, oldValue, eOpts, 'cell', 'Right');
                 if (this._changedProps)  {
                     if (this._changedProps.get_CellMargins()===undefined)
-                        this._changedProps.put_CellMargins(new CMargins());
+                        this._changedProps.put_CellMargins(new Asc.CMargins());
                     this._changedProps.get_CellMargins().put_Right((this.CellMargins.Right!==null) ? Common.Utils.Metric.fnRecalcToMM(this.CellMargins.Right) : null);
                     setCellFlag();
                 }
@@ -676,7 +676,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.spnX.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
                     if (this._changedProps.get_PositionH()===null || this._changedProps.get_PositionH()===undefined)
-                        this._changedProps.put_PositionH(new CTablePositionH());
+                        this._changedProps.put_PositionH(new Asc.CTablePositionH());
 
                     this._changedProps.get_PositionH().put_UseAlign(false);
                     this._changedProps.get_PositionH().put_RelativeFrom(this._state.HPositionFrom);
@@ -700,7 +700,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.spnY.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
                     if (this._changedProps.get_PositionV()===null || this._changedProps.get_PositionV()===undefined)
-                        this._changedProps.put_PositionV(new CTablePositionV());
+                        this._changedProps.put_PositionV(new Asc.CTablePositionV());
 
                     this._changedProps.get_PositionV().put_UseAlign(false);
                     this._changedProps.get_PositionV().put_RelativeFrom(this._state.VPositionFrom);
@@ -1083,7 +1083,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 for (var j=0; j<this.tableBordersImageSpacing.columns; j++) {
                     this.tableBordersImageSpacing.getCell(j, i).on('borderclick', function(ct, border, size, color){
                         if (this.ChangedCellBorders===undefined) {
-                            this.ChangedCellBorders = new CBorders();
+                            this.ChangedCellBorders = new Asc.CBorders();
                         }
                         this._UpdateCellBordersStyle(ct, border, size, color, this.CellBorders, this.ChangedCellBorders);
                     }, this);
@@ -1091,7 +1091,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             }
             this.tableBordersImageSpacing.on('borderclick', function(ct, border, size, color){
                 if (this.ChangedTableBorders===undefined) {
-                    this.ChangedTableBorders = new CBorders();
+                    this.ChangedTableBorders = new Asc.CBorders();
                 }
                 this._UpdateTableBordersStyle(ct, border, size, color, this.TableBorders, this.ChangedTableBorders);
             }, this);
@@ -1101,11 +1101,11 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                     this.tableBordersImage.getCell(j, i).on('borderclick', function(ct, border, size, color){
                         if (this._allTable) {
                             if (this.ChangedTableBorders===undefined) {
-                                this.ChangedTableBorders = new CBorders();
+                                this.ChangedTableBorders = new Asc.CBorders();
                             }
                         } else {
                             if (this.ChangedCellBorders===undefined) {
-                                this.ChangedCellBorders = new CBorders();
+                                this.ChangedCellBorders = new Asc.CBorders();
                             }
                         }
                         this._UpdateCellBordersStyle(ct, border, size, color, (this._allTable) ? this.TableBorders : this.CellBorders, (this._allTable) ? this.ChangedTableBorders : this.ChangedCellBorders);
@@ -1115,11 +1115,11 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.tableBordersImage.on('borderclick', function(ct, border, size, color){
                 if (this._allTable) {
                     if (this.ChangedTableBorders===undefined) {
-                        this.ChangedTableBorders = new CBorders();
+                        this.ChangedTableBorders = new Asc.CBorders();
                     }
                 } else {
                     if (this.ChangedCellBorders===undefined) {
-                        this.ChangedCellBorders = new CBorders();
+                        this.ChangedCellBorders = new Asc.CBorders();
                     }
                 }
                 this._UpdateTableBordersStyle(ct, border, size, color, (this._allTable) ? this.TableBorders : this.CellBorders, (this._allTable) ? this.ChangedTableBorders : this.ChangedCellBorders);
@@ -1338,9 +1338,9 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this._state.horizontalPropChanged = false;
 
                 // borders
-                this.TableBorders = new CBorders(props.get_TableBorders());
+                this.TableBorders = new Asc.CBorders(props.get_TableBorders());
 
-                this.CellBorders = new CBorders(props.get_CellBorders());
+                this.CellBorders = new Asc.CBorders(props.get_CellBorders());
 
                 this._UpdateBordersNoSpacing_();
                 this._UpdateBordersSpacing_();
@@ -1413,7 +1413,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                 this.ShowHideSpacing(this.chAllowSpacing.getValue()==='checked');
 
             }
-            this._changedProps = new CTableProp();
+            this._changedProps = new Asc.CTableProp();
             this._cellBackground = null;
             this.ChangedTableBorders = undefined;
             this.ChangedCellBorders = undefined;
@@ -1490,7 +1490,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
                     this.cmbHAlign.setValue(this._state.HAlignType);
                     this.radioHAlign.setValue(true);
                     if (this._changedProps.get_PositionH()===null || this._changedProps.get_PositionH()===undefined)
-                        this._changedProps.put_PositionH(new CTablePositionH());
+                        this._changedProps.put_PositionH(new Asc.CTablePositionH());
 
                     this._changedProps.get_PositionH().put_UseAlign(true);
                     this._changedProps.get_PositionH().put_Align(this._state.HAlignType);
@@ -1506,7 +1506,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         onHAlignSelect: function(combo, record){
             if (this._changedProps) {
                 if (this._changedProps.get_PositionH()===null || this._changedProps.get_PositionH()===undefined)
-                    this._changedProps.put_PositionH(new CTablePositionH());
+                    this._changedProps.put_PositionH(new Asc.CTablePositionH());
 
                 this._state.HAlignType = record.value;
                 this._changedProps.get_PositionH().put_UseAlign(true);
@@ -1519,7 +1519,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         onHRelativeSelect: function(combo, record){
             if (this._changedProps) {
                 if (this._changedProps.get_PositionH()===null || this._changedProps.get_PositionH()===undefined)
-                    this._changedProps.put_PositionH(new CTablePositionH());
+                    this._changedProps.put_PositionH(new Asc.CTablePositionH());
 
                 this._state.HAlignFrom = record.value;
                 this._changedProps.get_PositionH().put_UseAlign(true);
@@ -1531,7 +1531,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         onHPositionSelect: function(combo, record){
             if (this._changedProps) {
                 if (this._changedProps.get_PositionH()===null || this._changedProps.get_PositionH()===undefined)
-                    this._changedProps.put_PositionH(new CTablePositionH());
+                    this._changedProps.put_PositionH(new Asc.CTablePositionH());
 
                 this._state.HPositionFrom = record.value;
                 this._changedProps.get_PositionH().put_UseAlign(false);
@@ -1547,7 +1547,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         onVAlignSelect: function(combo, record){
             if (this._changedProps) {
                 if (this._changedProps.get_PositionV()===null || this._changedProps.get_PositionV()===undefined)
-                    this._changedProps.put_PositionV(new CTablePositionV());
+                    this._changedProps.put_PositionV(new Asc.CTablePositionV());
 
                 this._state.VAlignType = record.value;
                 this._changedProps.get_PositionV().put_UseAlign(true);
@@ -1559,7 +1559,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         onVRelativeSelect: function(combo, record){
             if (this._changedProps) {
                 if (this._changedProps.get_PositionV()===null || this._changedProps.get_PositionV()===undefined)
-                    this._changedProps.put_PositionV(new CTablePositionV());
+                    this._changedProps.put_PositionV(new Asc.CTablePositionV());
 
                 this._state.VAlignFrom = record.value;
                 this._changedProps.get_PositionV().put_UseAlign(true);
@@ -1573,7 +1573,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         onVPositionSelect: function(combo, record){
             if (this._changedProps) {
                 if (this._changedProps.get_PositionV()===null || this._changedProps.get_PositionV()===undefined)
-                    this._changedProps.put_PositionV(new CTablePositionV());
+                    this._changedProps.put_PositionV(new Asc.CTablePositionV());
 
                 this._state.VPositionFrom = record.value;
                 this._changedProps.get_PositionV().put_UseAlign(false);
@@ -1590,7 +1590,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         onRadioHAlignChange: function(field, newValue, eOpts) {
             if (this._changedProps) {
                 if (this._changedProps.get_PositionH()===null || this._changedProps.get_PositionH()===undefined)
-                    this._changedProps.put_PositionH(new CTablePositionH());
+                    this._changedProps.put_PositionH(new Asc.CTablePositionH());
 
                 this._changedProps.get_PositionH().put_UseAlign(newValue);
                 if (newValue) {
@@ -1611,7 +1611,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         onRadioHPositionChange: function(field, newValue, eOpts) {
             if (this._changedProps) {
                 if (this._changedProps.get_PositionH()===null || this._changedProps.get_PositionH()===undefined)
-                    this._changedProps.put_PositionH(new CTablePositionH());
+                    this._changedProps.put_PositionH(new Asc.CTablePositionH());
 
                 this._changedProps.get_PositionH().put_UseAlign(!newValue);
                 if (newValue) {
@@ -1635,7 +1635,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         onRadioVAlignChange: function(field, newValue, eOpts) {
             if (this._changedProps) {
                 if (this._changedProps.get_PositionV()===null || this._changedProps.get_PositionV()===undefined)
-                    this._changedProps.put_PositionV(new CTablePositionV());
+                    this._changedProps.put_PositionV(new Asc.CTablePositionV());
 
                 this._changedProps.get_PositionV().put_UseAlign(newValue);
                 if (newValue) {
@@ -1656,7 +1656,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         onRadioVPositionChange: function(field, newValue, eOpts) {
             if (this._changedProps) {
                 if (this._changedProps.get_PositionV()===null || this._changedProps.get_PositionV()===undefined)
-                    this._changedProps.put_PositionV(new CTablePositionV());
+                    this._changedProps.put_PositionV(new Asc.CTablePositionV());
 
                 this._changedProps.get_PositionV().put_UseAlign(!newValue);
                 if (newValue) {
@@ -1699,7 +1699,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.CellColor = {Value: 1, Color: color};
 
             if (this._cellBackground === null)
-                this._cellBackground = new CBackground();
+                this._cellBackground = new Asc.CBackground();
 
             if (this.CellColor.Color=='transparent') {
                 this._cellBackground.put_Value(1);
@@ -1717,7 +1717,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             if (this._changedProps) {
                 var background = this._changedProps.get_TableBackground();
                 if (background===undefined) {
-                    background = new CBackground();
+                    background = new Asc.CBackground();
                     this._changedProps.put_TableBackground(background);
                 }
                 if (this.TableColor.Color=='transparent') {

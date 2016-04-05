@@ -544,7 +544,7 @@ define([
                             slides: _arr
                         });
 
-                        props = new CHyperlinkProperty();
+                        props = new Asc.CHyperlinkProperty();
                         props.put_Text(text);
 
                         win.show();
@@ -1097,7 +1097,7 @@ define([
                 menu    : (function(){
                     function onItemClick(item, e) {
                         if (me.api) {
-                            var properties = new CTableProp();
+                            var properties = new Asc.CTableProp();
                             properties.put_CellsVAlign(item.value);
                             me.api.tblApply(properties);
                         }
@@ -1710,7 +1710,7 @@ define([
 
                     if (text!==false) {
                         menuAddHyperlinkPara.hyperProps = {};
-                        menuAddHyperlinkPara.hyperProps.value = new CHyperlinkProperty();
+                        menuAddHyperlinkPara.hyperProps.value = new Asc.CHyperlinkProperty();
                         menuAddHyperlinkPara.hyperProps.value.put_Text(text);
                     }
 
@@ -1794,7 +1794,7 @@ define([
 
                     if (text!==false) {
                         menuAddHyperlinkTable.hyperProps = {};
-                        menuAddHyperlinkTable.hyperProps.value = new CHyperlinkProperty();
+                        menuAddHyperlinkTable.hyperProps.value = new Asc.CHyperlinkProperty();
                         menuAddHyperlinkTable.hyperProps.value.put_Text(text);
                     }
                     if (!_.isUndefined(value.paraProps)) {

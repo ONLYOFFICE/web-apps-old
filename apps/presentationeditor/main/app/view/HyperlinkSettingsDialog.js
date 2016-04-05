@@ -229,7 +229,7 @@ define([
 
         getSettings: function () {
             var me      = this,
-                props   = new CHyperlinkProperty();
+                props   = new Asc.CHyperlinkProperty();
             var def_display = '';
             if (me.cmbLinkType.getValue() == c_oHyperlinkType.InternalLink) {
                 var url = "ppaction://hlink";

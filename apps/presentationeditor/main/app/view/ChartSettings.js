@@ -241,7 +241,7 @@ define([
             this.disableControls(this._locked);
 
             if (props){
-                this._originalProps = new CAscChartProp(props);
+                this._originalProps = new Asc.CAscChartProp(props);
                 this._noApply = true;
 
                 var value = props.get_SeveralCharts() || this._locked;
@@ -355,7 +355,7 @@ define([
             this._state.ChartType = -1;
 
             if (this.api && !this._noApply) {
-                var props = new CAscChartProp();
+                var props = new Asc.CAscChartProp();
                 props.changeType(rawData.type);
                 this.api.ChartApply(props);
             }
@@ -384,7 +384,7 @@ define([
             btnIconEl.css('background-image', style);
 
             if (this.api && !this._noApply) {
-                var props = new CAscChartProp();
+                var props = new Asc.CAscChartProp();
                 props.putStyle(rawData.data);
                 this.api.ChartApply(props);
             }
@@ -442,7 +442,7 @@ define([
                 this.spnHeight.setValue(h, true);
             }
             if (this.api)  {
-                var props = new CAscChartProp();
+                var props = new Asc.CAscChartProp();
                 props.put_Width(Common.Utils.Metric.fnRecalcToMM(w));
                 props.put_Height(Common.Utils.Metric.fnRecalcToMM(h));
                 this.api.ChartApply(props);
@@ -463,7 +463,7 @@ define([
                 this.spnWidth.setValue(w, true);
             }
             if (this.api)  {
-                var props = new CAscChartProp();
+                var props = new Asc.CAscChartProp();
                 props.put_Width(Common.Utils.Metric.fnRecalcToMM(w));
                 props.put_Height(Common.Utils.Metric.fnRecalcToMM(h));
                 this.api.ChartApply(props);

@@ -356,7 +356,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.spnX.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
                     if (this._changedProps.get_PositionH()===null || this._changedProps.get_PositionH()===undefined)
-                        this._changedProps.put_PositionH(new CImagePositionH());
+                        this._changedProps.put_PositionH(new Asc.CImagePositionH());
 
                     this._changedProps.get_PositionH().put_UseAlign(false);
                     this._changedProps.get_PositionH().put_Percent(false);
@@ -381,7 +381,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.spnY.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
                     if (this._changedProps.get_PositionV()===null || this._changedProps.get_PositionV()===undefined)
-                        this._changedProps.put_PositionV(new CImagePositionV());
+                        this._changedProps.put_PositionV(new Asc.CImagePositionV());
 
                     this._changedProps.get_PositionV().put_UseAlign(false);
                     this._changedProps.get_PositionV().put_Percent(false);
@@ -453,7 +453,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.spnXPc.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
                     if (this._changedProps.get_PositionH()===null || this._changedProps.get_PositionH()===undefined)
-                        this._changedProps.put_PositionH(new CImagePositionH());
+                        this._changedProps.put_PositionH(new Asc.CImagePositionH());
 
                     this._changedProps.get_PositionH().put_UseAlign(false);
                     this._changedProps.get_PositionH().put_Percent(true);
@@ -542,7 +542,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.spnYPc.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
                     if (this._changedProps.get_PositionV()===null || this._changedProps.get_PositionV()===undefined)
-                        this._changedProps.put_PositionV(new CImagePositionV());
+                        this._changedProps.put_PositionV(new Asc.CImagePositionV());
 
                     this._changedProps.get_PositionV().put_UseAlign(false);
                     this._changedProps.get_PositionV().put_Percent(true);
@@ -1141,7 +1141,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
 
             if (this._originalProps.get_WrappingStyle()===Asc.c_oAscWrapStyle2.Inline && properties.get_WrappingStyle() !== undefined && properties.get_WrappingStyle()!==Asc.c_oAscWrapStyle2.Inline ) {
                 if ( properties.get_PositionH()===null || properties.get_PositionH()===undefined ) {
-                    properties.put_PositionH(new CImagePositionH());
+                    properties.put_PositionH(new Asc.CImagePositionH());
                     properties.get_PositionH().put_UseAlign(false);
                     properties.get_PositionH().put_Percent(false);
                     properties.get_PositionH().put_RelativeFrom(Asc.c_oAscRelativeFromH.Column);
@@ -1150,7 +1150,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 }
 
                 if ( properties.get_PositionV()===null || properties.get_PositionV()===undefined ) {
-                    properties.put_PositionV(new CImagePositionV());
+                    properties.put_PositionV(new Asc.CImagePositionV());
                     properties.get_PositionV().put_UseAlign(false);
                     properties.get_PositionV().put_Percent(false);
                     properties.get_PositionV().put_RelativeFrom(Asc.c_oAscRelativeFromV.Paragraph);
@@ -1277,7 +1277,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
         onHAlignSelect: function(combo, record){
             if (this._changedProps) {
                 if (this._changedProps.get_PositionH()===null || this._changedProps.get_PositionH()===undefined)
-                    this._changedProps.put_PositionH(new CImagePositionH());
+                    this._changedProps.put_PositionH(new Asc.CImagePositionH());
 
                 this._state.HAlignType = record.value;
                 this._changedProps.get_PositionH().put_UseAlign(true);
@@ -1290,7 +1290,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
         onHRelativeSelect: function(combo, record){
             if (this._changedProps) {
                 if (this._changedProps.get_PositionH()===null || this._changedProps.get_PositionH()===undefined)
-                    this._changedProps.put_PositionH(new CImagePositionH());
+                    this._changedProps.put_PositionH(new Asc.CImagePositionH());
 
                 this._state.HAlignFrom = record.value;
                 this._changedProps.get_PositionH().put_UseAlign(true);
@@ -1303,7 +1303,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
         onHPositionSelect: function(combo, record){
             if (this._changedProps) {
                 if (this._changedProps.get_PositionH()===null || this._changedProps.get_PositionH()===undefined)
-                    this._changedProps.put_PositionH(new CImagePositionH());
+                    this._changedProps.put_PositionH(new Asc.CImagePositionH());
 
                 this._state.HPositionFrom = record.value;
                 this._changedProps.get_PositionH().put_UseAlign(false);
@@ -1320,7 +1320,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
         onHPositionPcSelect: function(combo, record){
             if (this._changedProps) {
                 if (this._changedProps.get_PositionH()===null || this._changedProps.get_PositionH()===undefined)
-                    this._changedProps.put_PositionH(new CImagePositionH());
+                    this._changedProps.put_PositionH(new Asc.CImagePositionH());
 
                 this._state.HPositionPcFrom = record.value;
                 this._changedProps.get_PositionH().put_UseAlign(false);
@@ -1337,7 +1337,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
         onVAlignSelect: function(combo, record){
             if (this._changedProps) {
                 if (this._changedProps.get_PositionV()===null || this._changedProps.get_PositionV()===undefined)
-                    this._changedProps.put_PositionV(new CImagePositionV());
+                    this._changedProps.put_PositionV(new Asc.CImagePositionV());
 
                 this._state.VAlignType = record.value;
                 this._changedProps.get_PositionV().put_UseAlign(true);
@@ -1350,7 +1350,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
         onVRelativeSelect: function(combo, record){
             if (this._changedProps) {
                 if (this._changedProps.get_PositionV()===null || this._changedProps.get_PositionV()===undefined)
-                    this._changedProps.put_PositionV(new CImagePositionV());
+                    this._changedProps.put_PositionV(new Asc.CImagePositionV());
 
                 this._state.VAlignFrom = record.value;
                 this._changedProps.get_PositionV().put_UseAlign(true);
@@ -1365,7 +1365,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
         onVPositionSelect: function(combo, record){
             if (this._changedProps) {
                 if (this._changedProps.get_PositionV()===null || this._changedProps.get_PositionV()===undefined)
-                    this._changedProps.put_PositionV(new CImagePositionV());
+                    this._changedProps.put_PositionV(new Asc.CImagePositionV());
 
                 this._state.VPositionFrom = record.value;
                 this._changedProps.get_PositionV().put_UseAlign(false);
@@ -1384,7 +1384,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
         onVPositionPcSelect: function(combo, record){
             if (this._changedProps) {
                 if (this._changedProps.get_PositionV()===null || this._changedProps.get_PositionV()===undefined)
-                    this._changedProps.put_PositionV(new CImagePositionV());
+                    this._changedProps.put_PositionV(new Asc.CImagePositionV());
 
                 this._state.VPositionPcFrom = record.value;
                 this._changedProps.get_PositionV().put_UseAlign(false);
@@ -1401,7 +1401,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
         onRadioHAlignChange: function(field, newValue, eOpts) {
             if (this._changedProps) {
                 if (this._changedProps.get_PositionH()===null || this._changedProps.get_PositionH()===undefined)
-                    this._changedProps.put_PositionH(new CImagePositionH());
+                    this._changedProps.put_PositionH(new Asc.CImagePositionH());
 
                 this._changedProps.get_PositionH().put_UseAlign(newValue);
                 if (newValue) {
@@ -1423,7 +1423,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
         onRadioHPositionChange: function(field, newValue, eOpts) {
             if (this._changedProps) {
                 if (this._changedProps.get_PositionH()===null || this._changedProps.get_PositionH()===undefined)
-                    this._changedProps.put_PositionH(new CImagePositionH());
+                    this._changedProps.put_PositionH(new Asc.CImagePositionH());
 
                 if (newValue) {
                     this._changedProps.get_PositionH().put_UseAlign(false);
@@ -1445,7 +1445,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
         onRadioHPositionPcChange: function(field, newValue, eOpts) {
             if (this._changedProps) {
                 if (this._changedProps.get_PositionH()===null || this._changedProps.get_PositionH()===undefined)
-                    this._changedProps.put_PositionH(new CImagePositionH());
+                    this._changedProps.put_PositionH(new Asc.CImagePositionH());
 
                 this._changedProps.get_PositionH().put_Percent(newValue);
                 if (newValue) {
@@ -1467,7 +1467,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
         onRadioVAlignChange: function(field, newValue, eOpts) {
             if (this._changedProps) {
                 if (this._changedProps.get_PositionV()===null || this._changedProps.get_PositionV()===undefined)
-                    this._changedProps.put_PositionV(new CImagePositionV());
+                    this._changedProps.put_PositionV(new Asc.CImagePositionV());
 
                 this._changedProps.get_PositionV().put_UseAlign(newValue);
                 if (newValue) {
@@ -1491,7 +1491,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
         onRadioVPositionChange: function(field, newValue, eOpts) {
             if (this._changedProps) {
                 if (this._changedProps.get_PositionV()===null || this._changedProps.get_PositionV()===undefined)
-                    this._changedProps.put_PositionV(new CImagePositionV());
+                    this._changedProps.put_PositionV(new Asc.CImagePositionV());
 
                 if (newValue) {
                     this._changedProps.get_PositionV().put_UseAlign(false);
@@ -1515,7 +1515,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
         onRadioVPositionPcChange: function(field, newValue, eOpts) {
             if (this._changedProps) {
                 if (this._changedProps.get_PositionV()===null || this._changedProps.get_PositionV()===undefined)
-                    this._changedProps.put_PositionV(new CImagePositionV());
+                    this._changedProps.put_PositionV(new Asc.CImagePositionV());
 
                 this._changedProps.get_PositionV().put_Percent(newValue);
                 if (newValue) {

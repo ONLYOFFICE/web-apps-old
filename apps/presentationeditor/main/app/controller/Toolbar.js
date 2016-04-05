@@ -1179,7 +1179,7 @@ define([
                         slides: _arr
                     });
 
-                    props = new CHyperlinkProperty();
+                    props = new Asc.CHyperlinkProperty();
                     props.put_Text(text);
 
                     win.show();
