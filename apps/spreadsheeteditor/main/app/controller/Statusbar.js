@@ -151,8 +151,8 @@ define([
         /** coauthoring begin **/
         onWorkbookLocked: function(locked) {
             this.statusbar.tabbar[locked?'addClass':'removeClass']('coauth-locked');
-            this.statusbar.btnAddWorksheet.setDisabled(locked || this.statusbar.rangeSelectionMode==c_oAscSelectionDialogType.Chart ||
-                                                                 this.statusbar.rangeSelectionMode==c_oAscSelectionDialogType.FormatTable);
+            this.statusbar.btnAddWorksheet.setDisabled(locked || this.statusbar.rangeSelectionMode==Asc.c_oAscSelectionDialogType.Chart ||
+                                                                 this.statusbar.rangeSelectionMode==Asc.c_oAscSelectionDialogType.FormatTable);
             var item, i = this.statusbar.tabbar.getCount();
             while (i-- > 0) {
                 item = this.statusbar.tabbar.getAt(i);
@@ -171,7 +171,7 @@ define([
                 tab = this.statusbar.tabbar.getAt(i);
                 if (index == tab.sheetindex) {
                     tab[locked?'addClass':'removeClass']('coauth-locked');
-                    tab.isLockTheDrag = locked || (this.statusbar.rangeSelectionMode==c_oAscSelectionDialogType.FormatTable);
+                    tab.isLockTheDrag = locked || (this.statusbar.rangeSelectionMode==Asc.c_oAscSelectionDialogType.FormatTable);
                     break;
                 }
             }
@@ -192,8 +192,8 @@ define([
         },
 
         onApiEditCell: function(state) {
-            var disableAdd = (state == c_oAscCellEditorState.editFormula),
-                disable = (state != c_oAscCellEditorState.editEnd),
+            var disableAdd = (state == Asc.c_oAscCellEditorState.editFormula),
+                disable = (state != Asc.c_oAscCellEditorState.editEnd),
                 mask = $('.statusbar-mask'),
                 statusbar = this.statusbar;
 
@@ -227,15 +227,15 @@ define([
         onRangeDialogMode: function (mode) {
             var islocked = this.statusbar.tabbar.hasClass('coauth-locked'),
                 currentIdx = this.api.asc_getActiveWorksheetIndex();
-            this.statusbar.btnAddWorksheet.setDisabled(islocked || mode!=c_oAscSelectionDialogType.None);
+            this.statusbar.btnAddWorksheet.setDisabled(islocked || mode!=Asc.c_oAscSelectionDialogType.None);
 
             var item, i = this.statusbar.tabbar.getCount();
             while (i-- > 0) {
                 item = this.statusbar.tabbar.getAt(i);
                 if (item.sheetindex !== currentIdx) {
-                    item.disable(mode==c_oAscSelectionDialogType.FormatTable);
+                    item.disable(mode==Asc.c_oAscSelectionDialogType.FormatTable);
                 }
-                item.isLockTheDrag = (item.hasClass('coauth-locked') || (mode!=c_oAscSelectionDialogType.None));
+                item.isLockTheDrag = (item.hasClass('coauth-locked') || (mode!=Asc.c_oAscSelectionDialogType.None));
             }
             this.statusbar.rangeSelectionMode = mode;
         },
@@ -542,7 +542,7 @@ define([
 
                     color = this.api.asc_getWorksheetTabColor(sindex);
                     if (color) {
-                        if (color.get_type() == c_oAscColor.COLOR_TYPE_SCHEME) {
+                        if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                             clr = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
                         } else {
                             clr = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());
@@ -622,7 +622,7 @@ define([
 
 
         onError: function(id, level, errData) {
-            if (id == c_oAscError.ID.LockedWorksheetRename)
+            if (id == Asc.c_oAscError.ID.LockedWorksheetRename)
                 this.statusbar.update();
         },
 

@@ -151,7 +151,7 @@ define([
             me.inputTip = new Common.UI.InputField({
                 el          : $('#id-dlg-hyperlink-tip'),
                 style       : 'width: 100%;',
-                maxLength   : c_oAscMaxTooltipLength
+                maxLength   : Asc.c_oAscMaxTooltipLength
             });
 
             me.radioNext = new Common.UI.RadioBox({
