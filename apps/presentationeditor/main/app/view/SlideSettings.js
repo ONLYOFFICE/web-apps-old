@@ -498,7 +498,7 @@ define([
                 step: 1,
                 width: 65,
                 value: '2 s',
-                defaultUnit : "s",
+                defaultUnit : this.textSec,
                 maxValue: 300,
                 minValue: 0
             });
@@ -509,7 +509,7 @@ define([
                 step: 1,
                 width: 70,
                 value: '2 s',
-                defaultUnit : "s",
+                defaultUnit : this.textSec,
                 maxValue: 300,
                 minValue: 0,
                 disabled: true
@@ -1557,6 +1557,7 @@ define([
         textRadial: 'Radial',
         textDirection: 'Direction',
         textStyle: 'Style',
-        textGradient: 'Gradient'
+        textGradient: 'Gradient',
+        textSec: 's'
     }, PE.Views.SlideSettings || {}));
 });

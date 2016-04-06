@@ -329,7 +329,7 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
                         var rec = new Common.UI.DataViewModel();
                         rec.set({
                             tabPos: pos,
-                            value: parseFloat(pos.toFixed(3)) + ' ' + Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()],
+                            value: parseFloat(pos.toFixed(3)) + ' ' + Common.Utils.Metric.getCurrentMetricName(),
                             tabAlign: tab.get_Value()
                         });
                         arr.push(rec);
@@ -349,7 +349,7 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
             if (this.spinners) {
                 for (var i=0; i<this.spinners.length; i++) {
                     var spinner = this.spinners[i];
-                    spinner.setDefaultUnit(Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()]);
+                    spinner.setDefaultUnit(Common.Utils.Metric.getCurrentMetricName());
                     if (spinner.el.id == 'paragraphadv-spin-spacing')
                         spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.cm ? 0.01 : 1);
                     else
@@ -498,7 +498,7 @@ define([    'text!presentationeditor/main/app/template/ParagraphSettingsAdvanced
                 rec = new Common.UI.DataViewModel();
                 rec.set({
                     tabPos: val,
-                    value: val + ' ' + Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()],
+                    value: val + ' ' + Common.Utils.Metric.getCurrentMetricName(),
                     tabAlign: align
                 });
                 store.add(rec);
