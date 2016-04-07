@@ -45,8 +45,8 @@ define([
         menu: undefined,
 
         formats: [[
-            {name: 'PDF',   imgCls: 'pdf',   type: c_oAscFileType.PDF},
-            {name: 'PPTX',   imgCls: 'pptx',   type: c_oAscFileType.PPTX}
+            {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF},
+            {name: 'PPTX',   imgCls: 'pptx',   type: Asc.c_oAscFileType.PPTX}
         ]],
 
 
@@ -214,7 +214,8 @@ define([
                 cls         : 'input-group-nr',
                 data        : [
                     { value: Common.Utils.Metric.c_MetricUnits['cm'], displayValue: this.txtCm },
-                    { value: Common.Utils.Metric.c_MetricUnits['pt'], displayValue: this.txtPt }
+                    { value: Common.Utils.Metric.c_MetricUnits['pt'], displayValue: this.txtPt },
+                    { value: Common.Utils.Metric.c_MetricUnits['inch'], displayValue: this.txtInch }
                 ]
             });
 
@@ -327,7 +328,8 @@ define([
         strFast: 'Fast',
         strStrict: 'Strict',
         textAutoRecover: 'Autorecover',
-        strAutoRecover: 'Turn on autorecover'
+        strAutoRecover: 'Turn on autorecover',
+        txtInch: 'Inch'
     }, PE.Views.FileMenuPanels.Settings || {}));
 
     PE.Views.FileMenuPanels.RecentFiles = Common.UI.BaseView.extend({

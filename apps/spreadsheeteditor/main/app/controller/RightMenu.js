@@ -97,8 +97,8 @@ define([
             var SelectedObjects = [],
                 selectType = info.asc_getFlags().asc_getSelectionType();
 
-            if (selectType == c_oAscSelectionType.RangeImage || selectType == c_oAscSelectionType.RangeShape ||
-                selectType == c_oAscSelectionType.RangeChart || selectType == c_oAscSelectionType.RangeChartText || selectType == c_oAscSelectionType.RangeShapeText) {
+            if (selectType == Asc.c_oAscSelectionType.RangeImage || selectType == Asc.c_oAscSelectionType.RangeShape ||
+                selectType == Asc.c_oAscSelectionType.RangeChart || selectType == Asc.c_oAscSelectionType.RangeChartText || selectType == Asc.c_oAscSelectionType.RangeShapeText) {
                 SelectedObjects = this.api.asc_getGraphicObjectProps();
             }
 
@@ -275,9 +275,9 @@ define([
 
         getDocumentSettingsType: function(type) {
             switch (type) {
-                case c_oAscTypeSelectElement.Paragraph:
+                case Asc.c_oAscTypeSelectElement.Paragraph:
                     return Common.Utils.documentSettingsType.Paragraph;
-                case c_oAscTypeSelectElement.Image:
+                case Asc.c_oAscTypeSelectElement.Image:
                     return Common.Utils.documentSettingsType.Image;
             }
         }

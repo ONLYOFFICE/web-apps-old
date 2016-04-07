@@ -199,7 +199,7 @@ define([
         },
 
         clickSaveAsFormat: function(menu, format) {
-            if (format == c_oAscFileType.CSV) {
+            if (format == Asc.c_oAscFileType.CSV) {
                 Common.UI.warning({
                     closable: false,
                     title: this.textWarning,
@@ -304,7 +304,7 @@ define([
                 options.asc_setIsWholeCell(opts.matchword);
                 options.asc_setScanOnOnlySheet(this.dlgSearch.menuWithin.menu.items[0].checked);
                 options.asc_setScanByRows(this.dlgSearch.menuSearch.menu.items[0].checked);
-                options.asc_setLookIn(this.dlgSearch.menuLookin.menu.items[0].checked?c_oAscFindLookIn.Formulas:c_oAscFindLookIn.Value);
+                options.asc_setLookIn(this.dlgSearch.menuLookin.menu.items[0].checked?Asc.c_oAscFindLookIn.Formulas:Asc.c_oAscFindLookIn.Value);
 
                 if (!this.api.asc_findText(options)) {
                     var me = this;
@@ -329,7 +329,7 @@ define([
                 options.asc_setIsWholeCell(opts.matchword);
                 options.asc_setScanOnOnlySheet(this.dlgSearch.menuWithin.menu.items[0].checked);
                 options.asc_setScanByRows(this.dlgSearch.menuSearch.menu.items[0].checked);
-                options.asc_setLookIn(this.dlgSearch.menuLookin.menu.items[0].checked?c_oAscFindLookIn.Formulas:c_oAscFindLookIn.Value);
+                options.asc_setLookIn(this.dlgSearch.menuLookin.menu.items[0].checked?Asc.c_oAscFindLookIn.Formulas:Asc.c_oAscFindLookIn.Value);
                 options.asc_setIsReplaceAll(false);
 
                 this.api.asc_replaceText(options);
@@ -347,7 +347,7 @@ define([
                 options.asc_setIsWholeCell(opts.matchword);
                 options.asc_setScanOnOnlySheet(this.dlgSearch.menuWithin.menu.items[0].checked);
                 options.asc_setScanByRows(this.dlgSearch.menuSearch.menu.items[0].checked);
-                options.asc_setLookIn(this.dlgSearch.menuLookin.menu.items[0].checked?c_oAscFindLookIn.Formulas:c_oAscFindLookIn.Value);
+                options.asc_setLookIn(this.dlgSearch.menuLookin.menu.items[0].checked?Asc.c_oAscFindLookIn.Formulas:Asc.c_oAscFindLookIn.Value);
                 options.asc_setIsReplaceAll(true);
 
                 this.api.asc_replaceText(options);
@@ -466,7 +466,7 @@ define([
                 options.asc_setIsWholeCell(sett.matchword);
                 options.asc_setScanOnOnlySheet(this.dlgSearch.menuWithin.menu.items[0].checked);
                 options.asc_setScanByRows(this.dlgSearch.menuSearch.menu.items[0].checked);
-                options.asc_setLookIn(this.dlgSearch.menuLookin.menu.items[0].checked?c_oAscFindLookIn.Formulas:c_oAscFindLookIn.Value);
+                options.asc_setLookIn(this.dlgSearch.menuLookin.menu.items[0].checked?Asc.c_oAscFindLookIn.Formulas:Asc.c_oAscFindLookIn.Value);
 
 
                 if (!me.api.asc_findText(options)) {
@@ -630,7 +630,7 @@ define([
         },
 
         onCellsRange: function(status) {
-            var isRangeSelection = (status != c_oAscSelectionDialogType.None);
+            var isRangeSelection = (status != Asc.c_oAscSelectionDialogType.None);
 
             this.leftMenu.btnFile.setDisabled(isRangeSelection);
             this.leftMenu.btnAbout.setDisabled(isRangeSelection);
@@ -639,7 +639,7 @@ define([
 
         onApiEditCell: function(state) {
 
-            var isEditFormula = (state == c_oAscCellEditorState.editFormula);
+            var isEditFormula = (state == Asc.c_oAscCellEditorState.editFormula);
 
             this.leftMenu.btnFile.setDisabled(isEditFormula);
             this.leftMenu.btnAbout.setDisabled(isEditFormula);
