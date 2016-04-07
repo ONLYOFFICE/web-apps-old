@@ -208,7 +208,7 @@ var ApplicationController = new(function(){
         var text = '';
         switch (id)
         {
-            case c_oAscAsyncAction['Print']:
+            case Asc.c_oAscAsyncAction['Print']:
                 text = 'Downloading document...';
                 break;
             default:
@@ -216,7 +216,7 @@ var ApplicationController = new(function(){
                 break;
         }
 
-        if (type == c_oAscAsyncActionType['BlockInteraction']) {
+        if (type == Asc.c_oAscAsyncActionType['BlockInteraction']) {
             $('#id-loadmask .cmd-loader-title').html(text);
             showMask();
         }
@@ -347,19 +347,19 @@ var ApplicationController = new(function(){
 
         switch (id)
         {
-            case c_oAscError.ID.Unknown:
+            case Asc.c_oAscError.ID.Unknown:
                 message = me.unknownErrorText;
                 break;
 
-            case c_oAscError.ID.ConvertationTimeout:
+            case Asc.c_oAscError.ID.ConvertationTimeout:
                 message = me.convertationTimeoutText;
                 break;
 
-            case c_oAscError.ID.ConvertationError:
+            case Asc.c_oAscError.ID.ConvertationError:
                 message = me.convertationErrorText;
                 break;
 
-            case c_oAscError.ID.DownloadError:
+            case Asc.c_oAscError.ID.DownloadError:
                 message = me.downloadErrorText;
                 break;
 
@@ -368,7 +368,7 @@ var ApplicationController = new(function(){
                 break;
         }
 
-        if (level == c_oAscError.Level.Critical) {
+        if (level == Asc.c_oAscError.Level.Critical) {
 
             // report only critical errors
             Common.Gateway.reportError(id, message);
@@ -419,7 +419,7 @@ var ApplicationController = new(function(){
     }
 
     function onDownloadAs() {
-        if (api) api.asc_DownloadAs(c_oAscFileType.DOCX, true);
+        if (api) api.asc_DownloadAs(Asc.c_oAscFileType.DOCX, true);
     }
 
     // Helpers
@@ -696,7 +696,7 @@ var ApplicationController = new(function(){
         });
 
         window["flat_desine"] = true;
-        api = new asc_docs_api("editor_sdk");
+        api = new Asc.asc_docs_api("editor_sdk");
 
         if (api){
             api.CreateComponents();
