@@ -253,7 +253,7 @@ define([
                                 textEdit: t.textEdit,
                                 textReply: t.textReply,
                                 textClose: t.textClose,
-                                maxCommLength: c_oAscMaxCellOrCommentLength
+                                maxCommLength: Asc.c_oAscMaxCellOrCommentLength
                             })
                         )
                     });
@@ -829,7 +829,7 @@ define([
                 textAddComment: me.textAddComment,
                 textCancel: me.textCancel,
                 textEnterCommentHint: me.textEnterCommentHint,
-                maxCommLength: c_oAscMaxCellOrCommentLength
+                maxCommLength: Asc.c_oAscMaxCellOrCommentLength
             }));
 
             this.buttonAddCommentToDoc = new Common.UI.Button({
@@ -979,7 +979,7 @@ define([
                             textEdit: me.textEdit,
                             textReply: me.textReply,
                             textClose: me.textClose,
-                            maxCommLength: c_oAscMaxCellOrCommentLength
+                            maxCommLength: Asc.c_oAscMaxCellOrCommentLength
                         }))
                     });
 

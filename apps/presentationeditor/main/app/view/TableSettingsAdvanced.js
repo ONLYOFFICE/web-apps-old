@@ -81,7 +81,7 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
             };
 
             this._initialMarginsDefault = false;  // если для всех выделенных ячеек пришло одинаковое значение Flag=0 (Use Default Margins)
-            this._originalProps = new CTableProp(this.options.tableProps);
+            this._originalProps = new Asc.CTableProp(this.options.tableProps);
         },
 
         render: function() {
@@ -200,7 +200,7 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
                 this.CellMargins.Flag = field.getValue();
                 if (this._changedProps) {
                     if (this._changedProps.get_CellMargins()===undefined)
-                        this._changedProps.put_CellMargins(new CMargins());
+                        this._changedProps.put_CellMargins(new Asc.CMargins());
                     this._changedProps.get_CellMargins().put_Left( ( this.CellMargins.Left!== null) ? Common.Utils.Metric.fnRecalcToMM(this.CellMargins.Left) : null);
                     this._changedProps.get_CellMargins().put_Top((this.CellMargins.Top!==null) ? Common.Utils.Metric.fnRecalcToMM(this.CellMargins.Top) : null);
                     this._changedProps.get_CellMargins().put_Bottom((this.CellMargins.Bottom!==null) ? Common.Utils.Metric.fnRecalcToMM(this.CellMargins.Bottom) : null);
@@ -222,7 +222,7 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
                 this._marginsChange( field, newValue, oldValue, eOpts, 'cell', 'Top');
                 if (this._changedProps)  {
                     if (this._changedProps.get_CellMargins()===undefined)
-                        this._changedProps.put_CellMargins(new CMargins());
+                        this._changedProps.put_CellMargins(new Asc.CMargins());
                     this._changedProps.get_CellMargins().put_Top((this.CellMargins.Top!==null) ? Common.Utils.Metric.fnRecalcToMM(this.CellMargins.Top) : null);
                     setCellFlag();
                 }
@@ -242,7 +242,7 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
                 this._marginsChange( field, newValue, oldValue, eOpts, 'cell', 'Bottom');
                 if (this._changedProps)  {
                     if (this._changedProps.get_CellMargins()===undefined)
-                        this._changedProps.put_CellMargins(new CMargins());
+                        this._changedProps.put_CellMargins(new Asc.CMargins());
                     this._changedProps.get_CellMargins().put_Bottom((this.CellMargins.Bottom!==null) ? Common.Utils.Metric.fnRecalcToMM(this.CellMargins.Bottom) : null);
                     setCellFlag();
                 }
@@ -262,7 +262,7 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
                 this._marginsChange( field, newValue, oldValue, eOpts, 'cell', 'Left');
                 if (this._changedProps)  {
                     if (this._changedProps.get_CellMargins()===undefined)
-                        this._changedProps.put_CellMargins(new CMargins());
+                        this._changedProps.put_CellMargins(new Asc.CMargins());
                     this._changedProps.get_CellMargins().put_Left((this.CellMargins.Left!==null) ? Common.Utils.Metric.fnRecalcToMM(this.CellMargins.Left) : null);
                     setCellFlag();
                 }
@@ -282,7 +282,7 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
                 this._marginsChange( field, newValue, oldValue, eOpts, 'cell', 'Right');
                 if (this._changedProps)  {
                     if (this._changedProps.get_CellMargins()===undefined)
-                        this._changedProps.put_CellMargins(new CMargins());
+                        this._changedProps.put_CellMargins(new Asc.CMargins());
                     this._changedProps.get_CellMargins().put_Right((this.CellMargins.Right!==null) ? Common.Utils.Metric.fnRecalcToMM(this.CellMargins.Right) : null);
                     setCellFlag();
                 }
@@ -340,7 +340,7 @@ define([    'text!presentationeditor/main/app/template/TableSettingsAdvanced.tem
                 }
 
                 this.fillMargins(this.CellMargins.Flag);
-                this._changedProps = new CTableProp();
+                this._changedProps = new Asc.CTableProp();
             }
         },
 
