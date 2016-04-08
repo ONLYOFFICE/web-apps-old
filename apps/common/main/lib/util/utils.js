@@ -251,6 +251,7 @@ Common.Utils.Metric = new(function() {
     };
     me.currentMetric = me.c_MetricUnits.pt;
     me.metricName = ['cm', 'pt', '\"'];
+    me.defaultMetric = me.c_MetricUnits.cm;
 
     return {
         c_MetricUnits: me.c_MetricUnits,
@@ -262,6 +263,14 @@ Common.Utils.Metric = new(function() {
 
         getCurrentMetric: function() {
             return me.currentMetric;
+        },
+
+        setDefaultMetric: function(value) {
+            me.defaultMetric = value;
+        },
+
+        getDefaultMetric: function() {
+            return me.defaultMetric;
         },
 
         fnRecalcToMM: function(value) {
