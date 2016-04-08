@@ -1,3 +1,27 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is freeware. You can redistribute it and/or modify it under the terms of the GNU 
+ * General Public License (GPL) version 3 as published by the Free Software Foundation (https://www.gnu.org/copyleft/gpl.html).
+ * In accordance with Section 7(a) of the GNU GPL its Section 15 shall be amended to the effect that 
+ * Ascensio System SIA expressly excludes the warranty of non-infringement of any third-party rights.
+ *
+ * THIS PROGRAM IS DISTRIBUTED WITHOUT ANY WARRANTY; WITHOUT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY OR
+ * FITNESS FOR A PARTICULAR PURPOSE. For more details, see GNU GPL at https://www.gnu.org/copyleft/gpl.html
+ *
+ * You can contact Ascensio System SIA by email at sales@onlyoffice.com
+ *
+ * The interactive user interfaces in modified source and object code versions of ONLYOFFICE must display 
+ * Appropriate Legal Notices, as required under Section 5 of the GNU GPL version 3.
+ *
+ * Pursuant to Section 7  3(b) of the GNU GPL you must retain the original ONLYOFFICE logo which contains 
+ * relevant author attributions when distributing the software. If the display of the logo in its graphic 
+ * form is not reasonably feasible for technical reasons, you must include the words "Powered by ONLYOFFICE" 
+ * in every copy of the program you distribute.
+ * Pursuant to Section 7  3(e) we decline to grant you any rights under trademark law for use of our trademarks.
+ *
+*/
 /**
  *  ComboBoxFonts.js
  *
@@ -18,7 +42,7 @@ define([
 
     Common.UI.ComboBoxFonts = Common.UI.ComboBox.extend((function() {
         var iconWidth       = 302,
-            iconHeight      = FONT_THUMBNAIL_HEIGHT || 26,
+            iconHeight      = Asc.FONT_THUMBNAIL_HEIGHT || 26,
             isRetina        = window.devicePixelRatio > 1,
             thumbCanvas     = document.createElement('canvas'),
             thumbContext    = thumbCanvas.getContext('2d'),
@@ -227,10 +251,10 @@ define([
 
                 if (isRetina) {
                     thumbContext.clearRect(0, 0, iconWidth * 2, iconHeight * 2);
-                    thumbContext.drawImage(this.spriteThumbs, 0, -FONT_THUMBNAIL_HEIGHT * 2 * opts.imgidx);
+                    thumbContext.drawImage(this.spriteThumbs, 0, -Asc.FONT_THUMBNAIL_HEIGHT * 2 * opts.imgidx);
                 } else {
                     thumbContext.clearRect(0, 0, iconWidth, iconHeight);
-                    thumbContext.drawImage(this.spriteThumbs, 0, -FONT_THUMBNAIL_HEIGHT * opts.imgidx);
+                    thumbContext.drawImage(this.spriteThumbs, 0, -Asc.FONT_THUMBNAIL_HEIGHT * opts.imgidx);
                 }
 
                 return thumbCanvas.toDataURL();
@@ -442,10 +466,10 @@ define([
 
                             if (isRetina) {
                                 context.clearRect(0, 0, iconWidth * 2, iconHeight * 2);
-                                context.drawImage(me.spriteThumbs, 0, -FONT_THUMBNAIL_HEIGHT * 2 * index);
+                                context.drawImage(me.spriteThumbs, 0, -Asc.FONT_THUMBNAIL_HEIGHT * 2 * index);
                             } else {
                                 context.clearRect(0, 0, iconWidth, iconHeight);
-                                context.drawImage(me.spriteThumbs, 0, -FONT_THUMBNAIL_HEIGHT * index);
+                                context.drawImage(me.spriteThumbs, 0, -Asc.FONT_THUMBNAIL_HEIGHT * index);
                             }
 
                             me.tiles[j] = fontImage;

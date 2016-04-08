@@ -1,3 +1,27 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is freeware. You can redistribute it and/or modify it under the terms of the GNU 
+ * General Public License (GPL) version 3 as published by the Free Software Foundation (https://www.gnu.org/copyleft/gpl.html).
+ * In accordance with Section 7(a) of the GNU GPL its Section 15 shall be amended to the effect that 
+ * Ascensio System SIA expressly excludes the warranty of non-infringement of any third-party rights.
+ *
+ * THIS PROGRAM IS DISTRIBUTED WITHOUT ANY WARRANTY; WITHOUT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY OR
+ * FITNESS FOR A PARTICULAR PURPOSE. For more details, see GNU GPL at https://www.gnu.org/copyleft/gpl.html
+ *
+ * You can contact Ascensio System SIA by email at sales@onlyoffice.com
+ *
+ * The interactive user interfaces in modified source and object code versions of ONLYOFFICE must display 
+ * Appropriate Legal Notices, as required under Section 5 of the GNU GPL version 3.
+ *
+ * Pursuant to Section 7  3(b) of the GNU GPL you must retain the original ONLYOFFICE logo which contains 
+ * relevant author attributions when distributing the software. If the display of the logo in its graphic 
+ * form is not reasonably feasible for technical reasons, you must include the words "Powered by ONLYOFFICE" 
+ * in every copy of the program you distribute.
+ * Pursuant to Section 7  3(e) we decline to grant you any rights under trademark law for use of our trademarks.
+ *
+*/
 /**
  *  HyperlinkSettingsDialog.js
  *
@@ -85,14 +109,14 @@ define([
                 editable: false,
                 menuStyle: 'min-width: 100%;',
                 data    : [
-                    {displayValue: this.textInternalLink, value: c_oAscHyperlinkType.RangeLink},
-                    {displayValue: this.textExternalLink, value: c_oAscHyperlinkType.WebLink}
+                    {displayValue: this.textInternalLink, value: Asc.c_oAscHyperlinkType.RangeLink},
+                    {displayValue: this.textExternalLink, value: Asc.c_oAscHyperlinkType.WebLink}
                 ]
             }).on('selected', function(combo, record) {
-                $('#id-dlg-hyperlink-external')[record.value == c_oAscHyperlinkType.WebLink ? 'show' : 'hide']();
-                $('#id-dlg-hyperlink-internal')[record.value != c_oAscHyperlinkType.WebLink ? 'show' : 'hide']();
+                $('#id-dlg-hyperlink-external')[record.value == Asc.c_oAscHyperlinkType.WebLink ? 'show' : 'hide']();
+                $('#id-dlg-hyperlink-internal')[record.value != Asc.c_oAscHyperlinkType.WebLink ? 'show' : 'hide']();
             });
-            me.cmbLinkType.setValue(c_oAscHyperlinkType.WebLink);
+            me.cmbLinkType.setValue(Asc.c_oAscHyperlinkType.WebLink);
 
             me.cmbSheets = new Common.UI.ComboBox({
                 el      : $('#id-dlg-hyperlink-sheet'),
@@ -145,7 +169,7 @@ define([
             me.inputTip = new Common.UI.InputField({
                 el          : $('#id-dlg-hyperlink-tip'),
                 style       : 'width: 100%;',
-                maxLength   : c_oAscMaxTooltipLength
+                maxLength   : Asc.c_oAscMaxTooltipLength
             });
 
             $window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
@@ -167,7 +191,7 @@ define([
 
                 this.cmbSheets.setData(settings.sheets);
                 if (!settings.props) {
-                    this.cmbLinkType.setValue(c_oAscHyperlinkType.WebLink);
+                    this.cmbLinkType.setValue(Asc.c_oAscHyperlinkType.WebLink);
                     this.cmbLinkType.setDisabled(!settings.allowInternal);
                     this.inputDisplay.setValue(settings.isLock ? this.textDefault : settings.text);
                     this.focusedInput = this.inputUrl.cmpEl.find('input');
@@ -176,7 +200,7 @@ define([
                     this.cmbLinkType.setValue(settings.props.asc_getType());
                     this.cmbLinkType.setDisabled(!settings.allowInternal);
 
-                    if (settings.props.asc_getType() == c_oAscHyperlinkType.RangeLink) {
+                    if (settings.props.asc_getType() == Asc.c_oAscHyperlinkType.RangeLink) {
                         $('#id-dlg-hyperlink-external').hide();
                         $('#id-dlg-hyperlink-internal').show();
 
@@ -201,7 +225,7 @@ define([
                 def_display = "";
             props.asc_setType(this.cmbLinkType.getValue());
 
-            if (this.cmbLinkType.getValue() == c_oAscHyperlinkType.RangeLink) {
+            if (this.cmbLinkType.getValue() == Asc.c_oAscHyperlinkType.RangeLink) {
                 props.asc_setSheet(this.cmbSheets.getValue());
                 props.asc_setRange(this.inputRange.getValue());
                 def_display = this.cmbSheets.getValue() + '!' + this.inputRange.getValue();
@@ -241,8 +265,8 @@ define([
         _handleInput: function(state) {
             if (this.options.handler) {
                 if (state == 'ok') {
-                    var checkurl = (this.cmbLinkType.getValue() === c_oAscHyperlinkType.WebLink) ? this.inputUrl.checkValidate() : true,
-                        checkrange = (this.cmbLinkType.getValue() === c_oAscHyperlinkType.RangeLink) ? this.inputRange.checkValidate() : true,
+                    var checkurl = (this.cmbLinkType.getValue() === Asc.c_oAscHyperlinkType.WebLink) ? this.inputUrl.checkValidate() : true,
+                        checkrange = (this.cmbLinkType.getValue() === Asc.c_oAscHyperlinkType.RangeLink) ? this.inputRange.checkValidate() : true,
                         checkdisp = this.inputDisplay.checkValidate();
                     if (checkurl !== true)  {
                         this.inputUrl.cmpEl.find('input').focus();

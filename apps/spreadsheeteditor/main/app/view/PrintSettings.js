@@ -1,3 +1,27 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is freeware. You can redistribute it and/or modify it under the terms of the GNU 
+ * General Public License (GPL) version 3 as published by the Free Software Foundation (https://www.gnu.org/copyleft/gpl.html).
+ * In accordance with Section 7(a) of the GNU GPL its Section 15 shall be amended to the effect that 
+ * Ascensio System SIA expressly excludes the warranty of non-infringement of any third-party rights.
+ *
+ * THIS PROGRAM IS DISTRIBUTED WITHOUT ANY WARRANTY; WITHOUT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY OR
+ * FITNESS FOR A PARTICULAR PURPOSE. For more details, see GNU GPL at https://www.gnu.org/copyleft/gpl.html
+ *
+ * You can contact Ascensio System SIA by email at sales@onlyoffice.com
+ *
+ * The interactive user interfaces in modified source and object code versions of ONLYOFFICE must display 
+ * Appropriate Legal Notices, as required under Section 5 of the GNU GPL version 3.
+ *
+ * Pursuant to Section 7  3(b) of the GNU GPL you must retain the original ONLYOFFICE logo which contains 
+ * relevant author attributions when distributing the software. If the display of the logo in its graphic 
+ * form is not reasonably feasible for technical reasons, you must include the words "Powered by ONLYOFFICE" 
+ * in every copy of the program you distribute.
+ * Pursuant to Section 7  3(e) we decline to grant you any rights under trademark law for use of our trademarks.
+ *
+*/
 /**
  *  PrintSettings.js
  *
@@ -19,7 +43,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
         options: {
             alias: 'PrintSettings',
             contentWidth: 280,
-            height: 482
+            height: 471
         },
 
         initialize : function(options) {
@@ -28,14 +52,14 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                 template: [
                     '<div class="box" style="height:' + (this.options.height-85) + 'px;">',
                         '<div class="menu-panel" style="overflow: hidden;">',
-                            '<div style="height: 90px; line-height: 90px;" class="div-category">' + this.textPrintRange + '</div>',
-                            '<div style="height: 55px; line-height: 55px;" class="div-category">' + this.textPageSize + '</div>',
-                            '<div style="height: 55px; line-height: 55px;" class="div-category">' + this.textPageOrientation + '</div>',
-                            '<div style="height: 122px; line-height: 122px;" class="div-category">' + this.strMargins + '</div>',
-//                            '<div style="height: 73px; line-height: 73px;" class="div-category">' + this.textLayout + '</div>',
-                            '<div style="height: 73px; line-height: 73px;" class="div-category">' + this.strPrint + '</div>',
+                            '<div style="height: 42px; line-height: 42px;" class="div-category">' + this.textPrintRange + '</div>',
+                            '<div style="height: 52px; line-height: 66px;" class="div-category">' + this.textSettings + '</div>',
+                            '<div style="height: 38px; line-height: 38px;" class="div-category">' + this.textPageSize + '</div>',
+                            '<div style="height: 38px; line-height: 38px;" class="div-category">' + this.textPageOrientation + '</div>',
+                            '<div style="height: 38px; line-height: 38px;" class="div-category">' + this.textScaling + '</div>',
+                            '<div style="height: 108px; line-height: 33px;" class="div-category">' + this.strMargins + '</div>',
+                            '<div style="height: 58px; line-height: 40px;" class="div-category">' + this.strPrint + '</div>',
                         '</div>',
-                        '<div class="separator"/>',
                         '<div class="content-panel">' + _.template(contentTemplate)({scope: this}) + '</div>',
                     '</div>',
                     '<div class="separator horizontal"/>',
@@ -53,60 +77,61 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
         render: function() {
             Common.Views.AdvancedSettingsWindow.prototype.render.call(this);
 
-            this.radioCurrent = new Common.UI.RadioBox({
-                el: $('#printadv-dlg-radio-current'),
-                labelText: this.textCurrentSheet,
-                name: 'asc-radio-printrange',
-                checked: true
+            this.cmbRange = new Common.UI.ComboBox({
+                el          : $('#printadv-dlg-combo-range'),
+                style       : 'width: 132px;',
+                menuStyle   : 'min-width: 132px;max-height: 280px;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                 data        : [
+                    { value: Asc.c_oAscPrintType.ActiveSheets, displayValue: this.textCurrentSheet },
+                    { value: Asc.c_oAscPrintType.EntireWorkbook, displayValue: this.textAllSheets },
+                    { value: Asc.c_oAscPrintType.Selection, displayValue: this.textSelection }
+                ]
             });
-            this.radioCurrent.on('change', _.bind(this.onRadioRangeChange,this));
+            this.cmbRange.on('selected', _.bind(this.comboRangeChange, this));
 
-            this.radioAll = new Common.UI.RadioBox({
-                el: $('#printadv-dlg-radio-all'),
-                labelText: this.textAllSheets,
-                name: 'asc-radio-printrange'
+            this.cmbSheet = new Common.UI.ComboBox({
+                el          : $('#printadv-dlg-combo-sheets'),
+                style       : 'width: 242px;',
+                menuStyle   : 'min-width: 242px;max-height: 280px;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : []
             });
-            this.radioAll.on('change', _.bind(this.onRadioRangeChange,this));
-
-            this.radioSelection = new Common.UI.RadioBox({
-                el: $('#printadv-dlg-radio-selection'),
-                labelText: this.textSelection,
-                name: 'asc-radio-printrange'
-            });
-            this.radioSelection.on('change', _.bind(this.onRadioRangeChange,this));
 
             this.cmbPaperSize = new Common.UI.ComboBox({
                 el          : $('#printadv-dlg-combo-pages'),
-                style       : 'width: 260px;',
-                menuStyle   : 'max-height: 280px; min-width: 260px;',
+                style       : 'width: 242px;',
+                menuStyle   : 'max-height: 280px; min-width: 242px;',
                 editable    : false,
                 cls         : 'input-group-nr',
                 data : [
-                    {value:'215.9|279.4',    displayValue:'US Letter (21,59cm x 27,94cm)'},
-                    {value:'215.9|355.6',    displayValue:'US Legal (21,59cm x 35,56cm)'},
-                    {value:'210|297',        displayValue:'A4 (21cm x 29,7cm)'},
-                    {value:'148.1|209.9',    displayValue:'A5 (14,81cm x 20,99cm)'},
-                    {value:'176|250.1',      displayValue:'B5 (17,6cm x 25,01cm)'},
-                    {value:'104.8|241.3',    displayValue:'Envelope #10 (10,48cm x 24,13cm)'},
-                    {value:'110.1|220.1',    displayValue:'Envelope DL (11,01cm x 22,01cm)'},
-                    {value:'279.4|431.7',    displayValue:'Tabloid (27,94cm x 43,17cm)'},
-                    {value:'297|420.1',      displayValue:'A3 (29,7cm x 42,01cm)'},
-                    {value:'304.8|457.1',    displayValue:'Tabloid Oversize (30,48cm x 45,71cm)'},
-                    {value:'196.8|273',      displayValue:'ROC 16K (19,68cm x 27,3cm)'},
-                    {value:'119.9|234.9',    displayValue:'Envelope Choukei 3 (11,99cm x 23,49cm)'},
-                    {value:'330.2|482.5',    displayValue:'Super B/A3 (33,02cm x 48,25cm)'}
+                    {value:'215.9|279.4',    displayValue:'US Letter (21,59cm x 27,94cm)', caption: 'US Letter'},
+                    {value:'215.9|355.6',    displayValue:'US Legal (21,59cm x 35,56cm)', caption: 'US Legal'},
+                    {value:'210|297',        displayValue:'A4 (21cm x 29,7cm)', caption: 'A4'},
+                    {value:'148.1|209.9',    displayValue:'A5 (14,81cm x 20,99cm)', caption: 'A5'},
+                    {value:'176|250.1',      displayValue:'B5 (17,6cm x 25,01cm)', caption: 'B5'},
+                    {value:'104.8|241.3',    displayValue:'Envelope #10 (10,48cm x 24,13cm)', caption: 'Envelope #10'},
+                    {value:'110.1|220.1',    displayValue:'Envelope DL (11,01cm x 22,01cm)', caption: 'Envelope DL'},
+                    {value:'279.4|431.7',    displayValue:'Tabloid (27,94cm x 43,17cm)', caption: 'Tabloid'},
+                    {value:'297|420.1',      displayValue:'A3 (29,7cm x 42,01cm)', caption: 'A3'},
+                    {value:'304.8|457.1',    displayValue:'Tabloid Oversize (30,48cm x 45,71cm)', caption: 'Tabloid Oversize'},
+                    {value:'196.8|273',      displayValue:'ROC 16K (19,68cm x 27,3cm)', caption: 'ROC 16K'},
+                    {value:'119.9|234.9',    displayValue:'Envelope Choukei 3 (11,99cm x 23,49cm)', caption: 'Envelope Choukei 3'},
+                    {value:'330.2|482.5',    displayValue:'Super B/A3 (33,02cm x 48,25cm)', caption: 'Super B/A3'}
                 ]
             });
 
             this.cmbPaperOrientation = new Common.UI.ComboBox({
                 el          : $('#printadv-dlg-combo-orient'),
-                style       : 'width: 115px;',
-                menuStyle   : 'min-width: 115px;',
+                style       : 'width: 132px;',
+                menuStyle   : 'min-width: 132px;',
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : [
-                    { value: c_oAscPageOrientation.PagePortrait, displayValue: this.strPortrait },
-                    { value: c_oAscPageOrientation.PageLandscape, displayValue: this.strLandscape }
+                    { value: Asc.c_oAscPageOrientation.PagePortrait, displayValue: this.strPortrait },
+                    { value: Asc.c_oAscPageOrientation.PageLandscape, displayValue: this.strLandscape }
                 ]
             });
 
@@ -123,7 +148,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
             this.spnMarginTop = new Common.UI.MetricSpinner({
                 el: $('#printadv-dlg-spin-margin-top'),
                 step: .1,
-                width: 115,
+                width: 110,
                 defaultUnit : "cm",
                 value: '0 cm',
                 maxValue: 48.25,
@@ -134,7 +159,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
             this.spnMarginBottom = new Common.UI.MetricSpinner({
                 el: $('#printadv-dlg-spin-margin-bottom'),
                 step: .1,
-                width: 115,
+                width: 110,
                 defaultUnit : "cm",
                 value: '0 cm',
                 maxValue: 48.25,
@@ -145,7 +170,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
             this.spnMarginLeft = new Common.UI.MetricSpinner({
                 el: $('#printadv-dlg-spin-margin-left'),
                 step: .1,
-                width: 115,
+                width: 110,
                 defaultUnit : "cm",
                 value: '0.19 cm',
                 maxValue: 48.25,
@@ -156,7 +181,7 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
             this.spnMarginRight = new Common.UI.MetricSpinner({
                 el: $('#printadv-dlg-spin-margin-right'),
                 step: .1,
-                width: 115,
+                width: 110,
                 defaultUnit : "cm",
                 value: '0.19 cm',
                 maxValue: 48.25,
@@ -164,18 +189,19 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
             });
             this.spinners.push(this.spnMarginRight);
 
-//            this.radioActual = new Common.UI.RadioBox({
-//                el: $('#printadv-dlg-radio-actual'),
-//                labelText: this.textActualSize,
-//                name: 'asc-radio-printlayout'
-//            });
-//
-//            this.radioFit = new Common.UI.RadioBox({
-//                el: $('#printadv-dlg-radio-fit'),
-//                labelText: this.textFit,
-//                name: 'asc-radio-printlayout',
-//                checked: true
-//            });
+            this.cmbLayout = new Common.UI.ComboBox({
+                el          : $('#printadv-dlg-combo-layout'),
+                style       : 'width: 242px;',
+                menuStyle   : 'min-width: 242px;',
+                editable    : false,
+                cls         : 'input-group-nr',
+                data        : [
+                    { value: 0, displayValue: this.textActualSize },
+                    { value: 1, displayValue: this.textFitPage },
+                    { value: 2, displayValue: this.textFitCols },
+                    { value: 3, displayValue: this.textFitRows }
+                ]
+            });
 
             this.btnHide = new Common.UI.Button({
                 el: $('#printadv-dlg-btn-hide')
@@ -185,27 +211,22 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
             this.panelDetails = $('#printadv-dlg-content-to-hide');
             this.updateMetricUnit();
             this.options.afterrender && this.options.afterrender.call(this);
+
+            var value = Common.localStorage.getItem("sse-hide-print-settings");
+            this.extended = (value!==null && parseInt(value)==0);
+            this.handlerShowDetails(this.btnHide);
         },
 
         setRange: function(value) {
-            (value==c_oAscPrintType.ActiveSheets) ? this.radioCurrent.setValue(true) : ((value==c_oAscPrintType.EntireWorkbook) ? this.radioAll.setValue(true) : this.radioSelection.setValue(true));
-        },
-
-        setLayout: function(value) {
-//            (value==c_oAscLayoutPageType.ActualSize) ? this.radioActual.setValue(true) : this.radioFit.setValue(true);
+            this.cmbRange.setValue(value);
         },
 
         getRange: function() {
-            return (this.radioCurrent.getValue() ? c_oAscPrintType.ActiveSheets : (this.radioAll.getValue() ? c_oAscPrintType.EntireWorkbook : c_oAscPrintType.Selection));
+            return this.cmbRange.getValue();
         },
 
-        getLayout: function() {
-//            return (this.radioActual.getValue() ? c_oAscLayoutPageType.ActualSize : c_oAscLayoutPageType.FitToWidth);
-        },
-
-        onRadioRangeChange: function(radio, newvalue) {
-            if (newvalue)
-                this.fireEvent('changerange', this);
+        comboRangeChange: function(combo, record) {
+            this.fireEvent('changerange', this);
         },
 
         updateMetricUnit: function() {
@@ -213,22 +234,35 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
                 for (var i=0; i<this.spinners.length; i++) {
                     var spinner = this.spinners[i];
                     spinner.setDefaultUnit(Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()]);
-                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.cm ? 0.1 : 1);
+                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
                 }
             }
+            var store = this.cmbPaperSize.store;
+            for (var i=0; i<store.length; i++) {
+                var item = store.at(i),
+                    value = item.get('value'),
+                    pagewidth = /^\d{3}\.?\d*/.exec(value),
+                    pageheight = /\d{3}\.?\d*$/.exec(value);
+
+                item.set('displayValue', item.get('caption') + ' (' + parseFloat(Common.Utils.Metric.fnRecalcFromMM(pagewidth).toFixed(2)) + Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()] + ' x ' +
+                        parseFloat(Common.Utils.Metric.fnRecalcFromMM(pageheight).toFixed(2)) + Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()] + ')');
+            }
+            this.cmbPaperSize.onResetItems();
         },
 
         handlerShowDetails: function(btn) {
             if (!this.extended) {
                 this.extended = true;
                 this.panelDetails.css({'display': 'none'});
-                this.setHeight(286);
+                this.setHeight(303);
                 btn.setCaption(this.textShowDetails);
+                Common.localStorage.setItem("sse-hide-print-settings", 1);
             } else {
                 this.extended = false;
                 this.panelDetails.css({'display': 'block'});
-                this.setHeight(482);
+                this.setHeight(471);
                 btn.setCaption(this.textHideDetails);
+                Common.localStorage.setItem("sse-hide-print-settings", 0);
             }
         },
 
@@ -252,9 +286,13 @@ define([    'text!spreadsheeteditor/main/app/template/PrintSettings.template',
         textAllSheets:          'All Sheets',
         textSelection:          'Selection',
         textActualSize:         'Actual Size',
-        textFit:                'Fit to width',
+        textFitPage:            'Fit Sheet on One Page',
+        textFitCols:            'Fit All Columns on One Page',
+        textFitRows:            'Fit All Rows on One Page',
         textShowDetails:        'Show Details',
         cancelButtonText:       'Cancel',
-        textHideDetails:        'Hide Details'
+        textHideDetails:        'Hide Details',
+        textScaling:            'Scaling',
+        textSettings:           'Sheet Settings'
     }, SSE.Views.PrintSettings || {}));
 });

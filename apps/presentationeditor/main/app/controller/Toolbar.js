@@ -1,3 +1,27 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is freeware. You can redistribute it and/or modify it under the terms of the GNU 
+ * General Public License (GPL) version 3 as published by the Free Software Foundation (https://www.gnu.org/copyleft/gpl.html).
+ * In accordance with Section 7(a) of the GNU GPL its Section 15 shall be amended to the effect that 
+ * Ascensio System SIA expressly excludes the warranty of non-infringement of any third-party rights.
+ *
+ * THIS PROGRAM IS DISTRIBUTED WITHOUT ANY WARRANTY; WITHOUT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY OR
+ * FITNESS FOR A PARTICULAR PURPOSE. For more details, see GNU GPL at https://www.gnu.org/copyleft/gpl.html
+ *
+ * You can contact Ascensio System SIA by email at sales@onlyoffice.com
+ *
+ * The interactive user interfaces in modified source and object code versions of ONLYOFFICE must display 
+ * Appropriate Legal Notices, as required under Section 5 of the GNU GPL version 3.
+ *
+ * Pursuant to Section 7  3(b) of the GNU GPL you must retain the original ONLYOFFICE logo which contains 
+ * relevant author attributions when distributing the software. If the display of the logo in its graphic 
+ * form is not reasonably feasible for technical reasons, you must include the words "Powered by ONLYOFFICE" 
+ * in every copy of the program you distribute.
+ * Pursuant to Section 7  3(e) we decline to grant you any rights under trademark law for use of our trademarks.
+ *
+*/
 /**
  *  Toolbar.js
  *
@@ -429,9 +453,9 @@ define([
                     btnVerticalAlign = this.toolbar.btnVerticalAlign;
 
                 switch (v) {
-                    case c_oAscVerticalTextAlign.TEXT_ALIGN_TOP:    index = 0; align = 'btn-align-top';    break;
-                    case c_oAscVerticalTextAlign.TEXT_ALIGN_CTR:    index = 1; align = 'btn-align-middle'; break;
-                    case c_oAscVerticalTextAlign.TEXT_ALIGN_BOTTOM: index = 2; align = 'btn-align-bottom'; break;
+                    case Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_TOP:    index = 0; align = 'btn-align-top';    break;
+                    case Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_CTR:    index = 1; align = 'btn-align-middle'; break;
+                    case Asc.c_oAscVerticalTextAlign.TEXT_ALIGN_BOTTOM: index = 2; align = 'btn-align-bottom'; break;
                     default:  index = -255; align = 'btn-align-middle'; break;
                 }
 
@@ -535,14 +559,14 @@ define([
             while (++i < selectedObjects.length) {
                 type = selectedObjects[i].get_ObjectType();
                 pr   = selectedObjects[i].get_ObjectValue();
-                if (type == c_oAscTypeSelectElement.Paragraph) {
+                if (type == Asc.c_oAscTypeSelectElement.Paragraph) {
                     paragraph_locked = pr.get_Locked();
                     no_paragraph = false;
                     no_object = false;
-                } else if (type == c_oAscTypeSelectElement.Slide) {
+                } else if (type == Asc.c_oAscTypeSelectElement.Slide) {
                     slide_deleted = pr.get_LockDelete();
                     slide_layout_lock = pr.get_LockLayout();
-                } else if (type == c_oAscTypeSelectElement.Image || type == c_oAscTypeSelectElement.Shape || type == c_oAscTypeSelectElement.Chart || type == c_oAscTypeSelectElement.Table) {
+                } else if (type == Asc.c_oAscTypeSelectElement.Image || type == Asc.c_oAscTypeSelectElement.Shape || type == Asc.c_oAscTypeSelectElement.Chart || type == Asc.c_oAscTypeSelectElement.Table) {
                     shape_locked = pr.get_Locked();
                     no_object = false;
                 }
@@ -1155,7 +1179,7 @@ define([
                         slides: _arr
                     });
 
-                    props = new CHyperlinkProperty();
+                    props = new Asc.CHyperlinkProperty();
                     props.put_Text(text);
 
                     win.show();
@@ -1488,7 +1512,7 @@ define([
             var picker = this.toolbar.mnuFontColorPicker;
 
             if (color) {
-                if (color.get_type() == c_oAscColor.COLOR_TYPE_SCHEME) {
+                if (color.get_type() == Asc.c_oAscColor.COLOR_TYPE_SCHEME) {
                     clr = {color: Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b()), effectValue: color.get_value() };
                 } else
                     clr = Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b());

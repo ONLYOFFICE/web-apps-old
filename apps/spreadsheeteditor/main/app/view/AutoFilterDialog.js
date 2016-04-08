@@ -1,3 +1,27 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is freeware. You can redistribute it and/or modify it under the terms of the GNU 
+ * General Public License (GPL) version 3 as published by the Free Software Foundation (https://www.gnu.org/copyleft/gpl.html).
+ * In accordance with Section 7(a) of the GNU GPL its Section 15 shall be amended to the effect that 
+ * Ascensio System SIA expressly excludes the warranty of non-infringement of any third-party rights.
+ *
+ * THIS PROGRAM IS DISTRIBUTED WITHOUT ANY WARRANTY; WITHOUT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY OR
+ * FITNESS FOR A PARTICULAR PURPOSE. For more details, see GNU GPL at https://www.gnu.org/copyleft/gpl.html
+ *
+ * You can contact Ascensio System SIA by email at sales@onlyoffice.com
+ *
+ * The interactive user interfaces in modified source and object code versions of ONLYOFFICE must display 
+ * Appropriate Legal Notices, as required under Section 5 of the GNU GPL version 3.
+ *
+ * Pursuant to Section 7  3(b) of the GNU GPL you must retain the original ONLYOFFICE logo which contains 
+ * relevant author attributions when distributing the software. If the display of the logo in its graphic 
+ * form is not reasonably feasible for technical reasons, you must include the words "Powered by ONLYOFFICE" 
+ * in every copy of the program you distribute.
+ * Pursuant to Section 7  3(e) we decline to grant you any rights under trademark law for use of our trademarks.
+ *
+*/
 /**
  *  AutoFilterDialog.js
  *
@@ -74,18 +98,18 @@ define([
             Common.UI.Window.prototype.render.call(this);
 
             var conditions = [
-                {value: c_oAscCustomAutoFilter.equals,                   displayValue: this.capCondition1},
-                {value: c_oAscCustomAutoFilter.doesNotEqual,             displayValue: this.capCondition2},
-                {value: c_oAscCustomAutoFilter.isGreaterThan,            displayValue: this.capCondition3},
-                {value: c_oAscCustomAutoFilter.isGreaterThanOrEqualTo,   displayValue: this.capCondition4},
-                {value: c_oAscCustomAutoFilter.isLessThan,               displayValue: this.capCondition5},
-                {value: c_oAscCustomAutoFilter.isLessThanOrEqualTo,      displayValue: this.capCondition6},
-                {value: c_oAscCustomAutoFilter.beginsWith,               displayValue: this.capCondition7},
-                {value: c_oAscCustomAutoFilter.doesNotBeginWith,         displayValue: this.capCondition8},
-                {value: c_oAscCustomAutoFilter.endsWith,                 displayValue: this.capCondition9},
-                {value: c_oAscCustomAutoFilter.doesNotEndWith,           displayValue: this.capCondition10},
-                {value: c_oAscCustomAutoFilter.contains,                 displayValue: this.capCondition11},
-                {value: c_oAscCustomAutoFilter.doesNotContain,           displayValue: this.capCondition12}
+                {value: Asc.c_oAscCustomAutoFilter.equals,                   displayValue: this.capCondition1},
+                {value: Asc.c_oAscCustomAutoFilter.doesNotEqual,             displayValue: this.capCondition2},
+                {value: Asc.c_oAscCustomAutoFilter.isGreaterThan,            displayValue: this.capCondition3},
+                {value: Asc.c_oAscCustomAutoFilter.isGreaterThanOrEqualTo,   displayValue: this.capCondition4},
+                {value: Asc.c_oAscCustomAutoFilter.isLessThan,               displayValue: this.capCondition5},
+                {value: Asc.c_oAscCustomAutoFilter.isLessThanOrEqualTo,      displayValue: this.capCondition6},
+                {value: Asc.c_oAscCustomAutoFilter.beginsWith,               displayValue: this.capCondition7},
+                {value: Asc.c_oAscCustomAutoFilter.doesNotBeginWith,         displayValue: this.capCondition8},
+                {value: Asc.c_oAscCustomAutoFilter.endsWith,                 displayValue: this.capCondition9},
+                {value: Asc.c_oAscCustomAutoFilter.doesNotEndWith,           displayValue: this.capCondition10},
+                {value: Asc.c_oAscCustomAutoFilter.contains,                 displayValue: this.capCondition11},
+                {value: Asc.c_oAscCustomAutoFilter.doesNotContain,           displayValue: this.capCondition12}
             ];
 
             this.cmbCondition1 = new Common.UI.ComboBox({
@@ -95,7 +119,7 @@ define([
                 data        : conditions,
                 editable    : false
             });
-            this.cmbCondition1.setValue(c_oAscCustomAutoFilter.equals);
+            this.cmbCondition1.setValue(Asc.c_oAscCustomAutoFilter.equals);
 
             conditions.splice(0, 0,  {value: 0, displayValue: this.textNoFilter});
 
@@ -195,13 +219,13 @@ define([
                 this.cmbCondition1 && this.cmbCondition2 && this.txtValue1 && this.txtValue2) {
 
                 var filterObj = this.properties.asc_getFilterObj();
-                if (filterObj.asc_getType() == c_oAscAutoFilterTypes.CustomFilters) {
+                if (filterObj.asc_getType() == Asc.c_oAscAutoFilterTypes.CustomFilters) {
                     var customFilter = filterObj.asc_getFilter(),
                         customFilters = customFilter.asc_getCustomFilters();
                     
                     (customFilter.asc_getAnd()) ? this.rbAnd.setValue(true) : this.rbOr.setValue(true);
 
-                    this.cmbCondition1.setValue(customFilters[0].asc_getOperator() || c_oAscCustomAutoFilter.equals);
+                    this.cmbCondition1.setValue(customFilters[0].asc_getOperator() || Asc.c_oAscCustomAutoFilter.equals);
                     this.cmbCondition2.setValue((customFilters.length>1) ? (customFilters[1].asc_getOperator() || 0) : 0);
 
                     this.txtValue1.setValue(null === customFilters[0].asc_getVal() ? '' : customFilters[0].asc_getVal());
@@ -215,7 +239,7 @@ define([
 
                 var filterObj = this.properties.asc_getFilterObj();
                 filterObj.asc_setFilter(new Asc.CustomFilters());
-                filterObj.asc_setType(c_oAscAutoFilterTypes.CustomFilters);
+                filterObj.asc_setType(Asc.c_oAscAutoFilterTypes.CustomFilters);
 
                 var customFilter = filterObj.asc_getFilter();
                 customFilter.asc_setCustomFilters((this.cmbCondition2.getValue() == 0) ? [new Asc.CustomFilter()] : [new Asc.CustomFilter(), new Asc.CustomFilter()]);
@@ -532,7 +556,7 @@ define([
 
                 this.btnOk.setDisabled(false);
                 this.chCustomFilter.setValue(false);
-                this.configTo.asc_getFilterObj().asc_setType(c_oAscAutoFilterTypes.Filters);
+                this.configTo.asc_getFilterObj().asc_setType(Asc.c_oAscAutoFilterTypes.Filters);
 
                 listView.isSuspendEvents = false;
                 listView.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});
@@ -553,7 +577,7 @@ define([
 
             var me = this, isnumber, value, index = 0, haveUnselectedCell = false,
                 throughIndex = 1,
-                isCustomFilter = (this.configTo.asc_getFilterObj().asc_getType() === c_oAscAutoFilterTypes.CustomFilters);
+                isCustomFilter = (this.configTo.asc_getFilterObj().asc_getType() === Asc.c_oAscAutoFilterTypes.CustomFilters);
 
             if (_.isUndefined(this.config)) {
                 return;
@@ -694,7 +718,7 @@ define([
             this.filterExcludeCells.reset(arrEx);
 
             if (this.cells.length) {
-                this.chCustomFilter.setValue(this.configTo.asc_getFilterObj().asc_getType() === c_oAscAutoFilterTypes.CustomFilters);
+                this.chCustomFilter.setValue(this.configTo.asc_getFilterObj().asc_getType() === Asc.c_oAscAutoFilterTypes.CustomFilters);
             }
 
             this.cellsList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true, suppressScrollX: true});

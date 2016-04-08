@@ -1,3 +1,27 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is freeware. You can redistribute it and/or modify it under the terms of the GNU 
+ * General Public License (GPL) version 3 as published by the Free Software Foundation (https://www.gnu.org/copyleft/gpl.html).
+ * In accordance with Section 7(a) of the GNU GPL its Section 15 shall be amended to the effect that 
+ * Ascensio System SIA expressly excludes the warranty of non-infringement of any third-party rights.
+ *
+ * THIS PROGRAM IS DISTRIBUTED WITHOUT ANY WARRANTY; WITHOUT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY OR
+ * FITNESS FOR A PARTICULAR PURPOSE. For more details, see GNU GPL at https://www.gnu.org/copyleft/gpl.html
+ *
+ * You can contact Ascensio System SIA by email at sales@onlyoffice.com
+ *
+ * The interactive user interfaces in modified source and object code versions of ONLYOFFICE must display 
+ * Appropriate Legal Notices, as required under Section 5 of the GNU GPL version 3.
+ *
+ * Pursuant to Section 7  3(b) of the GNU GPL you must retain the original ONLYOFFICE logo which contains 
+ * relevant author attributions when distributing the software. If the display of the logo in its graphic 
+ * form is not reasonably feasible for technical reasons, you must include the words "Powered by ONLYOFFICE" 
+ * in every copy of the program you distribute.
+ * Pursuant to Section 7  3(e) we decline to grant you any rights under trademark law for use of our trademarks.
+ *
+*/
 /**
  * User: Julia.Radzhabova
  * Date: 15.04.15
@@ -68,9 +92,9 @@ define([    'text!documenteditor/main/app/template/MailMergeEmailDlg.template',
             });
 
             this._arrFormat = [
-                {displayValue: this.textHTML,  value: c_oAscFileType.HTML},
-                {displayValue: this.textAttachDocx,value: c_oAscFileType.DOCX},
-                {displayValue: this.textAttachPdf,value: c_oAscFileType.PDF}
+                {displayValue: this.textHTML,  value: Asc.c_oAscFileType.HTML},
+                {displayValue: this.textAttachDocx,value: Asc.c_oAscFileType.DOCX},
+                {displayValue: this.textAttachPdf,value: Asc.c_oAscFileType.PDF}
             ];
             this.cmbFormat = new Common.UI.ComboBox({
                 el: $('#merge-email-dlg-format'),
@@ -79,7 +103,7 @@ define([    'text!documenteditor/main/app/template/MailMergeEmailDlg.template',
                 editable: false,
                 data: this._arrFormat
             });
-            this.cmbFormat.setValue(c_oAscFileType.HTML);
+            this.cmbFormat.setValue(Asc.c_oAscFileType.HTML);
             this.cmbFormat.on('selected', _.bind(this.onCmbFormatSelect, this));
 
             this.inputFileName = new Common.UI.InputField({
@@ -151,13 +175,13 @@ define([    'text!documenteditor/main/app/template/MailMergeEmailDlg.template',
         getSettings: function() {
             var filename = this.inputFileName.getValue(),
                 mailformat = this.cmbFormat.getValue();
-            if (mailformat!==c_oAscFileType.HTML) {
+            if (mailformat!==Asc.c_oAscFileType.HTML) {
                 if (_.isEmpty(filename)) filename = 'attach';
                 var idx = filename.lastIndexOf('.'),
                     ext = (idx>0) ? filename.substring(idx, filename.length).toLowerCase() : '';
-                if (mailformat==c_oAscFileType.PDF && ext!=='.pdf')
+                if (mailformat==Asc.c_oAscFileType.PDF && ext!=='.pdf')
                     filename += '.pdf';
-                else if (mailformat==c_oAscFileType.DOCX && ext!=='.docx')
+                else if (mailformat==Asc.c_oAscFileType.DOCX && ext!=='.docx')
                     filename += '.docx';
             }
 
@@ -212,7 +236,7 @@ define([    'text!documenteditor/main/app/template/MailMergeEmailDlg.template',
         },
 
         onCmbFormatSelect: function(combo, record) {
-            var attachDisable = (record.value == c_oAscFileType.HTML);
+            var attachDisable = (record.value == Asc.c_oAscFileType.HTML);
             this.inputFileName.setDisabled(attachDisable);
             this.lblFileName.toggleClass('disabled', attachDisable);
             (attachDisable) ? this.textareaMessage.attr('disabled', 'disabled') : this.textareaMessage.removeAttr('disabled');

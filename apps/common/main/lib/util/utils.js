@@ -1,3 +1,27 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is freeware. You can redistribute it and/or modify it under the terms of the GNU 
+ * General Public License (GPL) version 3 as published by the Free Software Foundation (https://www.gnu.org/copyleft/gpl.html).
+ * In accordance with Section 7(a) of the GNU GPL its Section 15 shall be amended to the effect that 
+ * Ascensio System SIA expressly excludes the warranty of non-infringement of any third-party rights.
+ *
+ * THIS PROGRAM IS DISTRIBUTED WITHOUT ANY WARRANTY; WITHOUT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY OR
+ * FITNESS FOR A PARTICULAR PURPOSE. For more details, see GNU GPL at https://www.gnu.org/copyleft/gpl.html
+ *
+ * You can contact Ascensio System SIA by email at sales@onlyoffice.com
+ *
+ * The interactive user interfaces in modified source and object code versions of ONLYOFFICE must display 
+ * Appropriate Legal Notices, as required under Section 5 of the GNU GPL version 3.
+ *
+ * Pursuant to Section 7  3(b) of the GNU GPL you must retain the original ONLYOFFICE logo which contains 
+ * relevant author attributions when distributing the software. If the display of the logo in its graphic 
+ * form is not reasonably feasible for technical reasons, you must include the words "Powered by ONLYOFFICE" 
+ * in every copy of the program you distribute.
+ * Pursuant to Section 7  3(e) we decline to grant you any rights under trademark law for use of our trademarks.
+ *
+*/
 if (Common === undefined) {
     var Common = {};
 }
@@ -193,7 +217,7 @@ Common.Utils.ThemeColor = new(function() {
             if(color.length==3) color=color.replace(/(.)/g,'$1$1');
             color=parseInt(color,16);
             var c = new CAscColor();
-            c.put_type( (typeof(clr) == 'object' && clr.effectId !== undefined)? c_oAscColor.COLOR_TYPE_SCHEME : c_oAscColor.COLOR_TYPE_SRGB);
+            c.put_type( (typeof(clr) == 'object' && clr.effectId !== undefined)? Asc.c_oAscColor.COLOR_TYPE_SCHEME : Asc.c_oAscColor.COLOR_TYPE_SRGB);
             c.put_r(color>>16);
             c.put_g((color&0xff00)>>8);
             c.put_b(color&0xff);
@@ -222,10 +246,12 @@ Common.Utils.Metric = new(function() {
 
     me.c_MetricUnits = {
         cm: 0,
-        pt: 1
+        pt: 1,
+        inch: 2
     };
     me.currentMetric = me.c_MetricUnits.pt;
-    me.metricName = ['cm', 'pt'];
+    me.metricName = ['cm', 'pt', '\"'];
+    me.defaultMetric = me.c_MetricUnits.cm;
 
     return {
         c_MetricUnits: me.c_MetricUnits,
@@ -239,26 +265,38 @@ Common.Utils.Metric = new(function() {
             return me.currentMetric;
         },
 
+        setDefaultMetric: function(value) {
+            me.defaultMetric = value;
+        },
+
+        getDefaultMetric: function() {
+            return me.defaultMetric;
+        },
+
         fnRecalcToMM: function(value) {
-            // value in pt/cm. need to convert to mm
+            // value in pt/cm/inch. need to convert to mm
             if (value!==null && value!==undefined) {
                 switch (me.currentMetric) {
                     case me.c_MetricUnits.cm:
                         return value * 10;
                     case me.c_MetricUnits.pt:
                         return value * 25.4 / 72.0;
+                    case me.c_MetricUnits.inch:
+                        return value * 25.4;
                 }
             }
             return value;
         },
 
         fnRecalcFromMM: function(value) {
-            // value in mm. need to convert to pt/cm
+            // value in mm. need to convert to pt/cm/inch
             switch (me.currentMetric) {
                 case me.c_MetricUnits.cm:
                     return parseFloat((value/10.).toFixed(4));
                 case me.c_MetricUnits.pt:
                     return parseFloat((value * 72.0 / 25.4).toFixed(3));
+                case me.c_MetricUnits.inch:
+                    return parseFloat((value / 25.4).toFixed(3));
             }
             return value;
         }

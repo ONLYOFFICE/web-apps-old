@@ -1,3 +1,27 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is freeware. You can redistribute it and/or modify it under the terms of the GNU 
+ * General Public License (GPL) version 3 as published by the Free Software Foundation (https://www.gnu.org/copyleft/gpl.html).
+ * In accordance with Section 7(a) of the GNU GPL its Section 15 shall be amended to the effect that 
+ * Ascensio System SIA expressly excludes the warranty of non-infringement of any third-party rights.
+ *
+ * THIS PROGRAM IS DISTRIBUTED WITHOUT ANY WARRANTY; WITHOUT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY OR
+ * FITNESS FOR A PARTICULAR PURPOSE. For more details, see GNU GPL at https://www.gnu.org/copyleft/gpl.html
+ *
+ * You can contact Ascensio System SIA by email at sales@onlyoffice.com
+ *
+ * The interactive user interfaces in modified source and object code versions of ONLYOFFICE must display 
+ * Appropriate Legal Notices, as required under Section 5 of the GNU GPL version 3.
+ *
+ * Pursuant to Section 7  3(b) of the GNU GPL you must retain the original ONLYOFFICE logo which contains 
+ * relevant author attributions when distributing the software. If the display of the logo in its graphic 
+ * form is not reasonably feasible for technical reasons, you must include the words "Powered by ONLYOFFICE" 
+ * in every copy of the program you distribute.
+ * Pursuant to Section 7  3(e) we decline to grant you any rights under trademark law for use of our trademarks.
+ *
+*/
 /**
  *  TableOptionsDialog.js
  *
@@ -41,7 +65,7 @@ define([
             ].join('');
 
             this.options.tpl = _.template(this.template, this.options);
-            this.checkRangeType = c_oAscSelectionDialogType.FormatTable;
+            this.checkRangeType = Asc.c_oAscSelectionDialogType.FormatTable;
 
             Common.UI.Window.prototype.initialize.call(this, this.options);
         },
@@ -86,31 +110,31 @@ define([
                 if (settings.range) {
                     me.cbTitle.setVisible(false);
                     me.setHeight(130);
-                    me.checkRangeType = c_oAscSelectionDialogType.FormatTableChangeRange;
+                    me.checkRangeType = Asc.c_oAscSelectionDialogType.FormatTableChangeRange;
                     me.inputRange.setValue(settings.range);
-                    me.api.asc_setSelectionDialogMode(c_oAscSelectionDialogType.FormatTable, settings.range);
+                    me.api.asc_setSelectionDialogMode(Asc.c_oAscSelectionDialogType.FormatTable, settings.range);
                 } else {
                     var options = me.api.asc_getAddFormatTableOptions();
                     me.inputRange.setValue(options.asc_getRange());
                     me.cbTitle.setValue(options.asc_getIsTitle());
-                    me.api.asc_setSelectionDialogMode(c_oAscSelectionDialogType.FormatTable, options.asc_getRange());
+                    me.api.asc_setSelectionDialogMode(Asc.c_oAscSelectionDialogType.FormatTable, options.asc_getRange());
                 }
                 if (settings.title)
                     me.setTitle(settings.title);
 
                 me.api.asc_unregisterCallback('asc_onSelectionRangeChanged', _.bind(me.onApiRangeChanged, me));
                 me.api.asc_registerCallback('asc_onSelectionRangeChanged', _.bind(me.onApiRangeChanged, me));
-                Common.NotificationCenter.trigger('cells:range', c_oAscSelectionDialogType.FormatTable);
+                Common.NotificationCenter.trigger('cells:range', Asc.c_oAscSelectionDialogType.FormatTable);
             }
 
             me.inputRange.validation = function(value) {
                 var isvalid = me.api.asc_checkDataRange(me.checkRangeType, value, false);
-                return (isvalid==c_oAscError.ID.DataRangeError) ? me.txtInvalidRange : true;
+                return (isvalid==Asc.c_oAscError.ID.DataRangeError) ? me.txtInvalidRange : true;
             };
         },
 
         getSettings: function () {
-            if (this.checkRangeType == c_oAscSelectionDialogType.FormatTable) {
+            if (this.checkRangeType == Asc.c_oAscSelectionDialogType.FormatTable) {
                 var options = this.api.asc_getAddFormatTableOptions(this.inputRange.getValue());
                 options.asc_setIsTitle(this.cbTitle.checked);
                 return options;
@@ -126,10 +150,10 @@ define([
 
         isRangeValid: function() {
             var isvalid = this.api.asc_checkDataRange(this.checkRangeType, this.inputRange.getValue(), true);
-            if (isvalid == c_oAscError.ID.No)
+            if (isvalid == Asc.c_oAscError.ID.No)
                 return true;
             else {
-                if (isvalid == c_oAscError.ID.AutoFilterDataRangeError) {
+                if (isvalid == Asc.c_oAscError.ID.AutoFilterDataRangeError) {
                     Common.UI.warning({msg: this.errorAutoFilterDataRange});
                 }
             }
@@ -142,9 +166,9 @@ define([
 
         onClose: function(event) {
             if (this.api)
-                this.api.asc_setSelectionDialogMode(c_oAscSelectionDialogType.None);
+                this.api.asc_setSelectionDialogMode(Asc.c_oAscSelectionDialogType.None);
 
-            Common.NotificationCenter.trigger('cells:range', c_oAscSelectionDialogType.None);
+            Common.NotificationCenter.trigger('cells:range', Asc.c_oAscSelectionDialogType.None);
             Common.NotificationCenter.trigger('edit:complete', this);
         },
 

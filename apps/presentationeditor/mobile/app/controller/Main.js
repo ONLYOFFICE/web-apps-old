@@ -1,3 +1,27 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is freeware. You can redistribute it and/or modify it under the terms of the GNU 
+ * General Public License (GPL) version 3 as published by the Free Software Foundation (https://www.gnu.org/copyleft/gpl.html).
+ * In accordance with Section 7(a) of the GNU GPL its Section 15 shall be amended to the effect that 
+ * Ascensio System SIA expressly excludes the warranty of non-infringement of any third-party rights.
+ *
+ * THIS PROGRAM IS DISTRIBUTED WITHOUT ANY WARRANTY; WITHOUT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY OR
+ * FITNESS FOR A PARTICULAR PURPOSE. For more details, see GNU GPL at https://www.gnu.org/copyleft/gpl.html
+ *
+ * You can contact Ascensio System SIA by email at sales@onlyoffice.com
+ *
+ * The interactive user interfaces in modified source and object code versions of ONLYOFFICE must display 
+ * Appropriate Legal Notices, as required under Section 5 of the GNU GPL version 3.
+ *
+ * Pursuant to Section 7  3(b) of the GNU GPL you must retain the original ONLYOFFICE logo which contains 
+ * relevant author attributions when distributing the software. If the display of the logo in its graphic 
+ * form is not reasonably feasible for technical reasons, you must include the words "Powered by ONLYOFFICE" 
+ * in every copy of the program you distribute.
+ * Pursuant to Section 7  3(e) we decline to grant you any rights under trademark law for use of our trademarks.
+ *
+*/
 Ext.define('PE.controller.Main', {
     extend: 'Ext.app.Controller',
     editMode: false,
@@ -28,7 +52,7 @@ Ext.define('PE.controller.Main', {
             app = this.getApplication(),
             profile = app.getCurrentProfile();
 
-        api = new asc_docs_api("id-sdkeditor");
+        api = new Asc.asc_docs_api("id-sdkeditor");
         api.SetMobileVersion(true);
         api.CreateComponents();
         api.asc_SetFontsPath("../../../../sdkjs/fonts/");
@@ -140,11 +164,11 @@ Ext.define('PE.controller.Main', {
         var text = '';
 
         switch (id) {
-            case c_oAscAsyncAction['Print']:
+            case Asc.c_oAscAsyncAction['Print']:
                 text = this.printText;
         }
 
-        if (type == c_oAscAsyncActionType['BlockInteraction']) {
+        if (type == Asc.c_oAscAsyncActionType['BlockInteraction']) {
             Ext.Viewport.setMasked({
                 xtype   : 'loadmask',
                 message : text
@@ -166,55 +190,55 @@ Ext.define('PE.controller.Main', {
 
         switch (id)
         {
-            case c_oAscError.ID.Unknown:
+            case Asc.c_oAscError.ID.Unknown:
                 config.message = this.unknownErrorText;
                 break;
 
-            case c_oAscError.ID.ConvertationTimeout:
+            case Asc.c_oAscError.ID.ConvertationTimeout:
                 config.message = this.convertationTimeoutText;
                 break;
 
-            case c_oAscError.ID.ConvertationError:
+            case Asc.c_oAscError.ID.ConvertationError:
                 config.message = this.convertationErrorText;
                 break;
 
-            case c_oAscError.ID.DownloadError:
+            case Asc.c_oAscError.ID.DownloadError:
                 config.message = this.downloadErrorText;
                 break;
 
-            case c_oAscError.ID.UplImageSize:
+            case Asc.c_oAscError.ID.UplImageSize:
                 config.message = this.uploadImageSizeMessage;
                 break;
 
-            case c_oAscError.ID.UplImageExt:
+            case Asc.c_oAscError.ID.UplImageExt:
                 config.message = this.uploadImageExtMessage;
                 break;
 
-            case c_oAscError.ID.UplImageFileCount:
+            case Asc.c_oAscError.ID.UplImageFileCount:
                 config.message = this.uploadImageFileCountMessage;
                 break;
 
-            case c_oAscError.ID.SplitCellMaxRows:
+            case Asc.c_oAscError.ID.SplitCellMaxRows:
                 config.message = this.splitMaxRowsErrorText.replace('%1', errData.get_Value());
                 break;
 
-            case c_oAscError.ID.SplitCellMaxCols:
+            case Asc.c_oAscError.ID.SplitCellMaxCols:
                 config.message = this.splitMaxColsErrorText.replace('%1', errData.get_Value());
                 break;
 
-            case c_oAscError.ID.SplitCellRowsDivider:
+            case Asc.c_oAscError.ID.SplitCellRowsDivider:
                 config.message = this.splitDividerErrorText.replace('%1', errData.get_Value());
                 break;
 
-            case c_oAscError.ID.VKeyEncrypt:
+            case Asc.c_oAscError.ID.VKeyEncrypt:
                 config.msg = this.errorKeyEncrypt;
                 break;
 
-            case c_oAscError.ID.KeyExpire:
+            case Asc.c_oAscError.ID.KeyExpire:
                 config.msg = this.errorKeyExpire;
                 break;
 
-            case c_oAscError.ID.UserCountExceed:
+            case Asc.c_oAscError.ID.UserCountExceed:
                 config.msg = this.errorUsersExceed;
                 break;
 
@@ -225,7 +249,7 @@ Ext.define('PE.controller.Main', {
 
 
 
-        if (level == c_oAscError.Level.Critical) {
+        if (level == Asc.c_oAscError.Level.Critical) {
 
             // report only critical errors
             Common.Gateway.reportError(id, config.message);
@@ -273,7 +297,7 @@ Ext.define('PE.controller.Main', {
     },
 
     onDownloadAs: function() {
-       this.api.asc_DownloadAs(c_oAscFileType.PPTX, true);
+       this.api.asc_DownloadAs(Asc.c_oAscFileType.PPTX, true);
     },
 
     _hideLoadSplash: function(){

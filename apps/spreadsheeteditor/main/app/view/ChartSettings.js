@@ -1,3 +1,27 @@
+/*
+ *
+ * (c) Copyright Ascensio System Limited 2010-2016
+ *
+ * This program is freeware. You can redistribute it and/or modify it under the terms of the GNU 
+ * General Public License (GPL) version 3 as published by the Free Software Foundation (https://www.gnu.org/copyleft/gpl.html).
+ * In accordance with Section 7(a) of the GNU GPL its Section 15 shall be amended to the effect that 
+ * Ascensio System SIA expressly excludes the warranty of non-infringement of any third-party rights.
+ *
+ * THIS PROGRAM IS DISTRIBUTED WITHOUT ANY WARRANTY; WITHOUT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY OR
+ * FITNESS FOR A PARTICULAR PURPOSE. For more details, see GNU GPL at https://www.gnu.org/copyleft/gpl.html
+ *
+ * You can contact Ascensio System SIA by email at sales@onlyoffice.com
+ *
+ * The interactive user interfaces in modified source and object code versions of ONLYOFFICE must display 
+ * Appropriate Legal Notices, as required under Section 5 of the GNU GPL version 3.
+ *
+ * Pursuant to Section 7  3(b) of the GNU GPL you must retain the original ONLYOFFICE logo which contains 
+ * relevant author attributions when distributing the software. If the display of the logo in its graphic 
+ * form is not reasonably feasible for technical reasons, you must include the words "Powered by ONLYOFFICE" 
+ * in every copy of the program you distribute.
+ * Pursuant to Section 7  3(e) we decline to grant you any rights under trademark law for use of our trademarks.
+ *
+*/
 /**
  *  ChartSettings.js
  *
@@ -78,31 +102,31 @@ define([
                         { id: 'menu-chart-group-stock',   caption: me.textStock }
                     ]),
                     store: new Common.UI.DataViewStore([
-                        { group: 'menu-chart-group-bar',     type: c_oAscChartTypeSettings.barNormal,          iconCls: 'column-normal', selected: true},
-                        { group: 'menu-chart-group-bar',     type: c_oAscChartTypeSettings.barStacked,         iconCls: 'column-stack'},
-                        { group: 'menu-chart-group-bar',     type: c_oAscChartTypeSettings.barStackedPer,      iconCls: 'column-pstack'},
-                        { group: 'menu-chart-group-bar',     type: c_oAscChartTypeSettings.barNormal3d,        iconCls: 'column-3d-normal'},
-                        { group: 'menu-chart-group-bar',     type: c_oAscChartTypeSettings.barStacked3d,       iconCls: 'column-3d-stack'},
-                        { group: 'menu-chart-group-bar',     type: c_oAscChartTypeSettings.barStackedPer3d,    iconCls: 'column-3d-pstack'},
-                        { group: 'menu-chart-group-bar',     type: c_oAscChartTypeSettings.barNormal3dPerspective,    iconCls: 'column-3d-normal-per'},
-                        { group: 'menu-chart-group-line',    type: c_oAscChartTypeSettings.lineNormal,         iconCls: 'line-normal'},
-                        { group: 'menu-chart-group-line',    type: c_oAscChartTypeSettings.lineStacked,        iconCls: 'line-stack'},
-                        { group: 'menu-chart-group-line',    type: c_oAscChartTypeSettings.lineStackedPer,     iconCls: 'line-pstack'},
-                        { group: 'menu-chart-group-line',    type: c_oAscChartTypeSettings.line3d,             iconCls: 'line-3d'},
-                        { group: 'menu-chart-group-pie',     type: c_oAscChartTypeSettings.pie,                iconCls: 'pie-normal'},
-                        { group: 'menu-chart-group-pie',     type: c_oAscChartTypeSettings.doughnut,           iconCls: 'pie-doughnut'},
-                        { group: 'menu-chart-group-pie',     type: c_oAscChartTypeSettings.pie3d,              iconCls: 'pie-3d-normal'},
-                        { group: 'menu-chart-group-hbar',    type: c_oAscChartTypeSettings.hBarNormal,         iconCls: 'bar-normal'},
-                        { group: 'menu-chart-group-hbar',    type: c_oAscChartTypeSettings.hBarStacked,        iconCls: 'bar-stack'},
-                        { group: 'menu-chart-group-hbar',    type: c_oAscChartTypeSettings.hBarStackedPer,     iconCls: 'bar-pstack'},
-                        { group: 'menu-chart-group-hbar',    type: c_oAscChartTypeSettings.hBarNormal3d,       iconCls: 'bar-3d-normal'},
-                        { group: 'menu-chart-group-hbar',    type: c_oAscChartTypeSettings.hBarStacked3d,      iconCls: 'bar-3d-stack'},
-                        { group: 'menu-chart-group-hbar',    type: c_oAscChartTypeSettings.hBarStackedPer3d,   iconCls: 'bar-3d-pstack'},
-                        { group: 'menu-chart-group-area',    type: c_oAscChartTypeSettings.areaNormal,         iconCls: 'area-normal'},
-                        { group: 'menu-chart-group-area',    type: c_oAscChartTypeSettings.areaStacked,        iconCls: 'area-stack'},
-                        { group: 'menu-chart-group-area',    type: c_oAscChartTypeSettings.areaStackedPer,     iconCls: 'area-pstack'},
-                        { group: 'menu-chart-group-scatter', type: c_oAscChartTypeSettings.scatter,            iconCls: 'point-normal'},
-                        { group: 'menu-chart-group-stock',   type: c_oAscChartTypeSettings.stock,              iconCls: 'stock-normal'}
+                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal,          iconCls: 'column-normal', selected: true},
+                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStacked,         iconCls: 'column-stack'},
+                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStackedPer,      iconCls: 'column-pstack'},
+                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal3d,        iconCls: 'column-3d-normal'},
+                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStacked3d,       iconCls: 'column-3d-stack'},
+                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barStackedPer3d,    iconCls: 'column-3d-pstack'},
+                        { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal3dPerspective,    iconCls: 'column-3d-normal-per'},
+                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineNormal,         iconCls: 'line-normal'},
+                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineStacked,        iconCls: 'line-stack'},
+                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.lineStackedPer,     iconCls: 'line-pstack'},
+                        { group: 'menu-chart-group-line',    type: Asc.c_oAscChartTypeSettings.line3d,             iconCls: 'line-3d'},
+                        { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.pie,                iconCls: 'pie-normal'},
+                        { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.doughnut,           iconCls: 'pie-doughnut'},
+                        { group: 'menu-chart-group-pie',     type: Asc.c_oAscChartTypeSettings.pie3d,              iconCls: 'pie-3d-normal'},
+                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarNormal,         iconCls: 'bar-normal'},
+                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStacked,        iconCls: 'bar-stack'},
+                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStackedPer,     iconCls: 'bar-pstack'},
+                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarNormal3d,       iconCls: 'bar-3d-normal'},
+                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStacked3d,      iconCls: 'bar-3d-stack'},
+                        { group: 'menu-chart-group-hbar',    type: Asc.c_oAscChartTypeSettings.hBarStackedPer3d,   iconCls: 'bar-3d-pstack'},
+                        { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaNormal,         iconCls: 'area-normal'},
+                        { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStacked,        iconCls: 'area-stack'},
+                        { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStackedPer,     iconCls: 'area-pstack'},
+                        { group: 'menu-chart-group-scatter', type: Asc.c_oAscChartTypeSettings.scatter,            iconCls: 'point-normal'},
+                        { group: 'menu-chart-group-stock',   type: Asc.c_oAscChartTypeSettings.stock,              iconCls: 'stock-normal'}
                     ]),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
                 });
@@ -290,7 +314,7 @@ define([
                 for (var i=0; i<this.spinners.length; i++) {
                     var spinner = this.spinners[i];
                     spinner.setDefaultUnit(Common.Utils.Metric.metricName[Common.Utils.Metric.getCurrentMetric()]);
-                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.cm ? 0.1 : 1);
+                    spinner.setStep(Common.Utils.Metric.getCurrentMetric()==Common.Utils.Metric.c_MetricUnits.pt ? 1 : 0.1);
                 }
             }
         },
