@@ -569,7 +569,7 @@ define([
                 case Asc.c_oAscFill.FILL_TYPE_SOLID:
                     this._state.FillType = Asc.c_oAscFill.FILL_TYPE_SOLID;
                     if (!this._noApply) {
-                        var props = new CAscSlideProps();
+                        var props = new Asc.CAscSlideProps();
                         var fill = new CAscFill();
                         fill.put_type(Asc.c_oAscFill.FILL_TYPE_SOLID);
                         fill.put_fill( new CAscFillSolid());
@@ -581,7 +581,7 @@ define([
                 case Asc.c_oAscFill.FILL_TYPE_GRAD:
                     this._state.FillType = Asc.c_oAscFill.FILL_TYPE_GRAD;
                     if (!this._noApply) {
-                        var props = new CAscSlideProps();
+                        var props = new Asc.CAscSlideProps();
                         var fill = new CAscFill();
                         fill.put_type(Asc.c_oAscFill.FILL_TYPE_GRAD);
                         fill.put_fill( new CAscFillGrad());
@@ -613,7 +613,7 @@ define([
                 case Asc.c_oAscFill.FILL_TYPE_PATT:
                     this._state.FillType = Asc.c_oAscFill.FILL_TYPE_PATT;
                     if (!this._noApply) {
-                        var props = new CAscSlideProps();
+                        var props = new Asc.CAscSlideProps();
                         var fill = new CAscFill();
                         fill.put_type(Asc.c_oAscFill.FILL_TYPE_PATT);
                         fill.put_fill( new CAscFillHatch());
@@ -637,7 +637,7 @@ define([
                 case Asc.c_oAscFill.FILL_TYPE_NOFILL:
                     this._state.FillType = Asc.c_oAscFill.FILL_TYPE_NOFILL;
                     if (!this._noApply) {
-                        var props = new CAscSlideProps();
+                        var props = new Asc.CAscSlideProps();
                         var fill = new CAscFill();
                         fill.put_type(Asc.c_oAscFill.FILL_TYPE_NOFILL);
                         fill.put_fill(null);
@@ -654,7 +654,7 @@ define([
             this.SlideColor = {Value: 1, Color: color};
 
             if (this.api && !this._noApply) {
-                var props = new CAscSlideProps();
+                var props = new Asc.CAscSlideProps();
                 var fill = new CAscFill();
 
                 if (this.SlideColor.Color=='transparent') {
@@ -679,7 +679,7 @@ define([
         onPatternSelect: function(combo, record){
             if (this.api && !this._noApply) {
                 this.PatternFillType = record.get('type');
-                var props = new CAscSlideProps();
+                var props = new Asc.CAscSlideProps();
                 var fill = new CAscFill();
                 fill.put_type(Asc.c_oAscFill.FILL_TYPE_PATT);
                 fill.put_fill( new CAscFillHatch());
@@ -698,7 +698,7 @@ define([
             this.btnFGColor.setColor(color);
             this.FGColor = {Value: 1, Color: color};
             if (this.api && !this._noApply) {
-                var props = new CAscSlideProps();
+                var props = new Asc.CAscSlideProps();
                 var fill = new CAscFill();
                 fill.put_type(Asc.c_oAscFill.FILL_TYPE_PATT);
                 fill.put_fill( new CAscFillHatch());
@@ -717,7 +717,7 @@ define([
             this.btnBGColor.setColor(color);
             this.BGColor = {Value: 1, Color: color};
             if (this.api && !this._noApply) {
-                var props = new CAscSlideProps();
+                var props = new Asc.CAscSlideProps();
                 var fill = new CAscFill();
                 fill.put_type(Asc.c_oAscFill.FILL_TYPE_PATT);
                 fill.put_fill( new CAscFillHatch());
@@ -736,7 +736,7 @@ define([
             this.BlipFillType = record.value;
 
             if (this.api && this._fromTextureCmb !== true && this.OriginalFillType == Asc.c_oAscFill.FILL_TYPE_BLIP) {
-                var props = new CAscSlideProps();
+                var props = new Asc.CAscSlideProps();
                 var fill = new CAscFill();
                 fill.put_type(Asc.c_oAscFill.FILL_TYPE_BLIP);
                 fill.put_fill( new CAscFillBlip());
@@ -774,7 +774,7 @@ define([
             }
 
             if (this.api && !this._noApply) {
-                var props = new CAscSlideProps();
+                var props = new Asc.CAscSlideProps();
                 var fill = new CAscFill();
                 fill.put_type(Asc.c_oAscFill.FILL_TYPE_GRAD);
                 fill.put_fill( new CAscFillGrad());
@@ -811,7 +811,7 @@ define([
             (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) ? this.GradLinearDirectionType = rawData.type : this.GradRadialDirectionIdx = 0;
             if (this.api) {
                 if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
-                    var props = new CAscSlideProps();
+                    var props = new Asc.CAscSlideProps();
                     var fill = new CAscFill();
                     fill.put_type(Asc.c_oAscFill.FILL_TYPE_GRAD);
                     fill.put_fill( new CAscFillGrad());
@@ -833,7 +833,7 @@ define([
             this.sldrGradient.setColorValue(Common.Utils.String.format('#{0}', (typeof(color) == 'object') ? color.color : color));
 
             if (this.api && !this._noApply) {
-                var props = new CAscSlideProps();
+                var props = new Asc.CAscSlideProps();
                 var fill = new CAscFill();
                 fill.put_type(Asc.c_oAscFill.FILL_TYPE_GRAD);
                 fill.put_fill( new CAscFillGrad());
@@ -875,7 +875,7 @@ define([
 
         _gradientApplyFunc: function() {
             if (this._sliderChanged) {
-                var props = new CAscSlideProps();
+                var props = new Asc.CAscSlideProps();
                 var fill = new CAscFill();
                 fill.put_type(Asc.c_oAscFill.FILL_TYPE_GRAD);
                 fill.put_fill( new CAscFillGrad());
@@ -904,7 +904,7 @@ define([
                             var checkUrl = value.replace(/ /g, '');
                             if (!_.isEmpty(checkUrl)) {
                                 if (me.BlipFillType !== null) {
-                                    var props = new CAscSlideProps();
+                                    var props = new Asc.CAscSlideProps();
                                     var fill = new CAscFill();
                                     fill.put_type(Asc.c_oAscFill.FILL_TYPE_BLIP);
                                     fill.put_fill( new CAscFillBlip());
@@ -988,7 +988,7 @@ define([
             this._fromTextureCmb = false;
 
             if (this.api) {
-                var props = new CAscSlideProps();
+                var props = new Asc.CAscSlideProps();
                 var fill = new CAscFill();
                 fill.put_type(Asc.c_oAscFill.FILL_TYPE_BLIP);
                 fill.put_fill( new CAscFillBlip());
@@ -1049,8 +1049,8 @@ define([
                 this.fillEffectTypeCombo(type);
             this.Effect = type;
             if (this.api && !this._noApply) {
-                var props = new CAscSlideProps();
-                var timing = new Asc.Asc.CAscSlideProps();
+                var props = new Asc.CAscSlideProps();
+                var timing = new Asc.CAscSlideTiming();
                 timing.put_TransitionType(type);
                 timing.put_TransitionOption(this.EffectType);
                 props.put_timing(timing);
@@ -1062,8 +1062,8 @@ define([
         onEffectTypeSelect: function(combo, record) {
             this.EffectType = record.value;
             if (this.api && !this._noApply) {
-                var props = new CAscSlideProps();
-                var timing = new Asc.Asc.CAscSlideProps();
+                var props = new Asc.CAscSlideProps();
+                var timing = new Asc.CAscSlideTiming();
                 timing.put_TransitionType(this.Effect);
                 timing.put_TransitionOption(this.EffectType);
                 props.put_timing(timing);
@@ -1074,8 +1074,8 @@ define([
 
         onDurationChange: function(field, newValue, oldValue, eOpts){
             if (this.api && !this._noApply)   {
-                var props = new CAscSlideProps();
-                var timing = new Asc.Asc.CAscSlideProps();
+                var props = new Asc.CAscSlideProps();
+                var timing = new Asc.CAscSlideTiming();
                 timing.put_TransitionDuration(field.getNumberValue()*1000);
                 props.put_timing(timing);
                 this.api.SetSlideProps(props);
@@ -1085,8 +1085,8 @@ define([
 
         onDelayChange: function(field, newValue, oldValue, eOpts){
             if (this.api && !this._noApply)   {
-                var props = new CAscSlideProps();
-                var timing = new Asc.Asc.CAscSlideProps();
+                var props = new Asc.CAscSlideProps();
+                var timing = new Asc.CAscSlideTiming();
                 timing.put_SlideAdvanceDuration(field.getNumberValue()*1000);
                 props.put_timing(timing);
                 this.api.SetSlideProps(props);
@@ -1096,8 +1096,8 @@ define([
 
         onStartOnClickChange: function(field, newValue, oldValue, eOpts){
             if (this.api && !this._noApply)   {
-                var props = new CAscSlideProps();
-                var timing = new Asc.Asc.CAscSlideProps();
+                var props = new Asc.CAscSlideProps();
+                var timing = new Asc.CAscSlideTiming();
                 timing.put_SlideAdvanceOnMouseClick(field.getValue()=='checked');
                 props.put_timing(timing);
                 this.api.SetSlideProps(props);
@@ -1108,8 +1108,8 @@ define([
         onCheckDelayChange: function(field, newValue, oldValue, eOpts){
             this.numDelay.setDisabled(field.getValue()!=='checked');
             if (this.api && !this._noApply)   {
-                var props = new CAscSlideProps();
-                var timing = new Asc.Asc.CAscSlideProps();
+                var props = new Asc.CAscSlideProps();
+                var timing = new Asc.CAscSlideTiming();
                 timing.put_SlideAdvanceAfter(field.getValue()=='checked');
                 props.put_timing(timing);
                 this.api.SetSlideProps(props);
