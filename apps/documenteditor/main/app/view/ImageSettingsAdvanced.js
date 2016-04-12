@@ -241,7 +241,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 }
                 if (this._changedProps) {
                     this._changedProps.put_Width(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
-                    this._changedProps.put_Height(Common.Utils.Metric.fnRecalcToMM(this.spnShapeHeight.getNumberValue()));
+                    this.fillShapeHeight();
                 }
             }, this));
             this.spinners.push(this.spnShapeWidth);
@@ -268,7 +268,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 }
                 if (this._changedProps) {
                     this._changedProps.put_Height(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
-                    this._changedProps.put_Width(Common.Utils.Metric.fnRecalcToMM(this.spnShapeWidth.getNumberValue()));
+                    this.fillShapeWidth();
                 }
             }, this));
             this.spinners.push(this.spnShapeHeight);
@@ -290,6 +290,8 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
 
                     this._changedProps.get_SizeRelH().put_Value(field.getNumberValue());
                     this._changedProps.get_SizeRelH().put_RelativeFrom(this._state.ShapeWidthPcFrom);
+
+                    this.fillShapeHeight();
                 }
             }, this));
 
@@ -310,6 +312,8 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
 
                     this._changedProps.get_SizeRelV().put_Value(field.getNumberValue());
                     this._changedProps.get_SizeRelV().put_RelativeFrom(this._state.ShapeHeightPcFrom);
+
+                    this.fillShapeWidth();
                 }
             }, this));
 
@@ -1764,6 +1768,8 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 if (this._changedProps) {
                     this._changedProps.put_Width(Common.Utils.Metric.fnRecalcToMM(this.spnShapeWidth.getNumberValue()));
                     this._changedProps.put_SizeRelH(undefined);
+
+                    this.fillShapeHeight();
                 }
                 this.chRatio.setDisabled(this.radioVSizePc.getValue());
                 this.cmbWidthPc.setDisabled(true);
@@ -1780,6 +1786,8 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
 
                     this._changedProps.get_SizeRelH().put_Value(this.spnShapeWidthPc.getNumberValue());
                     this._changedProps.get_SizeRelH().put_RelativeFrom(this._state.ShapeWidthPcFrom);
+
+                    this.fillShapeHeight();
                 }
                 this.chRatio.setDisabled(true);
                 this.cmbWidthPc.setDisabled(false);
@@ -1793,6 +1801,8 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 if (this._changedProps) {
                     this._changedProps.put_Height(Common.Utils.Metric.fnRecalcToMM(this.spnShapeHeight.getNumberValue()));
                     this._changedProps.put_SizeRelV(undefined);
+
+                    this.fillShapeWidth();
                 }
                 this.chRatio.setDisabled(this.radioHSizePc.getValue());
                 this.cmbHeightPc.setDisabled(true);
@@ -1809,6 +1819,8 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
 
                     this._changedProps.get_SizeRelV().put_Value(this.spnShapeHeightPc.getNumberValue());
                     this._changedProps.get_SizeRelV().put_RelativeFrom(this._state.ShapeHeightPcFrom);
+
+                    this.fillShapeWidth();
                 }
                 this.chRatio.setDisabled(true);
                 this.cmbHeightPc.setDisabled(false);
@@ -1825,6 +1837,8 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 this._state.ShapeWidthPcFrom = record.value;
                 this._changedProps.get_SizeRelH().put_Value(this.spnShapeWidthPc.getNumberValue());
                 this._changedProps.get_SizeRelH().put_RelativeFrom(this._state.ShapeWidthPcFrom);
+
+                this.fillShapeHeight();
             }
         },
 
@@ -1834,6 +1848,32 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                     this._changedProps.put_SizeRelV(new Asc.CImagePositionV());
 
                 this._state.ShapeHeightPcFrom = record.value;
+                this._changedProps.get_SizeRelV().put_Value(this.spnShapeHeightPc.getNumberValue());
+                this._changedProps.get_SizeRelV().put_RelativeFrom(this._state.ShapeHeightPcFrom);
+
+                this.fillShapeWidth();
+            }
+        },
+
+        fillShapeWidth: function(combo, record){
+            if (this.radioHSize.getValue())
+                this._changedProps.put_Width(Common.Utils.Metric.fnRecalcToMM(this.spnShapeWidth.getNumberValue()));
+            else {
+                if (this._changedProps.get_SizeRelH()===null || this._changedProps.get_SizeRelH()===undefined)
+                    this._changedProps.put_SizeRelH(new Asc.CImagePositionH());
+
+                this._changedProps.get_SizeRelH().put_Value(this.spnShapeWidthPc.getNumberValue());
+                this._changedProps.get_SizeRelH().put_RelativeFrom(this._state.ShapeWidthPcFrom);
+            }
+        },
+
+        fillShapeHeight: function(combo, record){
+            if (this.radioVSize.getValue())
+                this._changedProps.put_Height(Common.Utils.Metric.fnRecalcToMM(this.spnShapeHeight.getNumberValue()));
+            else {
+                if (this._changedProps.get_SizeRelV()===null || this._changedProps.get_SizeRelV()===undefined)
+                    this._changedProps.put_SizeRelV(new Asc.CImagePositionV());
+
                 this._changedProps.get_SizeRelV().put_Value(this.spnShapeHeightPc.getNumberValue());
                 this._changedProps.get_SizeRelV().put_RelativeFrom(this._state.ShapeHeightPcFrom);
             }
