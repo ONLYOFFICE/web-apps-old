@@ -156,7 +156,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
             this.spnMarginTop.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
                     if (this._changedProps.get_paddings()===null || this._changedProps.get_paddings()===undefined)
-                        this._changedProps.put_paddings(new CPaddings());
+                        this._changedProps.put_paddings(new Asc.asc_CPaddings());
                     this._changedProps.get_paddings().put_Top(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                 }
             }, this));
@@ -174,7 +174,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
             this.spnMarginBottom.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
                     if (this._changedProps.get_paddings()===null || this._changedProps.get_paddings()===undefined)
-                        this._changedProps.put_paddings(new CPaddings());
+                        this._changedProps.put_paddings(new Asc.asc_CPaddings());
                     this._changedProps.get_paddings().put_Bottom(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                 }
             }, this));
@@ -192,7 +192,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
             this.spnMarginLeft.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
                     if (this._changedProps.get_paddings()===null || this._changedProps.get_paddings()===undefined)
-                        this._changedProps.put_paddings(new CPaddings());
+                        this._changedProps.put_paddings(new Asc.asc_CPaddings());
                     this._changedProps.get_paddings().put_Left(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                 }
             }, this));
@@ -210,7 +210,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
             this.spnMarginRight.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
                     if (this._changedProps.get_paddings()===null || this._changedProps.get_paddings()===undefined)
-                        this._changedProps.put_paddings(new CPaddings());
+                        this._changedProps.put_paddings(new Asc.asc_CPaddings());
                     this._changedProps.get_paddings().put_Right(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                 }
             }, this));
@@ -234,7 +234,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
             this.cmbCapType.on('selected', _.bind(function(combo, record){
                 if (this._changedProps) {
                     if (this._changedProps.get_stroke()===null)
-                        this._changedProps.put_stroke(new CAscStroke());
+                        this._changedProps.put_stroke(new Asc.asc_CStroke());
 
                     this._changedProps.get_stroke().put_linecap(record.value);
                 }
@@ -256,7 +256,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
             this.cmbJoinType.on('selected', _.bind(function(combo, record){
                 if (this._changedProps) {
                     if (this._changedProps.get_stroke()===null)
-                        this._changedProps.put_stroke(new CAscStroke());
+                        this._changedProps.put_stroke(new Asc.asc_CStroke());
 
                     this._changedProps.get_stroke().put_linejoin(record.value);
                 }
@@ -434,7 +434,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
                 }
                 this.btnsCategory[2].setDisabled(null === margins);   // Margins
 
-                this._changedProps = new CAscShapeProp();
+                this._changedProps = new Asc.asc_CShapeProperty();
             }
         },
 
@@ -560,7 +560,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
         onSelectBeginStyle: function(picker, view, record){
             if (this._changedProps) {
                 if (this._changedProps.get_stroke()===null)
-                    this._changedProps.put_stroke(new CAscStroke());
+                    this._changedProps.put_stroke(new Asc.asc_CStroke());
 
                 this._changedProps.get_stroke().put_linebeginstyle(record.get('type'));
             }
@@ -573,7 +573,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
         onSelectBeginSize: function(picker, view, record){
             if (this._changedProps) {
                 if (this._changedProps.get_stroke()===null)
-                    this._changedProps.put_stroke(new CAscStroke());
+                    this._changedProps.put_stroke(new Asc.asc_CStroke());
 
                 this._changedProps.get_stroke().put_linebeginsize(record.get('type'));
             }
@@ -584,7 +584,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
         onSelectEndStyle: function(picker, view, record){
             if (this._changedProps) {
                 if (this._changedProps.get_stroke()===null)
-                    this._changedProps.put_stroke(new CAscStroke());
+                    this._changedProps.put_stroke(new Asc.asc_CStroke());
 
                 this._changedProps.get_stroke().put_lineendstyle(record.get('type'));
             }
@@ -597,7 +597,7 @@ define([    'text!presentationeditor/main/app/template/ShapeSettingsAdvanced.tem
         onSelectEndSize: function(picker, view, record){
             if (this._changedProps) {
                 if (this._changedProps.get_stroke()===null)
-                    this._changedProps.put_stroke(new CAscStroke());
+                    this._changedProps.put_stroke(new Asc.asc_CStroke());
 
                 this._changedProps.get_stroke().put_lineendsize(record.get('type'));
             }

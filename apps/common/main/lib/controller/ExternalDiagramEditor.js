@@ -42,6 +42,7 @@ define([
     Common.Controllers.ExternalDiagramEditor = Backbone.Controller.extend(_.extend((function() {
         var appLang         = 'en',
             customization   = undefined,
+            targetApp       = '',
             externalEditor  = null;
 
 
@@ -59,6 +60,7 @@ define([
                 },
                 editorConfig: {
                     mode            : 'editdiagram',
+                    targetApp       : targetApp,
                     lang            : appLang,
                     canCoAuthoring  : false,
                     canBackToFolder : false,
@@ -140,6 +142,7 @@ define([
                 if (data && data.config) {
                     if (data.config.lang) appLang = data.config.lang;
                     if (data.config.customization) customization = data.config.customization;
+                    if (data.config.targetApp) targetApp = data.config.targetApp;
                 }
             },
 
