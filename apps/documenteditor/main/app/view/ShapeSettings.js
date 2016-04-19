@@ -611,10 +611,10 @@ define([
                 case Asc.c_oAscFill.FILL_TYPE_SOLID:
                     this._state.FillType = Asc.c_oAscFill.FILL_TYPE_SOLID;
                     if (!this._noApply) {
-                        var props = new CAscShapeProp();
-                        var fill = new CAscFill();
+                        var props = new Asc.asc_CShapeProperty();
+                        var fill = new Asc.asc_CShapeFill();
                         fill.put_type(Asc.c_oAscFill.FILL_TYPE_SOLID);
-                        fill.put_fill( new CAscFillSolid());
+                        fill.put_fill( new Asc.asc_CFillSolid());
                         fill.get_fill().put_color(Common.Utils.ThemeColor.getRgbColor((this.ShapeColor.Color=='transparent') ? {color: '4f81bd', effectId: 24} : this.ShapeColor.Color));
                         props.put_fill(fill);
                         this.imgprops.put_ShapeProperties(props);
@@ -624,10 +624,10 @@ define([
                 case Asc.c_oAscFill.FILL_TYPE_GRAD:
                     this._state.FillType = Asc.c_oAscFill.FILL_TYPE_GRAD;
                     if (!this._noApply) {
-                        var props = new CAscShapeProp();
-                        var fill = new CAscFill();
+                        var props = new Asc.asc_CShapeProperty();
+                        var fill = new Asc.asc_CShapeFill();
                         fill.put_type(Asc.c_oAscFill.FILL_TYPE_GRAD);
-                        fill.put_fill( new CAscFillGrad());
+                        fill.put_fill( new Asc.asc_CFillGrad());
                         fill.get_fill().put_grad_type(this.GradFillType);
                         if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
                             fill.get_fill().put_linear_angle(this.GradLinearDirectionType * 60000);
@@ -657,10 +657,10 @@ define([
                 case Asc.c_oAscFill.FILL_TYPE_PATT:
                     this._state.FillType = Asc.c_oAscFill.FILL_TYPE_PATT;
                     if (!this._noApply) {
-                        var props = new CAscShapeProp();
-                        var fill = new CAscFill();
+                        var props = new Asc.asc_CShapeProperty();
+                        var fill = new Asc.asc_CShapeFill();
                         fill.put_type(Asc.c_oAscFill.FILL_TYPE_PATT);
-                        fill.put_fill( new CAscFillHatch());
+                        fill.put_fill( new Asc.asc_CFillHatch());
                         fill.get_fill().put_pattern_type(this.PatternFillType);
 
                         var fHexColor = Common.Utils.ThemeColor.getRgbColor(this.FGColor.Color).get_color().get_hex();
@@ -682,8 +682,8 @@ define([
                 case Asc.c_oAscFill.FILL_TYPE_NOFILL:
                     this._state.FillType = Asc.c_oAscFill.FILL_TYPE_NOFILL;
                     if (!this._noApply) {
-                        var props = new CAscShapeProp();
-                        var fill = new CAscFill();
+                        var props = new Asc.asc_CShapeProperty();
+                        var fill = new Asc.asc_CShapeFill();
                         fill.put_type(Asc.c_oAscFill.FILL_TYPE_NOFILL);
                         fill.put_fill(null);
                         props.put_fill(fill);
@@ -700,15 +700,15 @@ define([
             this.ShapeColor = {Value: 1, Color: color};
 
             if (this.api && !this._noApply) {
-                var props = new CAscShapeProp();
-                var fill = new CAscFill();
+                var props = new Asc.asc_CShapeProperty();
+                var fill = new Asc.asc_CShapeFill();
 
                 if (this.ShapeColor.Color=='transparent') {
                     fill.put_type(Asc.c_oAscFill.FILL_TYPE_NOFILL);
                     fill.put_fill(null);
                 } else {
                     fill.put_type(Asc.c_oAscFill.FILL_TYPE_SOLID);
-                    fill.put_fill( new CAscFillSolid());
+                    fill.put_fill( new Asc.asc_CFillSolid());
                     fill.get_fill().put_color(Common.Utils.ThemeColor.getRgbColor(this.ShapeColor.Color));
                 }
 
@@ -726,10 +726,10 @@ define([
         onPatternSelect: function(combo, record){
             if (this.api && !this._noApply) {
                 this.PatternFillType = record.get('type');
-                var props = new CAscShapeProp();
-                var fill = new CAscFill();
+                var props = new Asc.asc_CShapeProperty();
+                var fill = new Asc.asc_CShapeFill();
                 fill.put_type(Asc.c_oAscFill.FILL_TYPE_PATT);
-                fill.put_fill( new CAscFillHatch());
+                fill.put_fill( new Asc.asc_CFillHatch());
                 fill.get_fill().put_pattern_type(this.PatternFillType);
                 if (this.OriginalFillType !== Asc.c_oAscFill.FILL_TYPE_PATT) {
                     fill.get_fill().put_color_fg(Common.Utils.ThemeColor.getRgbColor(this.FGColor.Color));
@@ -746,10 +746,10 @@ define([
             this.btnFGColor.setColor(color);
             this.FGColor = {Value: 1, Color: color};
             if (this.api && !this._noApply) {
-                var props = new CAscShapeProp();
-                var fill = new CAscFill();
+                var props = new Asc.asc_CShapeProperty();
+                var fill = new Asc.asc_CShapeFill();
                 fill.put_type(Asc.c_oAscFill.FILL_TYPE_PATT);
-                fill.put_fill( new CAscFillHatch());
+                fill.put_fill( new Asc.asc_CFillHatch());
                 fill.get_fill().put_color_fg(Common.Utils.ThemeColor.getRgbColor(this.FGColor.Color));
                 if (this.OriginalFillType !== Asc.c_oAscFill.FILL_TYPE_PATT) {
                     fill.get_fill().put_pattern_type(this.PatternFillType);
@@ -766,10 +766,10 @@ define([
             this.btnBGColor.setColor(color);
             this.BGColor = {Value: 1, Color: color};
             if (this.api && !this._noApply) {
-                var props = new CAscShapeProp();
-                var fill = new CAscFill();
+                var props = new Asc.asc_CShapeProperty();
+                var fill = new Asc.asc_CShapeFill();
                 fill.put_type(Asc.c_oAscFill.FILL_TYPE_PATT);
-                fill.put_fill( new CAscFillHatch());
+                fill.put_fill( new Asc.asc_CFillHatch());
                 if (this.OriginalFillType !== Asc.c_oAscFill.FILL_TYPE_PATT) {
                     fill.get_fill().put_pattern_type(this.PatternFillType);
                     fill.get_fill().put_color_fg(Common.Utils.ThemeColor.getRgbColor(this.FGColor.Color));
@@ -786,10 +786,10 @@ define([
             this.BlipFillType = record.value;
 
             if (this.api && this._fromTextureCmb !== true && this.OriginalFillType == Asc.c_oAscFill.FILL_TYPE_BLIP) {
-                var props = new CAscShapeProp();
-                var fill = new CAscFill();
+                var props = new Asc.asc_CShapeProperty();
+                var fill = new Asc.asc_CShapeFill();
                 fill.put_type(Asc.c_oAscFill.FILL_TYPE_BLIP);
-                fill.put_fill( new CAscFillBlip());
+                fill.put_fill( new Asc.asc_CFillBlip());
 
                 fill.get_fill().put_type(this.BlipFillType);
 
@@ -804,8 +804,8 @@ define([
             this.sldrTransparency.setValue(field.getNumberValue(), true);
             if (this.api)  {
                 var num = field.getNumberValue();
-                var props = new CAscShapeProp();
-                var fill = new CAscFill();
+                var props = new Asc.asc_CShapeProperty();
+                var fill = new Asc.asc_CShapeFill();
                 fill.put_transparent(num * 2.55);
                 props.put_fill(fill);
                 this.imgprops.put_ShapeProperties(props);
@@ -835,8 +835,8 @@ define([
 
          _transparencyApplyFunc: function() {
             if (this._sliderChanged!==undefined) {
-                var props = new CAscShapeProp();
-                var fill = new CAscFill();
+                var props = new Asc.asc_CShapeProperty();
+                var fill = new Asc.asc_CShapeFill();
                 fill.put_transparent(this._sliderChanged * 2.55);
                 props.put_fill(fill);
                 this.imgprops.put_ShapeProperties(props);
@@ -870,10 +870,10 @@ define([
             }
 
             if (this.api && !this._noApply) {
-                var props = new CAscShapeProp();
-                var fill = new CAscFill();
+                var props = new Asc.asc_CShapeProperty();
+                var fill = new Asc.asc_CShapeFill();
                 fill.put_type(Asc.c_oAscFill.FILL_TYPE_GRAD);
-                fill.put_fill( new CAscFillGrad());
+                fill.put_fill( new Asc.asc_CFillGrad());
                 fill.get_fill().put_grad_type(this.GradFillType);
                 if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
                     fill.get_fill().put_linear_angle(this.GradLinearDirectionType * 60000);
@@ -908,10 +908,10 @@ define([
             (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) ? this.GradLinearDirectionType = rawData.type : this.GradRadialDirectionIdx = 0;
             if (this.api) {
                 if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
-                    var props = new CAscShapeProp();
-                    var fill = new CAscFill();
+                    var props = new Asc.asc_CShapeProperty();
+                    var fill = new Asc.asc_CShapeFill();
                     fill.put_type(Asc.c_oAscFill.FILL_TYPE_GRAD);
-                    fill.put_fill( new CAscFillGrad());
+                    fill.put_fill( new Asc.asc_CFillGrad());
                     fill.get_fill().put_grad_type(this.GradFillType);
                     fill.get_fill().put_linear_angle(rawData.type * 60000);
                     fill.get_fill().put_linear_scale(true);
@@ -931,10 +931,10 @@ define([
             this.sldrGradient.setColorValue(Common.Utils.String.format('#{0}', (typeof(color) == 'object') ? color.color : color));
 
             if (this.api && !this._noApply) {
-                var props = new CAscShapeProp();
-                var fill = new CAscFill();
+                var props = new Asc.asc_CShapeProperty();
+                var fill = new Asc.asc_CShapeFill();
                 fill.put_type(Asc.c_oAscFill.FILL_TYPE_GRAD);
-                fill.put_fill( new CAscFillGrad());
+                fill.put_fill( new Asc.asc_CFillGrad());
                 fill.get_fill().put_grad_type(this.GradFillType);
                 fill.get_fill().put_colors([Common.Utils.ThemeColor.getRgbColor(this.GradColor.colors[0]), Common.Utils.ThemeColor.getRgbColor(this.GradColor.colors[1])]);
 
@@ -974,10 +974,10 @@ define([
 
         _gradientApplyFunc: function() {
             if (this._sliderChanged) {
-                var props = new CAscShapeProp();
-                var fill = new CAscFill();
+                var props = new Asc.asc_CShapeProperty();
+                var fill = new Asc.asc_CShapeFill();
                 fill.put_type(Asc.c_oAscFill.FILL_TYPE_GRAD);
-                fill.put_fill( new CAscFillGrad());
+                fill.put_fill( new Asc.asc_CFillGrad());
                 fill.get_fill().put_grad_type(this.GradFillType);
                 fill.get_fill().put_positions([this.GradColor.values[0]*1000, this.GradColor.values[1]*1000]);
 
@@ -1001,8 +1001,8 @@ define([
 
             this.BorderSize = value;
             if (this.api && !this._noApply) {
-                var props = new CAscShapeProp();
-                var stroke = new CAscStroke();
+                var props = new Asc.asc_CShapeProperty();
+                var stroke = new Asc.asc_CStroke();
                 if (this.BorderSize<0.01) {
                     stroke.put_type( Asc.c_oAscStrokeType.STROKE_NONE);
                     this._state.StrokeType = this._state.StrokeWidth = -1;
@@ -1052,8 +1052,8 @@ define([
             this.btnBorderColor.setColor(color);
             this.BorderColor = {Value: 1, Color: color};
             if (this.api && this.BorderSize>0 && !this._noApply) {
-                var props = new CAscShapeProp();
-                var stroke = new CAscStroke();
+                var props = new Asc.asc_CShapeProperty();
+                var stroke = new Asc.asc_CStroke();
                 if (this.BorderSize<0.01) {
                     stroke.put_type( Asc.c_oAscStrokeType.STROKE_NONE);
                 } else {
@@ -1100,7 +1100,7 @@ define([
             this.btnWrapType.setIconCls('item-wrap ' + rawData.iconcls);
 
             if (this.api) {
-                var props = new CImgProperty();
+                var props = new Asc.asc_CImgProperty();
                 props.put_WrappingStyle((rawData.data));
 
                 if (this._state.WrappingStyle===Asc.c_oAscWrapStyle2.Inline && rawData.data!==Asc.c_oAscWrapStyle2.Inline ) {
@@ -1132,10 +1132,10 @@ define([
                             var checkUrl = value.replace(/ /g, '');
                             if (!_.isEmpty(checkUrl)) {
                                 if (me.BlipFillType !== null) {
-                                    var props = new CAscShapeProp();
-                                    var fill = new CAscFill();
+                                    var props = new Asc.asc_CShapeProperty();
+                                    var fill = new Asc.asc_CShapeFill();
                                     fill.put_type(Asc.c_oAscFill.FILL_TYPE_BLIP);
-                                    fill.put_fill( new CAscFillBlip());
+                                    fill.put_fill( new Asc.asc_CFillBlip());
                                     fill.get_fill().put_type(me.BlipFillType);
                                     fill.get_fill().put_url(checkUrl);
 
@@ -1186,7 +1186,7 @@ define([
 
         ChangeSettings: function(props) {
             if (this.imgprops==null)
-                this.imgprops = new CImgProperty();
+                this.imgprops = new Asc.asc_CImgProperty();
             else
                 this.imgprops.put_ImageUrl(null);
 
@@ -1198,7 +1198,7 @@ define([
             {
                 var shapeprops = props.get_ShapeProperties(),
                     shapetype = shapeprops.asc_getType();
-                this._originalProps = new CImgProperty(props);
+                this._originalProps = new Asc.asc_CImgProperty(props);
 
                 this._noApply = true;
 
@@ -1651,10 +1651,10 @@ define([
             this._fromTextureCmb = false;
 
             if (this.api) {
-                var props = new CAscShapeProp();
-                var fill = new CAscFill();
+                var props = new Asc.asc_CShapeProperty();
+                var fill = new Asc.asc_CShapeFill();
                 fill.put_type(Asc.c_oAscFill.FILL_TYPE_BLIP);
-                fill.put_fill( new CAscFillBlip());
+                fill.put_fill( new Asc.asc_CFillBlip());
                 fill.get_fill().put_type(Asc.c_oAscFillBlipType.TILE);
                 fill.get_fill().put_texture_id(record.get('type'));
                 props.put_fill(fill);
