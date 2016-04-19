@@ -157,7 +157,7 @@ define([
                     Common.UI.warning({msg: this.errorAutoFilterDataRange});
                 } else if (isvalid == Asc.c_oAscError.ID.FTChangeTableRangeError) {
                     Common.UI.warning({msg: this.errorFTChangeTableRangeError});
-                } if (isvalid == Asc.c_oAscError.ID.FTRangeIncludedOtherTables) {
+                } else if (isvalid == Asc.c_oAscError.ID.FTRangeIncludedOtherTables) {
                     Common.UI.warning({msg: this.errorFTRangeIncludedOtherTables});
                 }
             }
