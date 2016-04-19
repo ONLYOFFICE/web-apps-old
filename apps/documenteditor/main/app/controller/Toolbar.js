@@ -1521,7 +1521,7 @@ define([
                             var pr = SelectedObjects[i].get_ObjectValue();
                             var value = pr.get_FramePr();
                             if (!_.isUndefined(value)) {
-                                value = new CParagraphFrame();
+                                value = new Asc.asc_CParagraphFrame();
                                 value.put_FromDropCapMenu(true);
                                 value.put_DropCap(item.value);
                                 this.api.put_FramePr(value);
@@ -1979,7 +1979,7 @@ define([
         onAutoFontColor: function(e) {
             this._state.clrtext = this._state.clrtext_asccolor = undefined;
 
-            var color = new CAscColor();
+            var color = new Asc.asc_CColor();
             color.put_auto(true);
             this.api.put_TextColor(color);
 

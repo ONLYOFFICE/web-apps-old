@@ -1689,7 +1689,7 @@ define([
                 menu        : (function(){
                     function onItemClick(item, e) {
                         if (me.api) {
-                            var properties = new CImgProperty();
+                            var properties = new Asc.asc_CImgProperty();
                             if (!_.isUndefined(item.options.halign)) {
                                 properties.put_PositionH(new Asc.CImagePositionH());
                                 properties.get_PositionH().put_UseAlign(true);
@@ -1749,7 +1749,7 @@ define([
                 iconCls : 'mnu-arrange-group'
             }).on('click', function(item, e) {
                 if (me.api) {
-                    var properties = new CImgProperty();
+                    var properties = new Asc.asc_CImgProperty();
                     properties.put_Group(1);
                     me.api.ImgApply(properties);
                 }
@@ -1761,7 +1761,7 @@ define([
                 caption : this.txtUngroup
             }).on('click', function(item, e) {
                 if (me.api) {
-                    var properties = new CImgProperty();
+                    var properties = new Asc.asc_CImgProperty();
                     properties.put_Group(-1);
                     me.api.ImgApply(properties);
                 }
@@ -1773,7 +1773,7 @@ define([
                 menu    : (function(){
                     function onItemClick(item, e) {
                         if (me.api) {
-                            var properties = new CImgProperty();
+                            var properties = new Asc.asc_CImgProperty();
                             properties.put_ChangeLevel(item.options.valign);
                             me.api.ImgApply(properties);
                         }
@@ -1827,7 +1827,7 @@ define([
                 menu    : (function(){
                     function onItemClick(item, e) {
                         if (me.api) {
-                            var properties = new CImgProperty();
+                            var properties = new Asc.asc_CImgProperty();
                             properties.put_WrappingStyle(item.options.wrapType);
 
                             if (me.menuImageWrap._originalProps.get_WrappingStyle() === Asc.c_oAscWrapStyle2.Inline && item.wrapType !== Asc.c_oAscWrapStyle2.Inline ) {
@@ -1968,7 +1968,7 @@ define([
                 if (me.api){
                     var originalImageSize = me.api.get_OriginalSizeImage();
 
-                    var properties = new CImgProperty();
+                    var properties = new Asc.asc_CImgProperty();
                     properties.put_Width(originalImageSize.get_ImageWidth());
                     properties.put_Height(originalImageSize.get_ImageHeight());
 
@@ -2682,7 +2682,7 @@ define([
 
             var paragraphVAlign = function(item, e) {
                 if (me.api) {
-                    var properties = new CImgProperty();
+                    var properties = new Asc.asc_CImgProperty();
                     properties.put_VerticalTextAlign(item.options.valign);
                     me.api.ImgApply(properties);
                 }
@@ -2720,7 +2720,7 @@ define([
 
             var paragraphDirection = function(item, e) {
                 if (me.api) {
-                    var properties = new CImgProperty();
+                    var properties = new Asc.asc_CImgProperty();
                     properties.put_Vert(item.options.direction);
                     me.api.ImgApply(properties);
                 }

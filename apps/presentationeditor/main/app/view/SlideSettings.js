@@ -570,9 +570,9 @@ define([
                     this._state.FillType = Asc.c_oAscFill.FILL_TYPE_SOLID;
                     if (!this._noApply) {
                         var props = new Asc.CAscSlideProps();
-                        var fill = new CAscFill();
+                        var fill = new Asc.asc_CShapeFill();
                         fill.put_type(Asc.c_oAscFill.FILL_TYPE_SOLID);
-                        fill.put_fill( new CAscFillSolid());
+                        fill.put_fill( new Asc.asc_CFillSolid());
                         fill.get_fill().put_color(Common.Utils.ThemeColor.getRgbColor((this.SlideColor.Color=='transparent') ? {color: '4f81bd', effectId: 24} : this.SlideColor.Color));
                         props.put_background(fill);
                         this.api.SetSlideProps(props);
@@ -582,9 +582,9 @@ define([
                     this._state.FillType = Asc.c_oAscFill.FILL_TYPE_GRAD;
                     if (!this._noApply) {
                         var props = new Asc.CAscSlideProps();
-                        var fill = new CAscFill();
+                        var fill = new Asc.asc_CShapeFill();
                         fill.put_type(Asc.c_oAscFill.FILL_TYPE_GRAD);
-                        fill.put_fill( new CAscFillGrad());
+                        fill.put_fill( new Asc.asc_CFillGrad());
                         fill.get_fill().put_grad_type(this.GradFillType);
                         if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
                             fill.get_fill().put_linear_angle(this.GradLinearDirectionType * 60000);
@@ -614,9 +614,9 @@ define([
                     this._state.FillType = Asc.c_oAscFill.FILL_TYPE_PATT;
                     if (!this._noApply) {
                         var props = new Asc.CAscSlideProps();
-                        var fill = new CAscFill();
+                        var fill = new Asc.asc_CShapeFill();
                         fill.put_type(Asc.c_oAscFill.FILL_TYPE_PATT);
-                        fill.put_fill( new CAscFillHatch());
+                        fill.put_fill( new Asc.asc_CFillHatch());
                         fill.get_fill().put_pattern_type(this.PatternFillType);
 
                         var fHexColor = Common.Utils.ThemeColor.getRgbColor(this.FGColor.Color).get_color().get_hex();
@@ -638,7 +638,7 @@ define([
                     this._state.FillType = Asc.c_oAscFill.FILL_TYPE_NOFILL;
                     if (!this._noApply) {
                         var props = new Asc.CAscSlideProps();
-                        var fill = new CAscFill();
+                        var fill = new Asc.asc_CShapeFill();
                         fill.put_type(Asc.c_oAscFill.FILL_TYPE_NOFILL);
                         fill.put_fill(null);
                         props.put_background(fill);
@@ -655,14 +655,14 @@ define([
 
             if (this.api && !this._noApply) {
                 var props = new Asc.CAscSlideProps();
-                var fill = new CAscFill();
+                var fill = new Asc.asc_CShapeFill();
 
                 if (this.SlideColor.Color=='transparent') {
                     fill.put_type(Asc.c_oAscFill.FILL_TYPE_NOFILL);
                     fill.put_fill(null);
                 } else {
                     fill.put_type(Asc.c_oAscFill.FILL_TYPE_SOLID);
-                    fill.put_fill( new CAscFillSolid());
+                    fill.put_fill( new Asc.asc_CFillSolid());
                     fill.get_fill().put_color(Common.Utils.ThemeColor.getRgbColor(this.SlideColor.Color));
                 }
 
@@ -680,9 +680,9 @@ define([
             if (this.api && !this._noApply) {
                 this.PatternFillType = record.get('type');
                 var props = new Asc.CAscSlideProps();
-                var fill = new CAscFill();
+                var fill = new Asc.asc_CShapeFill();
                 fill.put_type(Asc.c_oAscFill.FILL_TYPE_PATT);
-                fill.put_fill( new CAscFillHatch());
+                fill.put_fill( new Asc.asc_CFillHatch());
                 fill.get_fill().put_pattern_type(this.PatternFillType);
                 if (this.OriginalFillType !== Asc.c_oAscFill.FILL_TYPE_PATT) {
                     fill.get_fill().put_color_fg(Common.Utils.ThemeColor.getRgbColor(this.FGColor.Color));
@@ -699,9 +699,9 @@ define([
             this.FGColor = {Value: 1, Color: color};
             if (this.api && !this._noApply) {
                 var props = new Asc.CAscSlideProps();
-                var fill = new CAscFill();
+                var fill = new Asc.asc_CShapeFill();
                 fill.put_type(Asc.c_oAscFill.FILL_TYPE_PATT);
-                fill.put_fill( new CAscFillHatch());
+                fill.put_fill( new Asc.asc_CFillHatch());
                 fill.get_fill().put_color_fg(Common.Utils.ThemeColor.getRgbColor(this.FGColor.Color));
                 if (this.OriginalFillType !== Asc.c_oAscFill.FILL_TYPE_PATT) {
                     fill.get_fill().put_pattern_type(this.PatternFillType);
@@ -718,9 +718,9 @@ define([
             this.BGColor = {Value: 1, Color: color};
             if (this.api && !this._noApply) {
                 var props = new Asc.CAscSlideProps();
-                var fill = new CAscFill();
+                var fill = new Asc.asc_CShapeFill();
                 fill.put_type(Asc.c_oAscFill.FILL_TYPE_PATT);
-                fill.put_fill( new CAscFillHatch());
+                fill.put_fill( new Asc.asc_CFillHatch());
                 if (this.OriginalFillType !== Asc.c_oAscFill.FILL_TYPE_PATT) {
                     fill.get_fill().put_pattern_type(this.PatternFillType);
                     fill.get_fill().put_color_fg(Common.Utils.ThemeColor.getRgbColor(this.FGColor.Color));
@@ -737,9 +737,9 @@ define([
 
             if (this.api && this._fromTextureCmb !== true && this.OriginalFillType == Asc.c_oAscFill.FILL_TYPE_BLIP) {
                 var props = new Asc.CAscSlideProps();
-                var fill = new CAscFill();
+                var fill = new Asc.asc_CShapeFill();
                 fill.put_type(Asc.c_oAscFill.FILL_TYPE_BLIP);
-                fill.put_fill( new CAscFillBlip());
+                fill.put_fill( new Asc.asc_CFillBlip());
 
                 fill.get_fill().put_type(this.BlipFillType);
 
@@ -775,9 +775,9 @@ define([
 
             if (this.api && !this._noApply) {
                 var props = new Asc.CAscSlideProps();
-                var fill = new CAscFill();
+                var fill = new Asc.asc_CShapeFill();
                 fill.put_type(Asc.c_oAscFill.FILL_TYPE_GRAD);
-                fill.put_fill( new CAscFillGrad());
+                fill.put_fill( new Asc.asc_CFillGrad());
                 fill.get_fill().put_grad_type(this.GradFillType);
                 if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
                     fill.get_fill().put_linear_angle(this.GradLinearDirectionType * 60000);
@@ -812,9 +812,9 @@ define([
             if (this.api) {
                 if (this.GradFillType == Asc.c_oAscFillGradType.GRAD_LINEAR) {
                     var props = new Asc.CAscSlideProps();
-                    var fill = new CAscFill();
+                    var fill = new Asc.asc_CShapeFill();
                     fill.put_type(Asc.c_oAscFill.FILL_TYPE_GRAD);
-                    fill.put_fill( new CAscFillGrad());
+                    fill.put_fill( new Asc.asc_CFillGrad());
                     fill.get_fill().put_grad_type(this.GradFillType);
                     fill.get_fill().put_linear_angle(rawData.type * 60000);
                     fill.get_fill().put_linear_scale(true);
@@ -834,9 +834,9 @@ define([
 
             if (this.api && !this._noApply) {
                 var props = new Asc.CAscSlideProps();
-                var fill = new CAscFill();
+                var fill = new Asc.asc_CShapeFill();
                 fill.put_type(Asc.c_oAscFill.FILL_TYPE_GRAD);
-                fill.put_fill( new CAscFillGrad());
+                fill.put_fill( new Asc.asc_CFillGrad());
                 fill.get_fill().put_grad_type(this.GradFillType);
                 fill.get_fill().put_colors([Common.Utils.ThemeColor.getRgbColor(this.GradColor.colors[0]), Common.Utils.ThemeColor.getRgbColor(this.GradColor.colors[1])]);
 
@@ -876,9 +876,9 @@ define([
         _gradientApplyFunc: function() {
             if (this._sliderChanged) {
                 var props = new Asc.CAscSlideProps();
-                var fill = new CAscFill();
+                var fill = new Asc.asc_CShapeFill();
                 fill.put_type(Asc.c_oAscFill.FILL_TYPE_GRAD);
-                fill.put_fill( new CAscFillGrad());
+                fill.put_fill( new Asc.asc_CFillGrad());
                 fill.get_fill().put_grad_type(this.GradFillType);
                 fill.get_fill().put_positions([this.GradColor.values[0]*1000, this.GradColor.values[1]*1000]);
 
@@ -905,9 +905,9 @@ define([
                             if (!_.isEmpty(checkUrl)) {
                                 if (me.BlipFillType !== null) {
                                     var props = new Asc.CAscSlideProps();
-                                    var fill = new CAscFill();
+                                    var fill = new Asc.asc_CShapeFill();
                                     fill.put_type(Asc.c_oAscFill.FILL_TYPE_BLIP);
-                                    fill.put_fill( new CAscFillBlip());
+                                    fill.put_fill( new Asc.asc_CFillBlip());
                                     fill.get_fill().put_type(me.BlipFillType);
                                     fill.get_fill().put_url(checkUrl);
 
@@ -989,9 +989,9 @@ define([
 
             if (this.api) {
                 var props = new Asc.CAscSlideProps();
-                var fill = new CAscFill();
+                var fill = new Asc.asc_CShapeFill();
                 fill.put_type(Asc.c_oAscFill.FILL_TYPE_BLIP);
-                fill.put_fill( new CAscFillBlip());
+                fill.put_fill( new Asc.asc_CFillBlip());
                 fill.get_fill().put_type(Asc.c_oAscFillBlipType.TILE);
                 fill.get_fill().put_texture_id(record.get('type'));
                 props.put_background(fill);

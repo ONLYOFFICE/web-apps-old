@@ -276,7 +276,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.spnTop.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
                     if (this._changedProps.get_Paddings()===null || this._changedProps.get_Paddings()===undefined)
-                        this._changedProps.put_Paddings(new CPaddings());
+                        this._changedProps.put_Paddings(new Asc.asc_CPaddings());
 
                     this._changedProps.get_Paddings().put_Top(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                 }
@@ -295,7 +295,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.spnBottom.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
                     if (this._changedProps.get_Paddings()===null || this._changedProps.get_Paddings()===undefined)
-                        this._changedProps.put_Paddings(new CPaddings());
+                        this._changedProps.put_Paddings(new Asc.asc_CPaddings());
 
                     this._changedProps.get_Paddings().put_Bottom(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                 }
@@ -314,7 +314,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.spnLeft.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
                     if (this._changedProps.get_Paddings()===null || this._changedProps.get_Paddings()===undefined)
-                        this._changedProps.put_Paddings(new CPaddings());
+                        this._changedProps.put_Paddings(new Asc.asc_CPaddings());
 
                     this._changedProps.get_Paddings().put_Left(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                 }
@@ -333,7 +333,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.spnRight.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
                     if (this._changedProps.get_Paddings()===null || this._changedProps.get_Paddings()===undefined)
-                        this._changedProps.put_Paddings(new CPaddings());
+                        this._changedProps.put_Paddings(new Asc.asc_CPaddings());
 
                     this._changedProps.get_Paddings().put_Right(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                 }
@@ -650,7 +650,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.spnMarginTop.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
                     if (this.Margins===undefined)
-                        this.Margins= new CPaddings();
+                        this.Margins= new Asc.asc_CPaddings();
                     this.Margins.put_Top(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                 }
             }, this));
@@ -668,7 +668,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.spnMarginBottom.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
                     if (this.Margins===undefined)
-                        this.Margins= new CPaddings();
+                        this.Margins= new Asc.asc_CPaddings();
                     this.Margins.put_Bottom(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                 }
             }, this));
@@ -686,7 +686,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.spnMarginLeft.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
                     if (this.Margins===undefined)
-                        this.Margins= new CPaddings();
+                        this.Margins= new Asc.asc_CPaddings();
                     this.Margins.put_Left(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                 }
             }, this));
@@ -704,7 +704,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.spnMarginRight.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 if (this._changedProps) {
                     if (this.Margins===undefined)
-                        this.Margins= new CPaddings();
+                        this.Margins= new Asc.asc_CPaddings();
                     this.Margins.put_Right(Common.Utils.Metric.fnRecalcToMM(field.getNumberValue()));
                 }
             }, this));
@@ -728,7 +728,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.cmbCapType.on('selected', _.bind(function(combo, record){
                 if (this._changedShapeProps) {
                     if (this._changedShapeProps.get_stroke()===null)
-                        this._changedShapeProps.put_stroke(new CAscStroke());
+                        this._changedShapeProps.put_stroke(new Asc.asc_CStroke());
 
                     this._changedShapeProps.get_stroke().put_linecap(record.value);
                 }
@@ -750,7 +750,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
             this.cmbJoinType.on('selected', _.bind(function(combo, record){
                 if (this._changedShapeProps) {
                     if (this._changedShapeProps.get_stroke()===null)
-                        this._changedShapeProps.put_stroke(new CAscStroke());
+                        this._changedShapeProps.put_stroke(new Asc.asc_CStroke());
 
                     this._changedShapeProps.get_stroke().put_linejoin(record.value);
                 }
@@ -1112,7 +1112,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                     this.btnRatio.toggle(true);
                 }
 
-                this._changedProps = new CImgProperty();
+                this._changedProps = new Asc.asc_CImgProperty();
             }
         },
 
@@ -1134,7 +1134,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                 properties.put_ShapeProperties(this._changedShapeProps);
                 if (this.Margins) {
                     if (properties.get_ShapeProperties()===null || properties.get_ShapeProperties()===undefined)
-                        properties.put_ShapeProperties(new CAscShapeProp);
+                        properties.put_ShapeProperties(new Asc.asc_CShapeProperty());
                     properties.get_ShapeProperties().put_paddings(this.Margins);
                 }
             }
@@ -1233,7 +1233,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
                     }
                 }
             }
-            this._changedShapeProps = new CAscShapeProp();
+            this._changedShapeProps = new Asc.asc_CShapeProperty();
         },
 
         updateMetricUnit: function() {
@@ -1561,7 +1561,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
         onSelectBeginStyle: function(picker, view, record, e){
             if (this._changedShapeProps) {
                 if (this._changedShapeProps.get_stroke()===null)
-                    this._changedShapeProps.put_stroke(new CAscStroke());
+                    this._changedShapeProps.put_stroke(new Asc.asc_CStroke());
 
                 this._changedShapeProps.get_stroke().put_linebeginstyle(record.get('type'));
             }
@@ -1574,7 +1574,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
         onSelectBeginSize: function(picker, view, record, e){
             if (this._changedShapeProps) {
                 if (this._changedShapeProps.get_stroke()===null)
-                    this._changedShapeProps.put_stroke(new CAscStroke());
+                    this._changedShapeProps.put_stroke(new Asc.asc_CStroke());
 
                 this._changedShapeProps.get_stroke().put_linebeginsize(record.get('type'));
             }
@@ -1585,7 +1585,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
         onSelectEndStyle: function(picker, view, record, e){
             if (this._changedShapeProps) {
                 if (this._changedShapeProps.get_stroke()===null)
-                    this._changedShapeProps.put_stroke(new CAscStroke());
+                    this._changedShapeProps.put_stroke(new Asc.asc_CStroke());
 
                 this._changedShapeProps.get_stroke().put_lineendstyle(record.get('type'));
             }
@@ -1598,7 +1598,7 @@ define([    'text!documenteditor/main/app/template/ImageSettingsAdvanced.templat
         onSelectEndSize: function(picker, view, record, e){
             if (this._changedShapeProps) {
                 if (this._changedShapeProps.get_stroke()===null)
-                    this._changedShapeProps.put_stroke(new CAscStroke());
+                    this._changedShapeProps.put_stroke(new Asc.asc_CStroke());
 
                 this._changedShapeProps.get_stroke().put_lineendsize(record.get('type'));
             }
