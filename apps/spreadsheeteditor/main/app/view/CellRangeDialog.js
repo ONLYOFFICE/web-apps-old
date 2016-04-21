@@ -134,6 +134,8 @@ define([
             if (this.api)
                 this.api.asc_setSelectionDialogMode(Asc.c_oAscSelectionDialogType.None);
             Common.NotificationCenter.trigger('cells:range', Asc.c_oAscSelectionDialogType.None);
+
+            SSE.getController('RightMenu').SetDisabled(false);
         },
 
         onKeyPress: function(event) {
@@ -152,6 +154,11 @@ define([
             }
 
             this.close();
+        },
+
+        show: function () {
+            Common.UI.Window.prototype.show.call(this);
+            SSE.getController('RightMenu').SetDisabled(true);
         },
 
         txtTitle   : 'Select Data Range',
