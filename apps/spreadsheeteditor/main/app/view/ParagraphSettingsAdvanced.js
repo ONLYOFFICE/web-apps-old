@@ -43,7 +43,8 @@ define([    'text!spreadsheeteditor/main/app/template/ParagraphSettingsAdvanced.
         options: {
             contentWidth: 320,
             height: 394,
-            toggleGroup: 'paragraph-adv-settings-group'
+            toggleGroup: 'paragraph-adv-settings-group',
+            storageName: 'sse-para-settings-adv-category'
         },
 
         initialize : function(options) {
@@ -361,6 +362,10 @@ define([    'text!spreadsheeteditor/main/app/template/ParagraphSettingsAdvanced.
         afterRender: function() {
             this.updateMetricUnit();
             this._setDefaults(this._originalProps);
+            if (this.storageName) {
+                var value = Common.localStorage.getItem(this.storageName);
+                this.setActiveCategory((value!==null) ? parseInt(value) : 0);
+            }
         },
 
         onStrikeChange: function(field, newValue, oldValue, eOpts){

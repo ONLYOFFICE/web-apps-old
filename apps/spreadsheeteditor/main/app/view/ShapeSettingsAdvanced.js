@@ -44,7 +44,8 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
             toggleGroup: 'shape-adv-settings-group',
             sizeOriginal: {width: 0, height: 0},
             sizeMax: {width: 55.88, height: 55.88},
-            properties: null
+            properties: null,
+            storageName: 'sse-shape-settings-adv-category'
         },
 
         initialize : function(options) {
@@ -428,6 +429,10 @@ define([    'text!spreadsheeteditor/main/app/template/ShapeSettingsAdvanced.temp
         afterRender: function() {
             this.updateMetricUnit();
             this._setDefaults(this._originalProps);
+            if (this.storageName) {
+                var value = Common.localStorage.getItem(this.storageName);
+                this.setActiveCategory((value!==null) ? parseInt(value) : 0);
+            }
         },
 
         _setDefaults: function(props) {
