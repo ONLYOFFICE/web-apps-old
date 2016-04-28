@@ -637,7 +637,7 @@ define([
 
                             var formulasDlgController = application.getController('FormulaDialog');
                             if (formulasDlgController) {
-                                formulasDlgController.setApi(me.api);
+                                formulasDlgController.setMode(me.appOptions).setApi(me.api);
                             }
                             if (me.needToUpdateVersion)
                                 toolbarController.onApiCoAuthoringDisconnect();
