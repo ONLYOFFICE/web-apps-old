@@ -55,11 +55,11 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             _.extend(this.options, {
                 title: this.textTitle,
                 items: [
-                    {panelId: 'id-adv-table-width',      panelCaption: this.textWidthSpaces},
-                    {panelId: 'id-adv-table-wrap',       panelCaption: this.textWrap},
+                    {panelId: 'id-adv-table-width',      panelCaption: this.textTable},
+                    {panelId: 'id-adv-table-cell-props', panelCaption: this.textCellProps},
                     {panelId: 'id-adv-table-borders',    panelCaption: this.textBordersBackgroung},
-                    {panelId: 'id-adv-table-position',   panelCaption: this.textPosition},
-                    {panelId: 'id-adv-table-cell-props', panelCaption: this.textCellProps}
+                    {panelId: 'id-adv-table-position',   panelCaption: this.textTablePosition},
+                    {panelId: 'id-adv-table-wrap',       panelCaption: this.textWrap}
                 ],
                 contentTemplate: _.template(contentTemplate)({
                     scope: this
@@ -135,7 +135,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.chWidth = new Common.UI.CheckBox({
                 el: $('#tableadv-checkbox-width'),
                 value: true,
-                labelText: this.textWidth
+                labelText: ''
             });
             this.chWidth.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 var value = (newValue=='checked');
@@ -152,7 +152,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.nfWidth = new Common.UI.MetricSpinner({
                 el: $('#tableadv-number-width'),
                 step: .1,
-                width: 85,
+                width: 115,
                 defaultUnit : "cm",
                 value: '10 cm',
                 maxValue: 55.88,
@@ -166,8 +166,8 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             var currmetric = Common.Utils.Metric.getCurrentMetric();
             this.cmbUnit = new Common.UI.ComboBox({
                 el          : $('#tableadv-cmb-unit'),
-                style       : 'width: 85px;',
-                menuStyle   : 'min-width: 85px;',
+                style       : 'width: 115px;',
+                menuStyle   : 'min-width: 115px;',
                 editable    : false,
                 cls         : 'input-group-nr',
                 data        : [
@@ -189,7 +189,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.chAllowSpacing = new Common.UI.CheckBox({
                 el: $('#tableadv-checkbox-spacing'),
                 value: true,
-                labelText: this.textAllowSpacing
+                labelText: ''
             });
             this.chAllowSpacing.on('change', _.bind(function(field, newValue, oldValue, eOpts){
                 var value = (newValue=='checked');
@@ -209,7 +209,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.nfSpacing = new Common.UI.MetricSpinner({
                 el: $('#tableadv-number-spacing'),
                 step: .1,
-                width: 85,
+                width: 115,
                 defaultUnit : "cm",
                 value: '0.5 cm',
                 maxValue: 2.14,
@@ -1057,7 +1057,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
             this.CellBackContainer = $('#tableadv-panel-cell-back');
             this.TableBackContainer = $('#tableadv-panel-table-back');
 
-            this.btnsCategory[4].on('click', _.bind(this.onCellCategoryClick, this));
+            this.btnsCategory[1].on('click', _.bind(this.onCellCategoryClick, this));
             this.afterRender();
         },
 
@@ -2098,7 +2098,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         },
 
         textWidth:          'Width',
-        textAllowSpacing:   'Allow spacing between cells',
+        textAllowSpacing:   'Spacing between cells',
         textAlign:          'Alignment',
         textIndLeft:        'Indent from Left',
         textWidthSpaces:    'Width & Spaces',
@@ -2116,7 +2116,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         textRightTooltip:   'Right',
         textCenterTooltip:  'Center',
         textTitle:          'Table - Advanced Settings',
-        textDefaultMargins: 'Default Margins',
+        textDefaultMargins: 'Default Cell Margins',
         textCheckMargins:   'Use default margins',
         textBordersBackgroung: 'Borders & Background',
         textOnlyCells:      'For selected cells only',
@@ -2146,7 +2146,7 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         textOptions: 'Options',
         textAnchorText: 'Text',
         textAutofit: 'Automatically resize to fit contents',
-        textCellProps: 'Cell Properties',
+        textCellProps: 'Cell',
         tipAll:             'Set Outer Border and All Inner Lines',
         tipNone:            'Set No Borders',
         tipInner:           'Set Inner Lines Only',
@@ -2165,7 +2165,10 @@ define([    'text!documenteditor/main/app/template/TableSettingsAdvanced.templat
         textPrefWidth: 'Preferred width',
         textMeasure: 'Measure in',
         textCellOptions: 'Cell Options',
-        textWrapText: 'Wrap text'
+        textWrapText: 'Wrap text',
+        textTable: 'Table',
+        textTableSize: 'Table Size',
+        textTablePosition: 'Table Position'
 
     }, DE.Views.TableSettingsAdvanced || {}));
 });
