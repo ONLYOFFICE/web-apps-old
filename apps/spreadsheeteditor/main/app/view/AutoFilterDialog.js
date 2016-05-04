@@ -251,7 +251,7 @@ define([
                     customFilters[1].asc_setVal(this.txtValue2.getValue());
                 }
 
-                this.api.asc_applyAutoFilter('digitalFilter', this.properties);
+                this.api.asc_applyAutoFilter(this.properties);
             }
         },
 
@@ -749,7 +749,7 @@ define([
             colorFilter.asc_setCellColor(isCellColor);
             colorFilter.asc_setCColor(Common.Utils.ThemeColor.getRgbColor(color));
 
-            this.api.asc_applyAutoFilter('colorFilter', this.configTo);
+            this.api.asc_applyAutoFilter(this.configTo);
 
             this.close();
         },
@@ -1074,7 +1074,7 @@ define([
                     });
                     isValid = true;
                 }
-                if (isValid) this.api.asc_applyAutoFilter('mainFilter', this.configTo);
+                if (isValid) this.api.asc_applyAutoFilter(this.configTo);
             }
         },
 
