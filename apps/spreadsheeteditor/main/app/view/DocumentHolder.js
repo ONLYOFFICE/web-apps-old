@@ -222,10 +222,10 @@ define([
                     items: [
                         {
                             caption : me.txtAscending,
-                            value   : 'ascending'
+                            value   : Asc.c_oAscSortOptions.Ascending
                         },{
                             caption : me.txtDescending,
-                            value   : 'descending'
+                            value   : Asc.c_oAscSortOptions.Descending
                         }
                     ]
                 })
