@@ -879,7 +879,7 @@ define([
             this.miSortFontColor.setVisible(hasColors);
             this.miFilterFontColor.setVisible(hasColors);
             if (hasColors) {
-                var colors = ['transparent'];
+                var colors = [];
                 colorsFont.forEach(function(item, index) {
                     colors.push(Common.Utils.ThemeColor.getHexColor(item.get_r(), item.get_g(), item.get_b()).toLocaleUpperCase());
                 });
@@ -896,10 +896,13 @@ define([
             this.miSortCellColor.setVisible(hasColors);
             this.miFilterCellColor.setVisible(hasColors);
             if (hasColors) {
-                var colors = ['transparent'];
+                var colors = [];
                 colorsFill.forEach(function(item, index) {
-                    colors.push(Common.Utils.ThemeColor.getHexColor(item.get_r(), item.get_g(), item.get_b()).toLocaleUpperCase());
-                });
+                    if (item)
+                        colors.push(Common.Utils.ThemeColor.getHexColor(item.get_r(), item.get_g(), item.get_b()).toLocaleUpperCase());
+                    else
+                        colors.push('transparent');
+                 });
                 this.mnuSortColorCellsPicker.updateColors(colors);
                 this.mnuFilterColorCellsPicker.updateColors(colors);
 
