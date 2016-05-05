@@ -53,7 +53,6 @@ Ext.define('DE.controller.Main', {
         api = new Asc.asc_docs_api("id-sdkeditor");
         api.SetMobileVersion(true);
         api.CreateComponents();
-        api.asc_SetFontsPath("../../../../sdkjs/fonts/");
         api.Init();
         api.initEvents2MobileAdvances();
 

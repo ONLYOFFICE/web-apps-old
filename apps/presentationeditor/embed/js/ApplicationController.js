@@ -708,7 +708,6 @@ var ApplicationController = new(function(){
 
         if (api){
             api.CreateComponents();
-            api.asc_SetFontsPath("../../../../sdkjs/fonts/");
             api.SetThemesPath("../../../../sdkjs/slide/themes/");
             api.Init();
 
