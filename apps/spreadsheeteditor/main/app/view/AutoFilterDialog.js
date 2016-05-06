@@ -927,6 +927,7 @@ define([
                 }
             }
 
+            this.miClear.setDisabled(this.initialFilterType === Asc.c_oAscAutoFilterTypes.None);
             this.btnOk.setDisabled(isCustomFilter);
         },
 
