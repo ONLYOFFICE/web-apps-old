@@ -279,8 +279,6 @@ define([
 
             this.api.asc_registerCallback('asc_onCountPages',           _.bind(this.onApiCountPages, this));
 
-            this.onApiPageSize(this.api.get_PresentationWidth(), this.api.get_PresentationHeight());
-
             this.onSetupCopyStyleButton();
         },
 
@@ -1749,6 +1747,7 @@ define([
         },
 
         activateControls: function() {
+            this.onApiPageSize(this.api.get_PresentationWidth(), this.api.get_PresentationHeight());
             this.toolbar.lockToolbar(PE.enumLock.disableOnStart, false, {array: this.toolbar.slideOnlyControls.concat(this.toolbar.shapeControls)});
             this._state.activated = true;
         },
