@@ -516,7 +516,7 @@ define([
                                         me.api.asc_registerCallback('asc_onFocusObject',        _.bind(me.onFocusObject, me));
                                         me.api.asc_registerCallback('asc_onUpdateLayout',       _.bind(me.fillLayoutsStore, me)); // slide layouts loading
                                         me.updateThemeColors();
-                                        var shapes = me.api.get_PropertyEditorShapes();
+                                        var shapes = me.api.asc_getPropertyEditorShapes();
                                         if (shapes)
                                             me.fillAutoShapes(shapes[0], shapes[1]);
                                         me.fillTextArt(me.api.asc_getTextArtPreviews());
@@ -641,7 +641,7 @@ define([
                             me.api.asc_registerCallback('asc_onFocusObject',        _.bind(me.onFocusObject, me));
                             me.api.asc_registerCallback('asc_onUpdateLayout',       _.bind(me.fillLayoutsStore, me)); // slide layouts loading
                             me.updateThemeColors();
-                            var shapes = me.api.get_PropertyEditorShapes();
+                            var shapes = me.api.asc_getPropertyEditorShapes();
                             if (shapes)
                                 me.fillAutoShapes(shapes[0], shapes[1]);
                             me.fillTextArt(me.api.asc_getTextArtPreviews());
