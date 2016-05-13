@@ -576,7 +576,6 @@ define([
                 menu        : new Common.UI.Menu({
                     menuAlign: 'tl-tr',
                     items: [
-                        {value: 0,                                                   caption: this.textNoFilter,    checkable: true},
                         {value: Asc.c_oAscCustomAutoFilter.equals,                   caption: this.txtEquals,       checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
                         {value: Asc.c_oAscCustomAutoFilter.doesNotEqual,             caption: this.txtNotEquals,    checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
                         {value: Asc.c_oAscCustomAutoFilter.isGreaterThan,            caption: this.txtGreater,      checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
@@ -592,8 +591,7 @@ define([
                 })
             });
             var items = this.miNumFilter.menu.items;
-            items[0].on('click', _.bind(this.onClear, this));
-            for (var i=1; i<items.length; i++) {
+            for (var i=0; i<items.length; i++) {
                 items[i].on('click', _.bind((items[i].options.type == Asc.c_oAscAutoFilterTypes.CustomFilters) ? this.onNumCustomFilterItemClick :
                                             ((items[i].options.type == Asc.c_oAscAutoFilterTypes.DynamicFilter) ? this.onNumDynamicFilterItemClick : this.onTop10FilterItemClick ), this));
             }
@@ -606,7 +604,6 @@ define([
                 menu        : new Common.UI.Menu({
                     menuAlign: 'tl-tr',
                     items: [
-                        {value: 0,                                                   caption: this.textNoFilter,    checkable: true},
                         {value: Asc.c_oAscCustomAutoFilter.equals,                   caption: this.txtEquals,       checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
                         {value: Asc.c_oAscCustomAutoFilter.doesNotEqual,             caption: this.txtNotEquals,    checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
                         {value: Asc.c_oAscCustomAutoFilter.beginsWith,               caption: this.txtBegins,       checkable: true, type: Asc.c_oAscAutoFilterTypes.CustomFilters},
@@ -867,10 +864,7 @@ define([
                 value2 = ((customFilters.length>1) ? (null === customFilters[1].asc_getVal() ? '' : customFilters[1].asc_getVal()) : '');
             }
 
-            if (item.value==0) {
-                this.onClear();
-                return;
-            } else if (item.value!==-1) {
+            if (item.value!==-1) {
                 var newCustomFilter = new Asc.CustomFilters();
                 newCustomFilter.asc_setCustomFilters([new Asc.CustomFilter()]);
 
@@ -1333,7 +1327,6 @@ define([
         txtNotEnds          : "Does not end with...",
         txtContains         : "Contains...",
         txtNotContains      : "Does not contain...",
-        textNoFilter        : "None",
         textSelectAllResults: 'Select All Search Results',
         textAddSelection    : 'Add current selection to filter'
 
