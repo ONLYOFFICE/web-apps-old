@@ -696,7 +696,9 @@ var ApplicationController = new(function(){
         });
 
         window["flat_desine"] = true;
-        api = new Asc.asc_docs_api("editor_sdk");
+        api = new Asc.asc_docs_api({
+            'id-view'  : 'editor_sdk'
+        });
 
         if (api){
             api.asc_registerCallback('asc_onError',                 onError);
