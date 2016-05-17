@@ -231,6 +231,29 @@ define([
                 })
             });
 
+            me.pmiFilterCells = new Common.UI.MenuItem({
+                caption     : me.txtFilter,
+                menu        : new Common.UI.Menu({
+                    menuAlign   : 'tl-tr',
+                    items: [
+                        {
+                            caption : me.txtFilterValue,
+                            value   : 0
+                        },{
+                            caption : me.txtFilterCellColor,
+                            value   : 1
+                        },{
+                            caption : me.txtFilterFontColor,
+                            value   : 2
+                        }
+                    ]
+                })
+            });
+            
+            me.pmiReapply = new Common.UI.MenuItem({
+                caption     : me.txtReapply
+            });
+
             me.pmiInsFunction = new Common.UI.MenuItem({
                 caption     : me.txtFormula
             });
@@ -311,7 +334,10 @@ define([
                     me.pmiDeleteCells,
                     me.pmiDeleteTable,
                     me.pmiClear,
+                    {caption: '--'},
                     me.pmiSortCells,
+                    me.pmiFilterCells,
+                    me.pmiReapply,
                     {caption: '--'},
                     me.pmiAddComment,
                     me.pmiCellMenuSeparator,
@@ -621,7 +647,12 @@ define([
         insertColumnRightText   : 'Insert Column Right',
         deleteRowText           : 'Delete Row',
         deleteColumnText        : 'Delete Column',
-        deleteTableText         : 'Delete Table'
+        deleteTableText         : 'Delete Table',
+        txtFilter: 'Filter',
+        txtFilterValue: 'Filter by Selected cell\'s value',
+        txtFilterCellColor: 'Filter by cell\'s color',
+        txtFilterFontColor: 'Filter by font color',
+        txtReapply: 'Reapply'
 
     }, SSE.Views.DocumentHolder || {}));
 });
