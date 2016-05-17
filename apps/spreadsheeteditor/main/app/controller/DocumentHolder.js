@@ -369,7 +369,7 @@ define([
         },
 
         onReapply: function() {
-            this.api.asc_applyAutoFilter(new Asc.AutoFiltersOptions());
+            this.api.asc_reapplyAutoFilter(this.documentHolder.ssMenu.formatTableName);
         },
 
         onClear: function(menu, item) {
