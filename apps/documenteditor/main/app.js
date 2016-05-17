@@ -153,6 +153,7 @@ require([
             ,'Common.Controllers.Chat'
             ,'Common.Controllers.Comments'
             /** coauthoring end **/
+            ,'Common.Controllers.Plugins'
             ,'Common.Controllers.ExternalDiagramEditor'
             ,'Common.Controllers.ExternalMergeEditor'
             ,'Common.Controllers.ReviewChanges'
@@ -183,6 +184,7 @@ require([
         ,'common/main/lib/controller/Comments'
         ,'common/main/lib/controller/Chat'
         /** coauthoring end **/
+        ,'common/main/lib/controller/Plugins'
         ,'documenteditor/main/app/view/ChartSettings'
         ,'common/main/lib/controller/ExternalDiagramEditor'
         ,'common/main/lib/controller/ExternalMergeEditor'
