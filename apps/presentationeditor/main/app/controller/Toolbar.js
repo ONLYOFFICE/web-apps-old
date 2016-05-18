@@ -61,6 +61,7 @@ define([
                 slidelayoutdisable:undefined,
                 shapecontrolsdisable:undefined,
                 no_paragraph: undefined,
+                no_text: undefined,
                 no_object: undefined,
                 clrtext: undefined,
                 linespace: undefined,
@@ -278,8 +279,6 @@ define([
             this.api.asc_registerCallback('asc_onInitEditorStyles',     _.bind(this.onApiInitEditorStyles, this));
 
             this.api.asc_registerCallback('asc_onCountPages',           _.bind(this.onApiCountPages, this));
-
-            this.onApiPageSize(this.api.get_PresentationWidth(), this.api.get_PresentationHeight());
 
             this.onSetupCopyStyleButton();
         },
@@ -554,6 +553,7 @@ define([
                 slide_deleted = undefined,
                 slide_layout_lock = undefined,
                 no_paragraph = true,
+                no_text = true,
                 no_object = true;
 
             while (++i < selectedObjects.length) {
@@ -562,6 +562,7 @@ define([
                 if (type == Asc.c_oAscTypeSelectElement.Paragraph) {
                     paragraph_locked = pr.get_Locked();
                     no_paragraph = false;
+                    no_text = false;
                     no_object = false;
                 } else if (type == Asc.c_oAscTypeSelectElement.Slide) {
                     slide_deleted = pr.get_LockDelete();
@@ -569,6 +570,9 @@ define([
                 } else if (type == Asc.c_oAscTypeSelectElement.Image || type == Asc.c_oAscTypeSelectElement.Shape || type == Asc.c_oAscTypeSelectElement.Chart || type == Asc.c_oAscTypeSelectElement.Table) {
                     shape_locked = pr.get_Locked();
                     no_object = false;
+                    if (type !== Asc.c_oAscTypeSelectElement.Image) {
+                        no_text = false;
+                    }
                 }
             }
 
@@ -583,9 +587,14 @@ define([
                 this.toolbar.lockToolbar(PE.enumLock.noParagraphSelected, no_paragraph, {array: [me.toolbar.btnCopyStyle]});
             }
 
+            if (this._state.no_text !== no_text) {
+                if (this._state.activated) this._state.no_text = no_text;
+                this.toolbar.lockToolbar(PE.enumLock.noTextSelected, no_text, {array: me.toolbar.paragraphControls});
+            }
+
             if (shape_locked!==undefined && this._state.shapecontrolsdisable !== shape_locked) {
                 if (this._state.activated) this._state.shapecontrolsdisable = shape_locked;
-                this.toolbar.lockToolbar(PE.enumLock.shapeLock, shape_locked, {array: me.toolbar.shapeControls});
+                this.toolbar.lockToolbar(PE.enumLock.shapeLock, shape_locked, {array: me.toolbar.shapeControls.concat(me.toolbar.paragraphControls)});
             }
 
             if (this._state.no_object !== no_object ) {
@@ -729,18 +738,23 @@ define([
         },
 
         onPreview: function(btn, e) {
-            var previewPanel = PE.getController('Viewport').getView('DocumentPreview');
-            if (previewPanel) {
+            var previewPanel = PE.getController('Viewport').getView('DocumentPreview'),
+                me = this;
+            if (previewPanel && me.api) {
                 previewPanel.show();
-                if (!this.toolbar.mode.isDesktopApp)
-                    this.fullScreen(document.documentElement);
+                var onWindowResize = function() {
+                    Common.NotificationCenter.off('window:resize', onWindowResize);
 
-                if (this.api) {
-                    var current = this.api.getCurrentPage();
-                    this.api.StartDemonstration('presentation-preview', _.isNumber(current) ? current : 0);
+                    var current = me.api.getCurrentPage();
+                    me.api.StartDemonstration('presentation-preview', _.isNumber(current) ? current : 0);
 
                     Common.component.Analytics.trackEvent('ToolBar', 'Preview');
-                }
+                };
+                if (!me.toolbar.mode.isDesktopApp) {
+                    Common.NotificationCenter.on('window:resize', onWindowResize);
+                    me.fullScreen(document.documentElement);
+                } else
+                    onWindowResize();
             }
         },
 
@@ -1744,6 +1758,7 @@ define([
         },
 
         activateControls: function() {
+            this.onApiPageSize(this.api.get_PresentationWidth(), this.api.get_PresentationHeight());
             this.toolbar.lockToolbar(PE.enumLock.disableOnStart, false, {array: this.toolbar.slideOnlyControls.concat(this.toolbar.shapeControls)});
             this._state.activated = true;
         },

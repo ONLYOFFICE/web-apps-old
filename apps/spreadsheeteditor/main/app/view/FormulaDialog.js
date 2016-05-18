@@ -48,7 +48,7 @@ define([
                 _options = {};
 
             _.extend(_options,  {
-                width           : 300,
+                width           : 310,
                 height          : 490,
                 contentWidth    : 390,
                 header          : true,
@@ -67,7 +67,8 @@ define([
 
                         '<label class="header" style="margin-top:10px">' + t.textListDescription + '</label>',
                         '<div id="formula-dlg-combo-functions" class="combo-functions"/>',
-                        '<label id="formula-dlg-args" style="margin-top: 10px">' + '</label>',
+                        '<label id="formula-dlg-args" style="margin-top: 7px">' + '</label>',
+                        '<label id="formula-dlg-desc" style="margin-top: 4px">' + '</label>',
 
                     '</div>',
                 '</div>',
@@ -93,6 +94,7 @@ define([
             this.$window.find('.dlg-btn').on('click', _.bind(this.onBtnClick, this));
 
             this.syntaxLabel = $('#formula-dlg-args');
+            this.descLabel = $('#formula-dlg-desc');
 
             this.translationTable = {};
 
@@ -193,6 +195,7 @@ define([
                         if (func) {
                             this.applyFunction = func.get('name');
                             this.syntaxLabel.text(this.applyFunction + func.get('args'));
+                            this.descLabel.text(func.get('desc'));
                         }
                     }
                 }
@@ -291,6 +294,7 @@ define([
                             this.applyFunction = functions[0].get('name');
 
                             this.syntaxLabel.text(this.applyFunction + functions[0].get('args'));
+                            this.descLabel.text(functions[0].get('desc'));
                             this.cmbListFunctions.scroller.update({
                                 minScrollbarLength  : 40,
                                 alwaysVisibleY      : true

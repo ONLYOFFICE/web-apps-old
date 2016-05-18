@@ -579,7 +579,6 @@ define([
             if (this.api) {
                 this.api.asc_setInterfaceDrawImagePlaceTextArt('textart-texture-img');
                 this.api.asc_registerCallback('asc_onInitStandartTextures', _.bind(this.onInitStandartTextures, this));
-                this.api.asc_registerCallback('asc_onInitEditorTextArts', _.bind(this.fillTransform, this));
             }
             return this;
         },
@@ -1496,6 +1495,7 @@ define([
             }
 
             this.UpdateThemeColors();
+            this.fillTransform(this.api.asc_getPropertyEditorTextArts());
         },
 
         onInitStandartTextures: function(texture) {
