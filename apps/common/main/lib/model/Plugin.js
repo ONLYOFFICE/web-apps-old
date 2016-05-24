@@ -65,6 +65,7 @@ define([
             return {
                 id: Common.UI.getId(),
                 name : '',
+                baseUrl : '',
                 guid: Common.UI.getId(),
                 variations: [],
                 currentVariation: 0,

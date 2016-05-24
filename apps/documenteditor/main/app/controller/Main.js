@@ -1722,6 +1722,7 @@ define([
                             arr.push(new Common.Models.Plugin({
                                 name : item.name,
                                 guid: item.guid,
+                                baseUrl : item.baseUrl,
                                 variations: variationsArr,
                                 currentVariation: 0
                             }));
