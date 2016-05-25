@@ -77,6 +77,7 @@ define([
             this.api = api;
             this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',_.bind(this.onCoAuthoringDisconnect, this));
             Common.NotificationCenter.on('api:disconnect',              _.bind(this.onCoAuthoringDisconnect, this));
+            Common.NotificationCenter.on('cells:range',                 _.bind(this.onCellsRange, this));
         },
 
         setMode: function(mode) {
@@ -95,6 +96,8 @@ define([
         },
 
         onSelectionChanged: function(info) {
+            if (this.rangeSelectionMode) return;
+            
             var SelectedObjects = [],
                 selectType = info.asc_getFlags().asc_getSelectionType(),
                 formatTableInfo = info.asc_getFormatTableInfo();
@@ -310,6 +313,10 @@ define([
                     this.onSelectionChanged(this.api.asc_getCellInfo());
                 }
             }
+        },
+
+        onCellsRange: function(status) {
+            this.rangeSelectionMode = (status != Asc.c_oAscSelectionDialogType.None);
         }
     });
 });
