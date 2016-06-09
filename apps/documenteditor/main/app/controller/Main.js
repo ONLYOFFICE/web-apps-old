@@ -1668,6 +1668,10 @@ define([
             },
 
             onPrintUrl: function(url) {
+                if (this.iframePrint) {
+                    this.iframePrint.parentNode.removeChild(this.iframePrint);
+                    this.iframePrint = null;
+                }
                 if (!this.iframePrint) {
                     var me = this;
                     this.iframePrint = document.createElement("iframe");
@@ -1681,6 +1685,8 @@ define([
                     this.iframePrint.onload = function() {
                         me.iframePrint.contentWindow.focus();
                         me.iframePrint.contentWindow.print();
+                        me.iframePrint.contentWindow.blur();
+                        window.focus();
                     };
                 }
                 if (url) this.iframePrint.src = url;
