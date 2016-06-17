@@ -50,12 +50,12 @@ define([
             }, options || {});
 
             this.template = [
-                '<div class="box" style="height: 95px;">',
+                '<div class="box" style="height: 148px;">',
                     '<div class="input-row">',
                         '<label class="text columns-text" style="font-weight: bold;">' + this.textSlideSize + '</label>',
                     '</div>',
                     '<div id="slide-size-combo" class="" style="margin-bottom: 10px;"></div>',
-                    '<table cols="2" style="width: 100%;margin-bottom: 10px;">',
+                    '<table cols="2" style="width: 100%;margin-bottom: 7px;">',
                         '<tr>',
                             '<td class="padding-small" style="padding-right: 10px;">',
                                 '<label class="input-label" style="font-weight: bold;">' + this.textWidth + '</label>',
@@ -67,6 +67,10 @@ define([
                             '</td>',
                         '</tr>',
                     '</table>',
+                    '<div class="input-row">',
+                        '<label class="text columns-text" style="font-weight: bold;">' + this.textSlideOrientation + '</label>',
+                    '</div>',
+                    '<div id="slide-orientation-combo" class="" style="margin-bottom: 10px;"></div>',
                 '</div>',
                 '<div class="separator horizontal"/>',
                 '<div class="footer center">',
@@ -114,8 +118,12 @@ define([
                 if (record.value<0) {
                     // set current slide size
                 } else {
-                    this.spnWidth.setValue(Common.Utils.Metric.fnRecalcFromMM(record.size[0]), true);
-                    this.spnHeight.setValue(Common.Utils.Metric.fnRecalcFromMM(record.size[1]), true);
+                    var w = record.size[0],
+                        h = record.size[1],
+                        orient = this.cmbSlideOrientation.getValue(),
+                        cond = orient==0 && w>h || orient==1 && h>w;
+                    this.spnWidth.setValue(Common.Utils.Metric.fnRecalcFromMM(cond ? h : w), true);
+                    this.spnHeight.setValue(Common.Utils.Metric.fnRecalcFromMM(cond ? w : h), true);
                 }
                 this._noApply = false;
             }, this));
@@ -131,8 +139,12 @@ define([
             });
             this.spinners.push(this.spnWidth);
             this.spnWidth.on('change', _.bind(function(field, newValue, oldValue, eOpts){
-                if (!this._noApply && this.cmbSlideSize.getValue() >-1) {
-                    this.cmbSlideSize.setValue(-1);
+                if (!this._noApply) {
+                    if (this.cmbSlideSize.getValue() >-1)
+                        this.cmbSlideSize.setValue(-1);
+                    var w = this.spnWidth.getNumberValue(),
+                        h = this.spnHeight.getNumberValue();
+                    this.cmbSlideOrientation.setValue( h>w ? 0 : 1);
                 }
             }, this));
 
@@ -147,9 +159,36 @@ define([
             });
             this.spinners.push(this.spnHeight);
             this.spnHeight.on('change', _.bind(function(field, newValue, oldValue, eOpts){
-                if (!this._noApply && this.cmbSlideSize.getValue() >-1) {
-                    this.cmbSlideSize.setValue(-1);
+                if (!this._noApply) {
+                    if (this.cmbSlideSize.getValue() >-1)
+                        this.cmbSlideSize.setValue(-1);
+                    var w = this.spnWidth.getNumberValue(),
+                        h = this.spnHeight.getNumberValue();
+                    this.cmbSlideOrientation.setValue( h>w ? 0 : 1);
                 }
+            }, this));
+
+            this.cmbSlideOrientation = new Common.UI.ComboBox({
+                el: $('#slide-orientation-combo'),
+                cls: 'input-group-nr',
+                style: 'width: 100%;',
+                menuStyle: 'min-width: 218px;',
+                editable: false,
+                data: [
+                    {value:0, displayValue: this.strPortrait},
+                    {value:1, displayValue: this.strLandscape}
+                ]
+            });
+            this.cmbSlideOrientation.setValue(1);
+            this.cmbSlideOrientation.on('selected', _.bind(function(combo, record) {
+                this._noApply = true;
+                var w = this.spnWidth.getNumberValue(),
+                    h = this.spnHeight.getNumberValue();
+                if (record.value==0 && w>h || record.value==1 && h>w) {
+                    this.spnWidth.setValue(h, true);
+                    this.spnHeight.setValue(w, true);
+                }
+                this._noApply = false;
             }, this));
 
             var $window = this.getChild();
@@ -181,6 +220,7 @@ define([
             this.spnWidth.setValue(Common.Utils.Metric.fnRecalcFromMM(pagewitdh), true);
             this.spnHeight.setValue(Common.Utils.Metric.fnRecalcFromMM(pageheight), true);
             this.cmbSlideSize.setValue(type);
+            this.cmbSlideOrientation.setValue((pageheight>pagewitdh) ? 0 : 1);
 
         },
 
@@ -217,6 +257,9 @@ define([
         txt35:              '35 mm Slides',
         txtOverhead:        'Overhead',
         txtBanner:          'Banner',
-        txtCustom:          'Custom'
+        txtCustom:          'Custom',
+        textSlideOrientation: 'Slide Orientation',
+        strPortrait:        'Portrait',
+        strLandscape:       'Landscape'
     }, PE.Views.SlideSizeSettings || {}))
 });
