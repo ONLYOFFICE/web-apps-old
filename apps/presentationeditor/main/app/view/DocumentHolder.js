@@ -2028,7 +2028,7 @@ define([
         txtDeleteSlide          : 'Delete Slide',
         txtBackground           : 'Background',
         txtChangeLayout         : 'Change Layout',
-        txtPreview              : 'Preview',
+        txtPreview              : 'Start slideshow',
         textShapeAlignLeft      : 'Align Left',
         textShapeAlignRight     : 'Align Right',
         textShapeAlignCenter    : 'Align Center',
