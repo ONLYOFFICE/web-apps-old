@@ -1503,6 +1503,7 @@ define([
                         break;
                     case 'queryClose':
                         if ($('body .asc-window:visible').length === 0) {
+                            this.api.asc_closeCellEditor();
                             Common.Gateway.internalMessage('canClose', {mr:data.data.mr, answer: true});
                         }
                         break;
