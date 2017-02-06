@@ -195,6 +195,7 @@
     },
     "tasks": {
         "deploy": [
+            "increment-build",
             "deploy-api",
             "deploy-sdk",
             "deploy-sockjs",

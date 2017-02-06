@@ -95,7 +95,7 @@ module.exports = function(grunt) {
             pkg: packageFile,
             replace: {
                   writeVersion: {
-                      src: ['<%= pkg.api.copy.script.dest %>' + '/documents/api.js'],
+                      src: ['<%= pkg.api.copy.script.dest %>' +  '/**/*.js'],
                       overwrite: true,
                       replacements: [{
                           from: /\{\{PRODUCT_VERSION\}\}/,
@@ -406,9 +406,17 @@ module.exports = function(grunt) {
     });
 
     grunt.registerTask('deploy-common',             ['init-build-common', 'deploy-app']);
-    grunt.registerTask('deploy-documenteditor',     ['init-build-documenteditor', 'deploy-app']);
-    grunt.registerTask('deploy-spreadsheeteditor',  ['init-build-spreadsheeteditor', 'deploy-app']);
-    grunt.registerTask('deploy-presentationeditor', ['init-build-presentationeditor', 'deploy-app']);
+    grunt.registerTask('deploy-documents',          ['deploy-common']);   
+    
+    grunt.registerTask('deploy-documenteditor',     ['init-build-common', 'deploy-app',
+                                                     'init-build-documenteditor', 'deploy-app']);
+    grunt.registerTask('deploy-spreadsheeteditor',  ['init-build-common', 'deploy-app',
+                                                     'init-build-spreadsheeteditor', 'deploy-app']);
+    grunt.registerTask('deploy-presentationeditor', ['init-build-common', 'deploy-app',
+                                                     'init-build-presentationeditor', 'deploy-app']);
 
-    grunt.registerTask('default', ['deploy-common', 'deploy-documenteditor', 'deploy-spreadsheeteditor', 'deploy-presentationeditor']);
+    grunt.registerTask('default', ['init-build-common', 'deploy-app',
+                                   'init-build-documenteditor', 'deploy-app',
+                                   'init-build-spreadsheeteditor', 'deploy-app',
+                                   'init-build-presentationeditor', 'deploy-app']);
 };
