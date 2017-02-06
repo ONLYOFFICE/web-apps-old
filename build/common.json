@@ -61,7 +61,6 @@
                 "cwd": "../apps/api/",
                 "src": [
                     "**",
-                    "!**/*.html",
                     "!**/*.desktop"
                 ],
                 "dest": "../deploy/web-apps/apps/api/"
