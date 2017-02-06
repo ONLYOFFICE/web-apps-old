@@ -406,6 +406,7 @@ module.exports = function(grunt) {
     });
 
     grunt.registerTask('deploy-common',             ['init-build-common', 'deploy-app']);
+    // This task is called from the Makefile, don't delete it.
     grunt.registerTask('deploy-documents',          ['deploy-common']);   
     
     grunt.registerTask('deploy-documenteditor',     ['init-build-common', 'deploy-app',
