@@ -51,7 +51,8 @@ define([
 
     SSE.Controllers.DocumentHolder = Backbone.Controller.extend(_.extend((function() {
         // private
-        var _isEdit = false;
+        var _actionSheets = [],
+            _isEdit = false;
 
         function openLink(url) {
             var newDocumentPage = window.open(url, '_blank');
@@ -151,6 +152,24 @@ define([
                     break;
                 }
 
+                if ('showActionSheet' == event && _actionSheets.length > 0) {
+                    _.delay(function () {
+                        _.each(_actionSheets, function (action) {
+                            action.text = action.caption
+                            action.onClick = function () {
+                                me.onContextMenuClick(null, action.event)
+                            }
+                        });
+
+                        uiApp.actions([_actionSheets, [
+                            {
+                                text: me.sheetCancel,
+                                bold: true
+                            }
+                        ]]);
+                    }, 100);
+                }
+
                 me.view.hideMenu();
             },
 
@@ -184,7 +203,35 @@ define([
             _initMenu: function (cellinfo) {
                 var me = this;
 
-                if ( this.api.isCellEdited ) {
+                _actionSheets = [];
+
+                var iscellmenu, isrowmenu, iscolmenu, isallmenu, ischartmenu, isimagemenu, istextshapemenu, isshapemenu, istextchartmenu;
+                var iscelllocked    = cellinfo.asc_getLocked(),
+                    seltype         = cellinfo.asc_getFlags().asc_getSelectionType();
+
+                switch (seltype) {
+                    case Asc.c_oAscSelectionType.RangeCells:     iscellmenu  = true;     break;
+                    case Asc.c_oAscSelectionType.RangeRow:       isrowmenu   = true;     break;
+                    case Asc.c_oAscSelectionType.RangeCol:       iscolmenu   = true;     break;
+                    case Asc.c_oAscSelectionType.RangeMax:       isallmenu   = true;     break;
+                    case Asc.c_oAscSelectionType.RangeImage:     isimagemenu = true;     break;
+                    case Asc.c_oAscSelectionType.RangeShape:     isshapemenu = true;     break;
+                    case Asc.c_oAscSelectionType.RangeChart:     ischartmenu = true;     break;
+                    case Asc.c_oAscSelectionType.RangeChartText: istextchartmenu = true; break;
+                    case Asc.c_oAscSelectionType.RangeShapeText: istextshapemenu = true; break;
+                }
+
+                if (!iscelllocked && (isimagemenu || isshapemenu || ischartmenu || istextshapemenu || istextchartmenu)) {
+                    this.api.asc_getGraphicObjectProps().every(function (object) {
+                        if (object.asc_getObjectType() == Asc.c_oAscTypeSelectElement.Image) {
+                            iscelllocked = object.asc_getObjectValue().asc_getLocked();
+                        }
+
+                        return !iscelllocked;
+                    });
+                }
+
+                if ( iscelllocked || this.api.isCellEdited ) {
                     menuItems = [{
                             caption: me.menuCopy,
                             event: 'copy'
@@ -200,24 +247,12 @@ define([
                         },{
                             caption: me.menuPaste,
                             event: 'paste'
+                        },{
+                            caption: me.menuDelete,
+                            event: 'del'
                         }];
 
-                    var iscellmenu, isrowmenu, iscolmenu, isallmenu, ischartmenu, isimagemenu, istextshapemenu, isshapemenu, istextchartmenu,
-                        seltype             = cellinfo.asc_getFlags().asc_getSelectionType(),
-                        iscelllocked        = cellinfo.asc_getLocked(),
-                        isTableLocked       = cellinfo.asc_getLockedTable()===true;
-
-                    switch (seltype) {
-                        case Asc.c_oAscSelectionType.RangeCells:     iscellmenu  = true;     break;
-                        case Asc.c_oAscSelectionType.RangeRow:       isrowmenu   = true;     break;
-                        case Asc.c_oAscSelectionType.RangeCol:       iscolmenu   = true;     break;
-                        case Asc.c_oAscSelectionType.RangeMax:       isallmenu   = true;     break;
-                        case Asc.c_oAscSelectionType.RangeImage:     isimagemenu = true;     break;
-                        case Asc.c_oAscSelectionType.RangeShape:     isshapemenu = true;     break;
-                        case Asc.c_oAscSelectionType.RangeChart:     ischartmenu = true;     break;
-                        case Asc.c_oAscSelectionType.RangeChartText: istextchartmenu = true; break;
-                        case Asc.c_oAscSelectionType.RangeShapeText: istextshapemenu = true; break;
-                    }
+                        // isTableLocked       = cellinfo.asc_getLockedTable()===true;
 
                     if (isimagemenu || isshapemenu || ischartmenu ||
                                 istextshapemenu || istextchartmenu )
@@ -229,9 +264,6 @@ define([
                     } else {
                         if ( iscolmenu || isrowmenu) {
                             menuItems.push({
-                                    caption: me.menuDelete,
-                                    event: 'del'
-                                },{
                                     caption: me.menuHide,
                                     event: 'hide'
                                 },{
@@ -240,11 +272,6 @@ define([
                                 });
                         } else
                         if ( iscellmenu ) {
-                            menuItems.push({
-                                caption: me.menuDelete,
-                                event: 'del'
-                            });
-
                             !iscelllocked &&
                             menuItems.push({
                                 caption: me.menuCell,
@@ -294,7 +321,13 @@ define([
                 }
 
                 if (Common.SharedSettings.get('phone') && menuItems.length > 3) {
+                    _actionSheets = menuItems.slice(3);
+
                     menuItems = menuItems.slice(0, 3);
+                    menuItems.push({
+                        caption: me.menuMore,
+                        event: 'showActionSheet'
+                    });
                 }
 
                 return menuItems;
@@ -314,7 +347,9 @@ define([
             menuShow:       'Show',
             menuHide:       'Hide',
             menuEdit:       'Edit',
-            menuCell:       'Cell'
+            menuCell:       'Cell',
+            menuMore:       'More',
+            sheetCancel:    'Cancel'
         }
     })(), SSE.Controllers.DocumentHolder || {}))
 });

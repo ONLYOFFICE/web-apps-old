@@ -692,23 +692,23 @@ define([
                     items : [
                         {
                             caption : me.txtDollar,
-                            value   : '_($* #,##0.00_);_($* (#,##0.00);_($* "-"??_);_(@_)'
+                            value   : 0x0409 // $ en-US
                         },
                         {
                             caption : me.txtEuro,
-                            value   : '_(€* #,##0.00_);_(€* (#,##0.00);_(€* "-"??_);_(@_)'
+                            value   : 0x0407 // € de-DE
                         },
                         {
                             caption : me.txtPound,
-                            value   : '_(£* #,##0.00_);_(£* (#,##0.00);_(£* "-"??_);_(@_)'
+                            value   : 0x0809 // £ en-GB
                         },
                         {
                             caption : me.txtRouble,
-                            value   : '_-* #,##0.00[$р.-419]_-;-* #,##0.00[$р.-419]_-;_-* "-"??[$р.-419]_-;_-@_-'
+                            value   : 0x0419 // ₽ ru-RU
                         },
                         {
                             caption : me.txtYen,
-                            value   : '_(¥* #,##0.00_);_(¥* (#,##0.00);_(¥* "-"??_);_(@_)'
+                            value   : 0x0411 // ¥ ja-JP
                         }
                     ]
                 })
@@ -1739,7 +1739,7 @@ define([
                     if (this.synchTooltip)
                         this.synchTooltip.hide();
                     this.btnSave.updateHint(this.btnSaveTip);
-                    this.btnSave.setDisabled(true);
+                    this.btnSave.setDisabled(!this.mode.forcesave);
                     this._state.hasCollaborativeChanges = false;
                 }
             }
@@ -1801,7 +1801,7 @@ define([
         txtCurrency:        'Currency',
         txtDollar:          '$ Dollar',
         txtEuro:            '€ Euro',
-        txtRouble:          'р. Rouble',
+        txtRouble:          '₽ Rouble',
         txtPound:           '£ Pound',
         txtYen:             '¥ Yen',
 //    txtFranc:           'CHF Swiss franc',

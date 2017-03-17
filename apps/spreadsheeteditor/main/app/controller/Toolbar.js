@@ -87,7 +87,6 @@ define([
                 underline: undefined,
                 wrap: undefined,
                 merge: undefined,
-                filter: undefined,
                 angle: undefined,
                 controlsdisabled: {
                     rows: undefined,
@@ -97,12 +96,15 @@ define([
                     filters: undefined
                 },
                 selection_type: undefined,
+                filter: undefined,
+                filterapplied: false,
                 tablestylename: undefined,
                 tablename: undefined,
                 namedrange_locked: false,
                 fontsize: undefined,
                 multiselect: false,
                 sparklines_disabled: false,
+                numformatinfo: undefined,
                 numformattype: undefined,
                 numformat: undefined,
                 langId: undefined
@@ -749,18 +751,30 @@ define([
                 var win, props;
                 if (me.api){
                     props = me.api.asc_getChartObject();
+                    var selectedObjects = me.api.asc_getGraphicObjectProps(),
+                        imageSettings = null;
+                    for (var i = 0; i < selectedObjects.length; i++) {
+                        if (selectedObjects[i].asc_getObjectType() == Asc.c_oAscTypeSelectElement.Image) {
+                            var elValue = selectedObjects[i].asc_getObjectValue();
+                            if ( elValue.asc_getChartProperties() )
+                                imageSettings = elValue;
+                        }
+                    }
                     if (props) {
                         var ischartedit = ( me.toolbar.mode.isEditDiagram || info.asc_getFlags().asc_getSelectionType() == Asc.c_oAscSelectionType.RangeChart || info.asc_getFlags().asc_getSelectionType() == Asc.c_oAscSelectionType.RangeChartText);
 
                         (new SSE.Views.ChartSettingsDlg(
                             {
                                 chartSettings: props,
+                                imageSettings: imageSettings,
                                 isChart: true,
                                 api: me.api,
                                 handler: function(result, value) {
                                     if (result == 'ok') {
                                         if (me.api) {
                                             (ischartedit) ? me.api.asc_editChartDrawingObject(value.chartSettings) : me.api.asc_addChartDrawingObject(value.chartSettings);
+                                            if (value.imageSettings)
+                                                me.api.asc_setGraphicObjectProps(value.imageSettings);
                                         }
                                     }
                                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
@@ -846,7 +860,7 @@ define([
                         width: 500,
                         title: this.txtSorting,
                         msg: this.txtExpandSort,
-                        iconCls: 'warn',
+
                         buttons: [  {caption: this.txtExpand, primary: true, value: 'expand'},
                                     {caption: this.txtSortSelected, primary: true, value: 'sort'},
                                     'cancel'],
@@ -897,8 +911,15 @@ define([
         },
 
         onNumberFormatMenu: function(menu, item) {
-            if (this.api)
-                this.api.asc_setCellFormat(item.value);
+            if (this.api) {
+                var info = new Asc.asc_CFormatCellsInfo();
+                info.asc_setType(Asc.c_oAscNumFormatType.Accounting);
+                info.asc_setSeparator(false);
+                info.asc_setSymbol(item.value);
+                var format = this.api.asc_getFormatCells(info);
+                if (format && format.length>0)
+                    this.api.asc_setCellFormat(format[0]);
+            }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Number Format');
@@ -928,7 +949,7 @@ define([
                     }
                     Common.NotificationCenter.trigger('edit:complete', me.toolbar);
                 },
-                props   : {formatType: me._state.numformattype, format: me._state.numformat, langId: value}
+                props   : {format: me._state.numformat, formatInfo: me._state.numformatinfo, langId: value}
             })).show();
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Number Format');
@@ -1951,11 +1972,17 @@ define([
                     }
                 }
 
-                this._state.tablename = (formatTableInfo) ? formatTableInfo.asc_getTableName() : undefined;
-
                 need_disable =  this._state.controlsdisabled.filters || !filterInfo || (filterInfo.asc_getIsApplyAutoFilter()!==true);
                 toolbar.lockToolbar(SSE.enumLock.ruleDelFilter, need_disable, {array:[toolbar.btnClearAutofilter,toolbar.mnuitemClearFilter]});
-                this.getApplication().getController('Statusbar').onApiFilterInfo(!need_disable);
+
+                var old_name = this._state.tablename;
+                this._state.tablename = (formatTableInfo) ? formatTableInfo.asc_getTableName() : undefined;
+
+                var old_applied = this._state.filterapplied;
+                this._state.filterapplied = this._state.filter && filterInfo.asc_getIsApplyAutoFilter();
+
+                if (this._state.tablename !== old_name || this._state.filterapplied !== old_applied)
+                    this.getApplication().getController('Statusbar').onApiFilterInfo(!need_disable);
 
                 this._state.multiselect = info.asc_getFlags().asc_getMultiselect();
                 toolbar.lockToolbar(SSE.enumLock.multiselect, this._state.multiselect, { array: [toolbar.btnTableTemplate, toolbar.btnInsertHyperlink]});
@@ -1964,6 +1991,7 @@ define([
             val = info.asc_getNumFormatInfo();
             if (val) {
 				this._state.numformat = info.asc_getNumFormat();
+				this._state.numformatinfo = val;
 				val = val.asc_getType();
 				if (this._state.numformattype !== val) {
 					toolbar.cmbNumberFormat.setValue(val, toolbar.txtCustom);

@@ -157,6 +157,7 @@ define([
             this.api        = options.api;
             this.handler    = options.handler;
             this.props      = options.props;
+            this._state = {hasDecimal: false, hasNegative: false, hasSeparator: false, hasType: false, hasSymbols: false, hasCode: false};
 
             Common.Views.AdvancedSettingsWindow.prototype.initialize.call(this, this.options);
 
@@ -182,7 +183,7 @@ define([
             this.cmbNegative = new Common.UI.ComboBox({
                 el: $('#format-settings-combo-negative'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 264px;max-height:210px;',
+                menuStyle: 'min-width: 264px;max-height:235px;',
                 editable: false,
                 data: [],
                 scrollAlwaysVisible: true
@@ -210,7 +211,7 @@ define([
             this.cmbSymbols = new Common.UI.ComboBox({
                 el: $('#format-settings-combo-symbols'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 264px;max-height:210px;',
+                menuStyle: 'min-width: 264px;max-height:235px;',
                 editable: false,
                 data: [],
                 scrollAlwaysVisible: true
@@ -220,7 +221,7 @@ define([
             this.cmbType = new Common.UI.ComboBox({
                 el: $('#format-settings-combo-type'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 264px;max-height:210px;',
+                menuStyle: 'min-width: 264px;max-height:235px;',
                 editable: false,
                 data: [],
                 scrollAlwaysVisible: true
@@ -230,7 +231,7 @@ define([
             this.cmbCode = new Common.UI.ComboBox({
                 el: $('#format-settings-combo-code'),
                 cls: 'input-group-nr',
-                menuStyle: 'min-width: 310px;max-height:210px;',
+                menuStyle: 'min-width: 310px;max-height:235px;',
                 editable: false,
                 data: [],
                 scrollAlwaysVisible: true
@@ -258,15 +259,40 @@ define([
         },
 
         _setDefaults: function (props) {
-            if (props) {
+            if (props && props.formatInfo) {
                 if (this.langId)
                     this.langId = props.langId;
-                this.cmbFormat.setValue(props.formatType, this.txtCustom);
+                this.cmbFormat.setValue(props.formatInfo.asc_getType(), this.txtCustom);
 
-                if ((props.formatType == Asc.c_oAscNumFormatType.Custom) && props.format)
+                if ((props.formatInfo.asc_getType() == Asc.c_oAscNumFormatType.Custom) && props.format)
                     this.CustomFormat = this.Format = props.format;
 
-                this.onFormatSelect(this.cmbFormat, this.cmbFormat.getSelectedRecord());
+                this.onFormatSelect(this.cmbFormat, this.cmbFormat.getSelectedRecord(), null, props.formatInfo);
+                if (this._state.hasDecimal)
+                    this.spnDecimal.setValue(props.formatInfo.asc_getDecimalPlaces());
+                if (this._state.hasSeparator)
+                    this.chSeparator.setValue(props.formatInfo.asc_getSeparator());
+                if (this._state.hasSymbols)
+                    this.cmbSymbols.setValue(props.formatInfo.asc_getSymbol());
+
+                if (props.format) {
+                    if (this._state.hasNegative) {
+                        var selectedItem = this.cmbNegative.store.findWhere({value: props.format});
+                        if (selectedItem)
+                            this.cmbNegative.selectRecord(selectedItem);
+                        else
+                            this.cmbNegative.setValue(this.api.asc_getLocaleExample(props.format));
+                    } else if (this._state.hasType) {
+                        var selectedItem = this.cmbType.store.findWhere({value: props.format});
+                        if (selectedItem)
+                            this.cmbType.selectRecord(selectedItem);
+                        else if (props.formatInfo.asc_getType() == Asc.c_oAscNumFormatType.Fraction)
+                            this.cmbType.setValue(this.txtCustom);
+                        else
+                            this.cmbType.setValue(this.api.asc_getLocaleExample(props.format), 37973);
+                    }
+                    this.Format = props.format;
+                }
                 // for fraction - if props.format not in cmbType - setValue(this.txtCustom)
                 // for date/time - if props.format not in cmbType - setValue(this.api.asc_getLocaleExample(props.format, 37973))
                 // for cmbNegative - if props.format not in cmbNegative - setValue(this.api.asc_getLocaleExample(props.format))
@@ -372,7 +398,7 @@ define([
             this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
         },
 
-        onFormatSelect: function(combo, record) {
+        onFormatSelect: function(combo, record, e, initFormatInfo) {
             if (!record) return;
 
             this.FormatType = record.value;
@@ -384,13 +410,16 @@ define([
                 hasType = (record.value == Asc.c_oAscNumFormatType.Date || record.value == Asc.c_oAscNumFormatType.Time || record.value == Asc.c_oAscNumFormatType.Fraction),
                 hasSymbols = (record.value == Asc.c_oAscNumFormatType.Accounting || record.value == Asc.c_oAscNumFormatType.Currency),
                 hasCode = (record.value == Asc.c_oAscNumFormatType.Custom),
-                me = this;
+                me = this,
+                valDecimal = (initFormatInfo) ? initFormatInfo.asc_getDecimalPlaces() : this.spnDecimal.getNumberValue(),
+                valSeparator = (initFormatInfo) ? initFormatInfo.asc_getSeparator() : (this.chSeparator.getValue()=='checked'),
+                valSymbol = (initFormatInfo && initFormatInfo.asc_getSymbol()) ? initFormatInfo.asc_getSymbol() : this.langId;
 
             if (record.value !== Asc.c_oAscNumFormatType.Custom) {
                 var info = new Asc.asc_CFormatCellsInfo();
                 info.asc_setType(record.value);
-                info.asc_setDecimalPlaces(hasDecimal ? this.spnDecimal.getNumberValue() : 0);
-                info.asc_setSeparator(hasSeparator ? this.chSeparator.getValue()=='checked' : false);
+                info.asc_setDecimalPlaces(hasDecimal ? valDecimal : 0);
+                info.asc_setSeparator(hasSeparator ? valSeparator : false);
 
                 if (hasNegative || record.value == Asc.c_oAscNumFormatType.Date || record.value == Asc.c_oAscNumFormatType.Time) {
                     if (hasSymbols) {
@@ -403,7 +432,7 @@ define([
                                 }
                             }
                             this.cmbSymbols.setData(this.CurrencySymbolsData);
-                            this.cmbSymbols.setValue(this.langId);
+                            this.cmbSymbols.setValue(valSymbol);
                         }
                         info.asc_setSymbol(this.cmbSymbols.getValue());
                     }
@@ -434,7 +463,7 @@ define([
             } else {
                 var info = new Asc.asc_CFormatCellsInfo();
                 info.asc_setType(Asc.c_oAscNumFormatType.None);
-                info.asc_setSymbol(this.langId);
+                info.asc_setSymbol(valSymbol);
 
                 var formatsarr = this.api.asc_getFormatCells(info),
                     data = [],
@@ -459,6 +488,7 @@ define([
             this._typePanel.toggleClass('hidden', !hasType);
             this._symbolsPanel.toggleClass('hidden', !hasSymbols);
             this._codePanel.toggleClass('hidden', !hasCode);
+            this._state = { hasDecimal: hasDecimal, hasNegative: hasNegative, hasSeparator: hasSeparator, hasType: hasType, hasSymbols: hasSymbols, hasCode: hasCode};
         },
 
         textTitle: 'Number Format',
@@ -480,15 +510,15 @@ define([
         txtFraction:        'Fraction',
         txtScientific:      'Scientific',
         txtText:            'Text',
-        txtUpto1: 'Up to one digit',
-        txtUpto2: 'Up to two digits',
-        txtUpto3: 'Up to three digits',
-        txtAs2:  'As halfs',
-        txtAs8:  'As eighths',
-        txtAs4:  'As fourths',
-        txtAs16:  'As sixteenths',
-        txtAs10:  'As tenths',
-        txtAs100: 'As hundredths',
+        txtUpto1: 'Up to one digit (1/3)',
+        txtUpto2: 'Up to two digits (12/25)',
+        txtUpto3: 'Up to three digits (131/135)',
+        txtAs2:  'As halfs (1/2)',
+        txtAs8:  'As eighths (4/8)',
+        txtAs4:  'As fourths (2/4)',
+        txtAs16:  'As sixteenths (8/16)',
+        txtAs10:  'As tenths (5/10)',
+        txtAs100: 'As hundredths (50/100)',
         txtSample: 'Sample:'
 
     }, SSE.Views.FormatSettingsDialog || {}))

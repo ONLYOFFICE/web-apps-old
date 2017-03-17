@@ -286,6 +286,15 @@ define([
             this.btnEdit.menu.on('item:click', _.bind(this.onEditClick, this));
             this.lockedControls.push(this.btnEdit);
 
+            this.btnConvertRange = new Common.UI.Button({
+                el: $('#table-btn-convert-range')
+            });
+            this.btnConvertRange.on('click', _.bind(function(btn){
+                if (this.api) this.api.asc_convertTableToRange(this._state.TableName);
+                Common.NotificationCenter.trigger('edit:complete', this);
+            }, this));
+            this.lockedControls.push(this.btnConvertRange);
+
             $(this.el).on('click', '#table-advanced-link', _.bind(this.openAdvancedSettings, this));
 
             this._initSettings = false;
@@ -302,13 +311,8 @@ define([
                         tableProps: me._originalProps,
                         api: me.api,
                         handler: function(result, value) {
-                            if (result == 'ok') {
-                                if (me.api) {
-                                    if (value.tableProps.altTitle)
-                                        me.api.asc_changeFormatTableInfo(me._state.TableName, Asc.c_oAscChangeTableStyleInfo.title, value.tableProps.altTitle);
-                                    if (value.tableProps.altDescription)
-                                        me.api.asc_changeFormatTableInfo(me._state.TableName, Asc.c_oAscChangeTableStyleInfo.description , value.tableProps.altDescription);
-                                }
+                            if (result == 'ok' && me.api && value) {
+                                me.api.asc_changeFormatTableInfo(me._state.TableName, Asc.c_oAscChangeTableStyleInfo.advancedSettings, value);
                             }
 
                             Common.NotificationCenter.trigger('edit:complete', me);
@@ -539,7 +543,8 @@ define([
         textIsLocked            : 'This element is being edited by another user.',
         notcriticalErrorTitle   : 'Warning',
         textReservedName        : 'The name you are trying to use is already referenced in cell formulas. Please use some other name.',
-        textAdvanced:   'Show advanced settings'
+        textAdvanced:   'Show advanced settings',
+        textConvertRange: 'Convert to range'
 
     }, SSE.Views.TableSettings || {}));
 });

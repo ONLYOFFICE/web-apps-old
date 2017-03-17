@@ -123,6 +123,7 @@ define([
                     me.api.asc_registerCallback('asc_onDocumentContentReady',       _.bind(me.onDocumentContentReady, me));
                     me.api.asc_registerCallback('asc_onOpenDocumentProgress',       _.bind(me.onOpenDocument, me));
                     me.api.asc_registerCallback('asc_onDocumentUpdateVersion',      _.bind(me.onUpdateVersion, me));
+                    me.api.asc_registerCallback('asc_onServerVersion',              _.bind(me.onServerVersion, me));
                     me.api.asc_registerCallback('asc_onAdvancedOptions',            _.bind(me.onAdvancedOptions, me));
                     me.api.asc_registerCallback('asc_onDocumentName',               _.bind(me.onDocumentName, me));
                     me.api.asc_registerCallback('asc_onPrintUrl',                   _.bind(me.onPrintUrl, me));
@@ -544,6 +545,8 @@ define([
                     return;
                 }
 
+                if ( me.onServerVersion(params.asc_getBuildVersion()) ) return;
+
                 me.permissions.review         = (me.permissions.review === undefined) ? (me.permissions.edit !== false) : me.permissions.review;
                 me.appOptions.canAnalytics    = params.asc_getIsAnalyticsEnable();
                 me.appOptions.canLicense      = (licType === Asc.c_oLicenseResult.Success);
@@ -602,7 +605,8 @@ define([
                 });
 
                 if (me.api) {
-                    me.api.asc_registerCallback('asc_onSendThemeColors', _.bind(this.onSendThemeColors, this));
+                    me.api.asc_registerCallback('asc_onSendThemeColors', _.bind(me.onSendThemeColors, me));
+                    me.api.asc_registerCallback('asc_onDownloadUrl',     _.bind(me.onDownloadUrl, me));
 
                     var translateChart = new Asc.asc_CChartTranslate();
                     translateChart.asc_setTitle(me.txtDiagramTitle);
@@ -634,7 +638,6 @@ define([
                     me.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(me.onDocumentModifiedChanged, me));
                     me.api.asc_registerCallback('asc_onDocumentCanSaveChanged',  _.bind(me.onDocumentCanSaveChanged, me));
                     me.api.asc_registerCallback('asc_onSaveUrl',                 _.bind(me.onSaveUrl, me));
-                    me.api.asc_registerCallback('asc_onDownloadUrl',             _.bind(me.onDownloadUrl, me));
                     /** coauthoring begin **/
                     me.api.asc_registerCallback('asc_onCollaborativeChanges',    _.bind(me.onCollaborativeChanges, me));
                     me.api.asc_registerCallback('asc_OnTryUndoInFastCollaborative',_.bind(me.onTryUndoInFastCollaborative, me));
@@ -917,6 +920,25 @@ define([
                             me.onLongActionBegin(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
                         })
                 });
+            },
+
+            onServerVersion: function(buildVersion) {
+                var me = this;
+                if (me.changeServerVersion) return true;
+
+                if (DocsAPI.DocEditor.version() !== buildVersion && !window.compareVersions) {
+                    me.changeServerVersion = true;
+                    uiApp.alert(
+                        me.errorServerVersion,
+                        me.titleServerVersion,
+                        function () {
+                            _.defer(function() {
+                                Common.Gateway.updateVersion();
+                            })
+                        });
+                    return true;
+                }
+                return false;
             },
 
             onCollaborativeChanges: function() {
@@ -1209,7 +1231,9 @@ define([
             textPassword: 'Password',
             textBack: 'Back',
             textClose: 'Close',
-            textDone: 'Done'
+            textDone: 'Done',
+            titleServerVersion: 'Editor updated',
+            errorServerVersion: 'The editor version has been updated. The page will be reloaded to apply the changes.'
         }
     })(), PE.Controllers.Main || {}))
 });
