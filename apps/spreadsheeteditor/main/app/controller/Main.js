@@ -1201,6 +1201,10 @@ define([
                         config.msg = this.errorAccessDeny;
                         break;
 
+                    case Asc.c_oAscError.ID.LockedCellPivot:
+                        config.msg = this.errorLockedCellPivot;
+                        break;
+
                     default:
                         config.msg = this.errorDefaultMessage.replace('%1', id);
                         break;
@@ -2164,7 +2168,8 @@ define([
             txtStyle_Total: 'Total',
             txtStyle_Currency: 'Currency',
             txtStyle_Percent: 'Percent',
-            txtStyle_Comma: 'Comma'
+            txtStyle_Comma: 'Comma',
+            errorLockedCellPivot: 'You cannot change data inside a pivot table.'
         }
     })(), SSE.Controllers.Main || {}))
 });
