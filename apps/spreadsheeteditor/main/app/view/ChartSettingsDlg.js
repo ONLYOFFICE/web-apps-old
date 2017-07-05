@@ -150,6 +150,7 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                         { id: 'menu-chart-group-area',    caption: me.textArea, inline: true },
                         { id: 'menu-chart-group-scatter', caption: me.textPoint, inline: true },
                         { id: 'menu-chart-group-stock',   caption: me.textStock, inline: true }
+                        // { id: 'menu-chart-group-surface', caption: me.textSurface}
                     ]),
                     store: new Common.UI.DataViewStore([
                         { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal,          iconCls: 'column-normal', selected: true},
@@ -177,6 +178,10 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                         { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStackedPer,     iconCls: 'area-pstack'},
                         { group: 'menu-chart-group-scatter', type: Asc.c_oAscChartTypeSettings.scatter,            iconCls: 'point-normal'},
                         { group: 'menu-chart-group-stock',   type: Asc.c_oAscChartTypeSettings.stock,              iconCls: 'stock-normal'}
+                        // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.surfaceNormal,      iconCls: 'surface-normal'},
+                        // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.surfaceWireframe,   iconCls: 'surface-wireframe'},
+                        // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.contourNormal,      iconCls: 'contour-normal'},
+                        // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.contourWireframe,   iconCls: 'contour-wireframe'}
                     ]),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
                 });
@@ -1327,7 +1332,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     this.mnuChartTypePicker.selectRecord(record, true);
                     if (record) {
                         this.btnChartType.setIconCls('item-chartlist ' + record.get('iconCls'));
-                    }
+                    } else
+                        this.btnChartType.setIconCls('');
 
                     this._noApply = false;
 
@@ -1384,6 +1390,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
                     this.mnuSparkTypePicker.selectRecord(record, true);
                     if (record)
                         this.btnSparkType.setIconCls('item-chartlist ' + record.get('iconCls'));
+                    else
+                        this.btnSparkType.setIconCls('');
 
                     this.updateSparkStyles((this.sparklineStyles) ? this.sparklineStyles : props.asc_getStyles());
 
@@ -1438,10 +1446,12 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
         },
 
         getSettings: function() {
-            var value,
-                type = this.mnuChartTypePicker.getSelectedRec()[0].get('type');
+            var value;
 
             if (this.isChart) {
+                var rec = this.mnuChartTypePicker.getSelectedRec(),
+                    type = (rec && rec.length>0) ? rec[0].get('type') : this.currentChartType;
+
                 this.chartSettings.putType(type);
 
                 this.chartSettings.putInColumns(this.cmbDataDirect.getValue()==1);
@@ -1498,7 +1508,10 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
             if (this.isChart) {
                 var isvalid;
                 if (!_.isEmpty(this.txtDataRange.getValue())) {
-                    isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, this.txtDataRange.getValue(), true, this.cmbDataDirect.getValue()==0, this.mnuChartTypePicker.getSelectedRec()[0].get('type'));
+                    var rec = this.mnuChartTypePicker.getSelectedRec(),
+                        type = (rec && rec.length>0) ? rec[0].get('type') : this.currentChartType;
+
+                    isvalid = this.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, this.txtDataRange.getValue(), true, this.cmbDataDirect.getValue()==0, type);
                     if (isvalid == Asc.c_oAscError.ID.No)
                         return true;
                 } else
@@ -1760,7 +1773,8 @@ define([    'text!spreadsheeteditor/main/app/template/ChartSettingsDlg.template'
         textAlt: 'Alternative Text',
         textAltTitle: 'Title',
         textAltDescription: 'Description',
-        textAltTip: 'The alternative text-based representation of the visual object information, which will be read to the people with vision or cognitive impairments to help them better understand what information there is in the image, autoshape, chart or table.'
+        textAltTip: 'The alternative text-based representation of the visual object information, which will be read to the people with vision or cognitive impairments to help them better understand what information there is in the image, autoshape, chart or table.',
+        textSurface: 'Surface'
 
     }, SSE.Views.ChartSettingsDlg || {}));
 });

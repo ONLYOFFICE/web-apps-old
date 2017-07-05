@@ -1417,6 +1417,7 @@ define([
                     { id: 'menu-chart-group-area',    caption: me.textArea, inline: true },
                     { id: 'menu-chart-group-scatter', caption: me.textPoint, inline: true },
                     { id: 'menu-chart-group-stock',   caption: me.textStock, inline: true }
+                    // { id: 'menu-chart-group-surface', caption: me.textSurface}
                 ]),
                 store: new Common.UI.DataViewStore([
                     { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal,          allowSelected: true, iconCls: 'column-normal', selected: true},
@@ -1444,6 +1445,10 @@ define([
                     { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStackedPer,     allowSelected: true, iconCls: 'area-pstack'},
                     { group: 'menu-chart-group-scatter', type: Asc.c_oAscChartTypeSettings.scatter,            allowSelected: true, iconCls: 'point-normal'},
                     { group: 'menu-chart-group-stock',   type: Asc.c_oAscChartTypeSettings.stock,              allowSelected: true, iconCls: 'stock-normal'}
+                    // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.surfaceNormal,      allowSelected: true, iconCls: 'surface-normal'},
+                    // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.surfaceWireframe,   allowSelected: true, iconCls: 'surface-wireframe'},
+                    // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.contourNormal,      allowSelected: true, iconCls: 'contour-normal'},
+                    // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.contourWireframe,   allowSelected: true, iconCls: 'contour-wireframe'}
                 ]),
                 itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
             });
@@ -1966,7 +1971,8 @@ define([
         mniNoteSettings: 'Notes Settings',
         textGotoFootnote: 'Go to Footnotes',
         tipChangeChart: 'Change Chart Type',
-        textColumnsCustom: 'Custom Columns'
+        textColumnsCustom: 'Custom Columns',
+        textSurface: 'Surface'
 
     }, DE.Views.Toolbar || {}));
 });
