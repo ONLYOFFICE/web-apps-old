@@ -509,6 +509,8 @@ define([
                     me.api.zoomFitToPage();
                 }
 
+                PE.getController('Toolbar').activateControls();
+
                 if (me._state.licenseWarning) {
                     value = Common.localStorage.getItem("de-license-warning");
                     value = (value!==null) ? parseInt(value) : 0;
