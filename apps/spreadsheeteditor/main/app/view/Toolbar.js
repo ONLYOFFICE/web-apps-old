@@ -1902,7 +1902,7 @@ define([
         textDelLeft:        'Shift Cells Left',
         textDelUp:          'Shift Cells Up',
         textZoom:           'Zoom',
-        textCompactToolbar: 'Compact Toolbar',
+        textCompactToolbar: 'View Compact Toolbar',
         textHideTBar:       'Hide Title Bar',
         textHideFBar:       'Hide Formula Bar',
         textHideHeadings:   'Hide Headings',

@@ -1472,7 +1472,7 @@
   "SSE.Views.Statusbar.tipPrev": "Прокрутить список листов влево",
   "SSE.Views.Statusbar.tipUsers": "Документ редактируется несколькими пользователями.",
   "SSE.Views.Statusbar.tipViewUsers": "Просмотр пользователей и управление правами доступа к документу",
-  "SSE.Views.Statusbar.tipZoomFactor": "Увеличение",
+  "SSE.Views.Statusbar.tipZoomFactor": "Масштаб",
   "SSE.Views.Statusbar.tipZoomIn": "Увеличить",
   "SSE.Views.Statusbar.tipZoomOut": "Уменьшить",
   "SSE.Views.Statusbar.txAccessRights": "Изменить права доступа",

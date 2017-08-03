@@ -1130,7 +1130,7 @@
   "PE.Views.Statusbar.tipShowUsers": "Чтобы увидеть всех пользователей, нажмите на значок ниже.",
   "PE.Views.Statusbar.tipUsers": "Документ редактируется несколькими пользователями.",
   "PE.Views.Statusbar.tipViewUsers": "Просмотр пользователей и управление правами доступа к документу",
-  "PE.Views.Statusbar.tipZoomFactor": "Увеличение",
+  "PE.Views.Statusbar.tipZoomFactor": "Масштаб",
   "PE.Views.Statusbar.tipZoomIn": "Увеличить",
   "PE.Views.Statusbar.tipZoomOut": "Уменьшить",
   "PE.Views.Statusbar.txAccessRights": "Изменить права доступа",
