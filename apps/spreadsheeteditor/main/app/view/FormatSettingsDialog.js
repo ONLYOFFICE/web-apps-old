@@ -100,7 +100,7 @@ define([
                         '<tr>',
                             '<td class="padding-large" style="white-space: nowrap;">',
                                 '<label style="vertical-align: middle; margin-right: 4px;">' + me.txtSample + '</label>',
-                                '<label id="format-settings-label-example" style="vertical-align: middle; max-width: 220px; overflow: hidden; text-overflow: ellipsis;>100</label>',
+                                '<label id="format-settings-label-example" style="vertical-align: middle; max-width: 220px; overflow: hidden; text-overflow: ellipsis;">100</label>',
                             '</td>',
                         '</tr>',
                         '<tr>',
@@ -466,7 +466,7 @@ define([
 
             } else {
                 var info = new Asc.asc_CFormatCellsInfo();
-                info.asc_setType(Asc.c_oAscNumFormatType.None);
+                info.asc_setType(Asc.c_oAscNumFormatType.Custom);
                 info.asc_setSymbol(valSymbol);
 
                 var formatsarr = this.api.asc_getFormatCells(info),
