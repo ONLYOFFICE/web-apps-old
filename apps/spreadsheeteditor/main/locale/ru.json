@@ -267,6 +267,7 @@
   "SSE.Controllers.Main.errorKeyEncrypt": "Неизвестный дескриптор ключа",
   "SSE.Controllers.Main.errorKeyExpire": "Срок действия дескриптора ключа истек",
   "SSE.Controllers.Main.errorLockedAll": "Операция не может быть произведена, так как лист заблокирован другим пользователем.",
+  "SSE.Controllers.Main.errorLockedCellPivot": "Нельзя изменить данные в сводной таблице.",
   "SSE.Controllers.Main.errorLockedWorksheetRename": "В настоящее время лист нельзя переименовать, так как его переименовывает другой пользователь",
   "SSE.Controllers.Main.errorMoveRange": "Нельзя изменить часть объединенной ячейки",
   "SSE.Controllers.Main.errorOpenWarning": "Длина одной из формул в файле превышала<br>допустимое количество символов, и формула была удалена.",

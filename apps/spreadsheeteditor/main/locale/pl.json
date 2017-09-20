@@ -267,6 +267,7 @@
   "SSE.Controllers.Main.errorKeyEncrypt": "Nieznany deskryptor klucza",
   "SSE.Controllers.Main.errorKeyExpire": "Okres ważności deskryptora klucza wygasł",
   "SSE.Controllers.Main.errorLockedAll": "Operacja nie mogła zostać wykonana, gdy arkusz został zablokowany przez innego użytkownika.",
+  "SSE.Controllers.Main.errorLockedCellPivot": "Nie można zmienić dane w tabeli przestawnej.",
   "SSE.Controllers.Main.errorLockedWorksheetRename": "Nie można zmienić nazwy arkusza, gdy zmieniana jest ona przez innego użytkownika",
   "SSE.Controllers.Main.errorMoveRange": "Nie można zmienić części scalonej komórki",
   "SSE.Controllers.Main.errorOpenWarning": "Długość jednej z formuł w pliku przekroczyła<br>dozwoloną liczbę znaków i została usunięta.",

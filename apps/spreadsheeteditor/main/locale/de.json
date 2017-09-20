@@ -267,6 +267,7 @@
   "SSE.Controllers.Main.errorKeyEncrypt": "Unbekannter Schlüsseldeskriptor",
   "SSE.Controllers.Main.errorKeyExpire": "Der Schlüsseldeskriptor ist abgelaufen",
   "SSE.Controllers.Main.errorLockedAll": "Die Operation kann nicht durchgeführt werden, weil das Blatt von einem anderen Benutzer gesperrt ist.",
+  "SSE.Controllers.Main.errorLockedCellPivot": "Die Daten innerhalb einer Pivot-Tabelle können nicht geändert werden.",
   "SSE.Controllers.Main.errorLockedWorksheetRename": "Umbenennen des Blattes ist derzeit nicht möglich, denn es wird gleichzeitig von einem anderen Benutzer umbenannt.",
   "SSE.Controllers.Main.errorMoveRange": "Es ist unmöglich einen Teil der vereinigten Zelle zu ändern",
   "SSE.Controllers.Main.errorOpenWarning": "Die Länge einer der Formeln in der Datei hat<br>die zugelassene Anzahl von Zeichen überschritten und sie wurde entfernt.",

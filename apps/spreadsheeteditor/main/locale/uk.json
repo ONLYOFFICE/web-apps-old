@@ -267,6 +267,7 @@
   "SSE.Controllers.Main.errorKeyEncrypt": "Невідомий дескриптор ключа",
   "SSE.Controllers.Main.errorKeyExpire": "Ключовий дескриптор закінчився",
   "SSE.Controllers.Main.errorLockedAll": "Операція не може бути виконана, оскільки цей аркуш заблоковано іншим користувачем.",
+  "SSE.Controllers.Main.errorLockedCellPivot": "Ви не можете змінювати дані всередині таблиці.",
   "SSE.Controllers.Main.errorLockedWorksheetRename": "Лист не можна перейменувати на даний момент, оскільки його перейменує інший користувач",
   "SSE.Controllers.Main.errorMoveRange": "Неможливо змінити частину об'єднаної клітинки",
   "SSE.Controllers.Main.errorOpenWarning": "Довжина однієї з формул у файлі перевищила дозволену<br> кількість символів, і вона була вилучена.",

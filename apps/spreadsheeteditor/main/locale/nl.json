@@ -267,6 +267,7 @@
   "SSE.Controllers.Main.errorKeyEncrypt": "Onbekende sleuteldescriptor",
   "SSE.Controllers.Main.errorKeyExpire": "Sleuteldescriptor vervallen",
   "SSE.Controllers.Main.errorLockedAll": "De bewerking kan niet worden uitgevoerd omdat het blad is vergrendeld door een andere gebruiker.",
+  "SSE.Controllers.Main.errorLockedCellPivot": "U kunt geen data veranderen in een draaitabel.",
   "SSE.Controllers.Main.errorLockedWorksheetRename": "De naam van het blad kan op dit moment niet worden gewijzigd omdat het al wordt hernoemd door een andere gebruiker",
   "SSE.Controllers.Main.errorMoveRange": "Een gedeelte van een samengevoegde cel kan niet worden gewijzigd",
   "SSE.Controllers.Main.errorOpenWarning": "De lengte van een van de formules in het bestand overschrijdt<br>het toegestane aantal tekens en de formule is verwijderd.",

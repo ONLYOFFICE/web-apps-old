@@ -267,6 +267,7 @@
   "SSE.Controllers.Main.errorKeyEncrypt": "Neznámý klíč deskriptoru",
   "SSE.Controllers.Main.errorKeyExpire": "Klíč deskriptoru vypršel",
   "SSE.Controllers.Main.errorLockedAll": "Operace nemůže být provedena, protože list byl uzamčen jiným uživatelem.",
+  "SSE.Controllers.Main.errorLockedCellPivot": "Nemůžete měnit data uvnitř kontingenční tabulky.",
   "SSE.Controllers.Main.errorLockedWorksheetRename": "The sheet cannot be renamed at the moment as it is being renamed by another user",
   "SSE.Controllers.Main.errorMoveRange": "Nelze změnit část sloučené buňky",
   "SSE.Controllers.Main.errorOpenWarning": "The length of one of the formulas in the file exceeded<br>the allowed number of characters and it was removed.",

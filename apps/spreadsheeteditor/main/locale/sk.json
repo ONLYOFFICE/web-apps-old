@@ -267,6 +267,7 @@
   "SSE.Controllers.Main.errorKeyEncrypt": "Neznámy kľúč deskriptoru",
   "SSE.Controllers.Main.errorKeyExpire": "Kľúč deskriptora vypršal",
   "SSE.Controllers.Main.errorLockedAll": "Operáciu nemožno vykonať, pretože list bol zamknutý iným používateľom.",
+  "SSE.Controllers.Main.errorLockedCellPivot": "Nemôžete meniť údaje v kontingenčnej tabuľke.",
   "SSE.Controllers.Main.errorLockedWorksheetRename": "List nemôže byť momentálne premenovaný, pretože je premenovaný iným používateľom",
   "SSE.Controllers.Main.errorMoveRange": "Nie je možné zmeniť časť zlúčenej bunky",
   "SSE.Controllers.Main.errorOpenWarning": "Dĺžka jedného zo vzorcov v súbore prekročila<br>povolený počet znakov a bola odstránená.",
