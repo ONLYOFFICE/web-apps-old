@@ -447,7 +447,8 @@ define([
                                     markedAsVersion: (group!==version.versionGroup),
                                     selected: (opts.data.currentVersion == version.version),
                                     canRestore: this.appOptions.canHistoryRestore && (ver < versions.length-1),
-                                    isExpanded: true
+                                    isExpanded: true,
+                                    serverVersion: version.serverVersion
                                 }));
                                 if (opts.data.currentVersion == version.version) {
                                     currentVersion = arrVersions[arrVersions.length-1];
@@ -496,7 +497,8 @@ define([
                                                 selected: false,
                                                 canRestore: this.appOptions.canHistoryRestore,
                                                 isRevision: false,
-                                                isVisible: true
+                                                isVisible: true,
+                                                serverVersion: version.serverVersion
                                             }));
                                             arrColors.push(user.get('colorval'));
                                         }
