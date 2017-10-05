@@ -1006,7 +1006,7 @@ define([
                 this.appOptions.canUseHistory  = this.appOptions.canLicense && !this.appOptions.isLightVersion && this.editorConfig.canUseHistory && this.appOptions.canCoAuthoring && !this.appOptions.isDesktopApp;
                 this.appOptions.canHistoryClose  = this.editorConfig.canHistoryClose;
                 this.appOptions.canHistoryRestore= this.editorConfig.canHistoryRestore && !!this.permissions.changeHistory;
-                this.appOptions.canUseMailMerge= this.appOptions.canLicense && this.appOptions.canEdit && /*!this.appOptions.isDesktopApp*/ !this.appOptions.isOffline;
+                this.appOptions.canUseMailMerge= this.appOptions.canLicense && this.appOptions.canEdit && /*!this.appOptions.isDesktopApp*/ !this.appOptions.isOffline && !!this.editorConfig.fileChoiceUrl;
                 this.appOptions.canSendEmailAddresses  = this.appOptions.canLicense && this.editorConfig.canSendEmailAddresses && this.appOptions.canEdit && this.appOptions.canCoAuthoring;
                 this.appOptions.canComments    = this.appOptions.canLicense && (this.permissions.comment===undefined ? this.appOptions.isEdit : this.permissions.comment);
                 this.appOptions.canComments    = this.appOptions.canComments && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
