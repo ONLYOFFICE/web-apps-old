@@ -172,7 +172,7 @@ define([
                     Common.Gateway.on('init',           _.bind(this.loadConfig, this));
                     Common.Gateway.on('showmessage',    _.bind(this.onExternalMessage, this));
                     Common.Gateway.on('opendocument',   _.bind(this.loadDocument, this));
-                    Common.Gateway.ready();
+                    Common.Gateway.appReady();
 
                     this.getApplication().getController('Viewport').setApi(this.api);
                     this.getApplication().getController('Statusbar').setApi(me.api);
@@ -554,6 +554,8 @@ define([
             onDocumentContentReady: function() {
                 if (this._isDocReady)
                     return;
+
+                Common.Gateway.documentReady();
 
                 var me = this,
                     value;

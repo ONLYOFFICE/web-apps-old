@@ -267,6 +267,7 @@
   "SSE.Controllers.Main.errorKeyEncrypt": "Descrittore di chiave sconosciuto",
   "SSE.Controllers.Main.errorKeyExpire": "Descrittore di chiave scaduto",
   "SSE.Controllers.Main.errorLockedAll": "The operation could not be done as the sheet has been locked by another user.",
+  "SSE.Controllers.Main.errorLockedCellPivot": "Non è possibile modificare i dati all'interno di una tabella pivot.",
   "SSE.Controllers.Main.errorLockedWorksheetRename": "The sheet cannot be renamed at the moment as it is being renamed by another user",
   "SSE.Controllers.Main.errorMoveRange": "Impossibile modificare una parte della cella unita",
   "SSE.Controllers.Main.errorOpenWarning": "The length of one of the formulas in the file exceeded<br>the allowed number of characters and it was removed.",
