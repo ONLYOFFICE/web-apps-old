@@ -286,7 +286,7 @@
                             _onAppReady();
                         }
 
-                        if (handler) {
+                        if (handler && typeof handler == "function") {
                             res = handler.call(_self, {target: _self, data: msg.data});
                         }
                     }
