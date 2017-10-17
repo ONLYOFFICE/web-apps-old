@@ -136,7 +136,7 @@ define([
             }
         },
 
-        openInsideMode: function(name, url) {
+        openInsideMode: function(name, url, frameId) {
             if (!this.pluginsPanel) return false;
 
             this.pluginsPanel.toggleClass('hidden', true);
@@ -145,8 +145,8 @@ define([
             this.pluginName.text(name);
             if (!this.iframePlugin) {
                 this.iframePlugin = document.createElement("iframe");
-                this.iframePlugin.id           = 'plugin_iframe';
-                this.iframePlugin.name         = 'pluginFrameEditor',
+                this.iframePlugin.id           = (frameId === undefined) ? 'plugin_iframe' : frameId;
+                this.iframePlugin.name         = 'pluginFrameEditor';
                 this.iframePlugin.width        = '100%';
                 this.iframePlugin.height       = '100%';
                 this.iframePlugin.align        = "top";
@@ -230,6 +230,7 @@ define([
             _options.tpl = _.template(this.template)(_options);
 
             this.url = options.url || '';
+            this.frameId = options.frameId || 'plugin_iframe';
             Common.UI.Window.prototype.initialize.call(this, _options);
         },
 
@@ -243,7 +244,7 @@ define([
             this._headerFooterHeight += ((parseInt(this.$window.css('border-top-width')) + parseInt(this.$window.css('border-bottom-width'))));
 
             var iframe = document.createElement("iframe");
-            iframe.id           = 'plugin_iframe';
+            iframe.id           = this.frameId;
             iframe.name         = 'pluginFrameEditor';
             iframe.width        = '100%';
             iframe.height       = '100%';
