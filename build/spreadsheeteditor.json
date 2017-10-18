@@ -27,6 +27,8 @@
                         "perfectscrollbar": "common/main/lib/mods/perfect-scrollbar",
                         "jmousewheel": "../vendor/perfect-scrollbar/src/jquery.mousewheel",
                         "xregexp": "empty:",
+                        "Xmla": "empty:",
+                        "RSVP": "empty:",
                         "sockjs": "empty:",
                         "jszip": "empty:",
                         "jszip-utils": "empty:",
@@ -83,6 +85,8 @@
                                 "allfonts",
                                 "xregexp",
                                 "sockjs",
+                                "window!Xmla",
+                                "RSVP",
                                 "jszip",
                                 "jszip-utils"
                             ]
@@ -203,6 +207,8 @@
                         "framework7": "../vendor/framework7/js/framework7",
                         "text": "../vendor/requirejs-text/text",
                         "xregexp": "empty:",
+                        "Xmla": "empty:",
+                        "RSVP": "empty:",
                         "sockjs": "empty:",
                         "jszip": "empty:",
                         "jszip-utils": "empty:",
@@ -261,6 +267,8 @@
                                 "coapisettings",
                                 "allfonts",
                                 "xregexp",
+                                "window!Xmla",
+                                "RSVP",
                                 "sockjs",
                                 "jszip",
                                 "jszip-utils"

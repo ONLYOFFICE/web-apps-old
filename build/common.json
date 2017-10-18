@@ -140,6 +140,28 @@
             }
         }
     },
+    "xmla4js": {
+        "clean": [
+            "../deploy/web-apps/vendor/xmla4js"
+        ],
+        "copy": {
+            "script": {
+                "src": "../vendor/xmla4js/Xmla-compiled.js",
+                "dest": "../deploy/web-apps/vendor/xmla4js/Xmla-compiled.js"
+            }
+        }
+    },
+    "rsvp": {
+        "clean": [
+            "../deploy/web-apps/vendor/rsvp"
+        ],
+        "copy": {
+            "script": {
+                "src": "../vendor/rsvp/rsvp.min.js",
+                "dest": "../deploy/web-apps/vendor/rsvp/rsvp.min.js"
+            }
+        }
+    },
     "jszip": {
         "clean": [
             "../deploy/web-apps/vendor/jszip"
@@ -190,6 +212,8 @@
             "deploy-sockjs",
             "deploy-xregexp",
             "deploy-requirejs",
+            "deploy-xmla4js",
+            "deploy-rsvp",
             "deploy-megapixel",
             "deploy-jquery",
             "deploy-underscore",

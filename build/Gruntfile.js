@@ -110,6 +110,8 @@ module.exports = function(grunt) {
     doRegisterTask('megapixel');
     doRegisterTask('jquery');
     doRegisterTask('underscore');
+    doRegisterTask('xmla4js');
+    doRegisterTask('rsvp');
     doRegisterTask('zeroclipboard');
     doRegisterTask('bootstrap');
     doRegisterTask('jszip');
@@ -369,6 +371,8 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-xregexp',                ['xregexp-init', 'clean', 'copy']);
     grunt.registerTask('deploy-megapixel',              ['megapixel-init', 'clean', 'copy']);
     grunt.registerTask('deploy-jquery',                 ['jquery-init', 'clean', 'copy']);
+    grunt.registerTask('deploy-xmla4js',                ['xmla4js-init', 'clean', 'copy']);
+    grunt.registerTask('deploy-rsvp',                   ['rsvp-init', 'clean', 'copy']);
     grunt.registerTask('deploy-underscore',             ['underscore-init', 'clean', 'copy']);
     grunt.registerTask('deploy-bootstrap',              ['bootstrap-init', 'clean', 'copy']);
     grunt.registerTask('deploy-jszip',                  ['jszip-init', 'clean', 'copy']);
