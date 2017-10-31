@@ -343,6 +343,7 @@ define([
                     docInfo.put_UserInfo(_user);
                     docInfo.put_CallbackUrl(this.editorConfig.callbackUrl);
                     docInfo.put_Token(data.doc.token);
+                    docInfo.put_Permissions(this.permissions);
 
                     this.headerView.setDocumentCaption(data.doc.title);
                 }
@@ -751,7 +752,7 @@ define([
                             primary: 'buynow',
                             callback: function(btn) {
                                 if (btn == 'buynow')
-                                    window.open('http://www.onlyoffice.com/enterprise-edition.aspx', "_blank");
+                                    window.open('https://www.onlyoffice.com', "_blank");
                                 else if (btn == 'contact')
                                     window.open('mailto:sales@onlyoffice.com', "_blank");
                             }
@@ -799,7 +800,7 @@ define([
                     this.appOptions.canComments    = this.appOptions.canComments && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.comments===false);
                     this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                     this.appOptions.canRename      = !!this.permissions.rename;
-                    this.appOptions.isTrial        = params.asc_getTrial();
+                    this.appOptions.trialMode      = params.asc_getLicenseMode();
 
                     this.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof this.editorConfig.customization == 'object');
                     if (this.appOptions.canBranding)
@@ -830,7 +831,7 @@ define([
 
                 this.api.asc_setViewMode(!this.appOptions.isEdit && !this.appOptions.canComments);
                 (!this.appOptions.isEdit && this.appOptions.canComments) && this.api.asc_setRestriction(Asc.c_oAscRestrictionType.OnlyComments);
-                (this.appOptions.isEditMailMerge || this.appOptions.isEditDiagram) ? this.api.asc_LoadEmptyDocument() : this.api.asc_LoadDocument();
+                this.api.asc_LoadDocument();
 
                 if (!this.appOptions.isEdit) {
                     this.hidePreloader();
