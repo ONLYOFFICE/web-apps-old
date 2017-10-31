@@ -313,6 +313,7 @@ define([
                     docInfo.put_UserInfo(_user);
                     docInfo.put_CallbackUrl(this.editorConfig.callbackUrl);
                     docInfo.put_Token(data.doc.token);
+                    docInfo.put_Permissions(this.permissions);
                     //docInfo.put_OfflineApp(this.editorConfig.nativeApp === true);
                 }
 
@@ -733,7 +734,7 @@ define([
                             primary: 'buynow',
                             callback: function(btn) {
                                 if (btn == 'buynow')
-                                    window.open('http://www.onlyoffice.com/enterprise-edition.aspx', "_blank");
+                                    window.open('https://www.onlyoffice.com', "_blank");
                                 else if (btn == 'contact')
                                     window.open('mailto:sales@onlyoffice.com', "_blank");
                             }
@@ -786,7 +787,7 @@ define([
                 this.appOptions.canForcesave   = this.appOptions.isEdit && !this.appOptions.isOffline && (typeof (this.editorConfig.customization) == 'object' && !!this.editorConfig.customization.forcesave);
                 this.appOptions.forcesave      = this.appOptions.canForcesave;
                 this.appOptions.canEditComments= this.appOptions.isOffline || !(typeof (this.editorConfig.customization) == 'object' && this.editorConfig.customization.commentAuthorOnly);
-                this.appOptions.isTrial        = params.asc_getTrial();
+                this.appOptions.trialMode      = params.asc_getLicenseMode();
 
                 this._state.licenseWarning = (licType===Asc.c_oLicenseResult.Connections) && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
 
