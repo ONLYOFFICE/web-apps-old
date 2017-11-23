@@ -333,6 +333,7 @@ define([
                 }
 
                 this.api.asc_registerCallback('asc_onGetEditorPermissions', _.bind(this.onEditorPermissions, this));
+                this.api.asc_registerCallback('asc_onLicenseChanged',       _.bind(this.onLicenseChanged, this));
                 this.api.asc_setDocInfo(docInfo);
                 this.api.asc_getEditorPermissions(this.editorConfig.licenseUrl, this.editorConfig.customerId);
 
@@ -945,6 +946,9 @@ define([
                 $(document).on('contextmenu', _.bind(me.onContextMenu, me));
 
                 if (this._state.licenseWarning) {
+                    this.disableEditing(true);
+                    Common.NotificationCenter.trigger('api:disconnect');
+
                     value = Common.localStorage.getItem("de-license-warning");
                     value = (value!==null) ? parseInt(value) : 0;
                     var now = (new Date).getTime();
@@ -953,7 +957,7 @@ define([
                         Common.UI.info({
                             width: 500,
                             title: this.textNoLicenseTitle,
-                            msg  : this.warnNoLicense,
+                            msg  : this._state.licenseWarning,
                             buttons: [
                                 {value: 'buynow', caption: this.textBuyNow},
                                 {value: 'contact', caption: this.textContactUs}
@@ -967,6 +971,13 @@ define([
                             }
                         });
                     }
+                }
+            },
+
+            onLicenseChanged: function(params) {
+                var licType = params.asc_getLicenseType();
+                if ((licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.Users) && this.appOptions.canEdit && this.editorConfig.mode !== 'view') {
+                    this._state.licenseWarning = (licType===Asc.c_oLicenseResult.Connections) ? this.warnNoLicense : this.warnNoLicenseUsers;
                 }
             },
 
@@ -1030,8 +1041,6 @@ define([
                 var type = /^(?:(pdf|djvu|xps))$/.exec(this.document.fileType);
                 this.appOptions.canDownloadOrigin = !this.appOptions.nativeApp && this.permissions.download !== false && (type && typeof type[1] === 'string');
                 this.appOptions.canDownload       = !this.appOptions.nativeApp && this.permissions.download !== false && (!type || typeof type[1] !== 'string');
-
-                this._state.licenseWarning = (licType===Asc.c_oLicenseResult.Connections) && this.appOptions.canEdit && this.editorConfig.mode !== 'view';
 
                 var headerView = this.getApplication().getController('Viewport').getView('Common.Views.Header');
                 this.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof this.editorConfig.customization == 'object');
@@ -2108,7 +2117,8 @@ define([
             txtStyle_Subtitle: 'Subtitle',
             txtStyle_Quote: 'Quote',
             txtStyle_Intense_Quote: 'Intense Quote',
-            txtStyle_List_Paragraph: 'List Paragraph'
+            txtStyle_List_Paragraph: 'List Paragraph',
+            warnNoLicenseUsers: 'You are using an open source version of ONLYOFFICE. The version has limitations for concurrent connections to the document server (20 connections at a time).<br>If you need more please consider purchasing a commercial license.'
         }
     })(), DE.Controllers.Main || {}))
 });
