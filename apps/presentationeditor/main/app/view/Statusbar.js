@@ -357,6 +357,7 @@ define([
                     /** coauthoring end **/
 
                     this.api.asc_registerCallback('asc_onFocusObject', _.bind(this.onApiFocusObject, this));
+                    Common.NotificationCenter.on('api:disconnect',     _.bind(this.onApiCoAuthoringDisconnect, this));
                 }
 
                 return this;
@@ -463,7 +464,7 @@ define([
                 this.langMenu.doLayout();
                 if (this.langMenu.items.length>0) {
                     this.btnLanguage.setDisabled(false || this._state.no_paragraph);
-                    this.btnDocLanguage.setDisabled(false);
+                    this.btnDocLanguage.setDisabled(!!this.mode.isDisconnected);
                 }
             },
 
@@ -505,6 +506,11 @@ define([
                 this._state.no_paragraph = this._state.no_paragraph || this.langMenu.items.length<1;
                 if (this._state.no_paragraph !== this.btnLanguage.isDisabled())
                     this.btnLanguage.setDisabled(this._state.no_paragraph);
+            },
+
+            onApiCoAuthoringDisconnect: function() {
+                this.setMode({isDisconnected:true});
+                this.SetDisabled(true);
             },
 
             pageIndexText   : 'Slide {0} of {1}',

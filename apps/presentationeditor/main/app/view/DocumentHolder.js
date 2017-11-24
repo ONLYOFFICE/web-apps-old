@@ -216,7 +216,8 @@ define([
             var onContextMenu = function(event){
                 _.delay(function(){
                     if (event.get_Type() == Asc.c_oAscContextMenuTypes.Thumbnails) {
-                        showPopupMenu.call(me, me.slideMenu, {isSlideSelect: event.get_IsSlideSelect(), fromThumbs: true}, event);
+                        if (me.mode.isEdit)
+                            showPopupMenu.call(me, me.slideMenu, {isSlideSelect: event.get_IsSlideSelect(), fromThumbs: true}, event);
                     } else {
                         showObjectMenu.call(me, event);
                     }
