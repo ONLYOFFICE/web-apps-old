@@ -82,7 +82,9 @@ define([
                 currentVariation: 0,
                 pluginObj: undefined,
                 allowSelected: false,
-                selected: false
+                selected: false,
+                groupName: '',
+                groupRank: 0
             }
         }
     });
