@@ -204,7 +204,8 @@ define([
             me.btnSave = new Common.UI.Button({
                 id          : 'id-toolbar-btn-save',
                 cls         : 'btn-toolbar',
-                iconCls     : me.btnSaveCls
+                iconCls     : me.btnSaveCls,
+                lock        : [_set.lostConnect]
             });
 
             me.btnCopy = new Common.UI.Button({

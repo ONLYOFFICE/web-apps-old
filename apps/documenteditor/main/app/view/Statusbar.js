@@ -379,6 +379,7 @@ define([
                     this.api.asc_registerCallback('asc_onAuthParticipantsChanged', _.bind(this.onApiUsersChanged, this));
                     this.api.asc_registerCallback('asc_onParticipantsChanged', _.bind(this.onApiUsersChanged, this));
                     /** coauthoring end **/
+                    Common.NotificationCenter.on('api:disconnect',      _.bind(this.onApiCoAuthoringDisconnect, this));
                 }
 
                 return this;
@@ -477,8 +478,8 @@ define([
 
                 this.langMenu.doLayout();
                 if (this.langMenu.items.length>0) {
-                    this.btnLanguage.setDisabled(false);
-                    this.btnDocLanguage.setDisabled(false);
+                    this.btnLanguage.setDisabled(!!this.mode.isDisconnected);
+                    this.btnDocLanguage.setDisabled(!!this.mode.isDisconnected);
                 }
             },
 
@@ -516,6 +517,11 @@ define([
                 }
                 this.mnuChangesPanel.setChecked(!disable && (this.state.changespanel==true));
                 this.btnReview.setDisabled(disable);
+            },
+
+            onApiCoAuthoringDisconnect: function() {
+                this.setMode({isDisconnected:true});
+                this.SetDisabled(true);
             },
 
             pageIndexText       : 'Page {0} of {1}',
