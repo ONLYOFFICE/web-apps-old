@@ -2425,7 +2425,7 @@ define([
             var menuRemoveHyperlinkTable = new Common.UI.MenuItem({
                 caption     : me.removeHyperlinkText
             }).on('click', function(item, e){
-                me.api && me.api.remove_Hyperlink();
+                me.api && me.api.remove_Hyperlink(item.hyperProps.value);
                 me.fireEvent('editcomplete', me);
             });
 
@@ -2655,6 +2655,7 @@ define([
                     menuHyperlinkSeparator.setVisible(menuAddHyperlinkTable.isVisible() || menuHyperlinkTable.isVisible());
 
                     menuEditHyperlinkTable.hyperProps = value.hyperProps;
+                    menuRemoveHyperlinkTable.hyperProps = value.hyperProps;
 
                     if (text!==false) {
                         menuAddHyperlinkTable.hyperProps = {};
@@ -2959,7 +2960,7 @@ define([
             var menuRemoveHyperlinkPara = new Common.UI.MenuItem({
                 caption     : me.removeHyperlinkText
             }).on('click', function(item, e) {
-                me.api.remove_Hyperlink();
+                me.api.remove_Hyperlink(item.hyperProps.value);
                 me.fireEvent('editcomplete', me);
             });
 
@@ -3114,6 +3115,7 @@ define([
                     menuHyperlinkPara.setVisible(value.hyperProps!==undefined);
                     menuHyperlinkParaSeparator.setVisible(menuAddHyperlinkPara.isVisible() || menuHyperlinkPara.isVisible());
                     menuEditHyperlinkPara.hyperProps = value.hyperProps;
+                    menuRemoveHyperlinkPara.hyperProps = value.hyperProps;
                     if (text!==false) {
                         menuAddHyperlinkPara.hyperProps = {};
                         menuAddHyperlinkPara.hyperProps.value = new Asc.CHyperlinkProperty();
