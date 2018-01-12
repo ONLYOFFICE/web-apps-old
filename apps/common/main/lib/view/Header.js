@@ -53,9 +53,9 @@ define([
     Common.Views.Header =  Backbone.View.extend(_.extend({
         options : {
             branding: {},
-            headerCaption: 'Default Caption',
-            documentCaption: '',
-            canBack: false
+            // headerCaption: 'Default Caption',
+            documentCaption: ''
+            // canBack: false
         },
 
         el: '#header',
@@ -65,31 +65,27 @@ define([
 
         // Delegated events for creating new items, and clearing completed ones.
         events: {
-            'click #header-logo': function(e) {
-                var _url = !!this.branding && !!this.branding.logo && !!this.branding.logo.url ?
-                                this.branding.logo.url : 'http://www.onlyoffice.com';
-
-                var newDocumentPage = window.open(_url);
-                newDocumentPage && newDocumentPage.focus();
+            'click #header-logo': function() {
+                Common.UI.Menu.Manager.hideAll();
             }
         },
 
         initialize: function (options) {
             this.options = this.options ? _({}).extend(this.options, options) : options;
 
-            this.headerCaption      = this.options.headerCaption;
+            // this.headerCaption      = this.options.headerCaption;
             this.documentCaption    = this.options.documentCaption;
-            this.canBack            = this.options.canBack;
+            // this.canBack            = this.options.canBack;
             this.branding           = this.options.customization;
             this.isModified         = false;
         },
 
         render: function () {
             $(this.el).html(this.template({
-                headerCaption   : this.headerCaption,
+                // headerCaption   : this.headerCaption,
                 documentCaption : Common.Utils.String.htmlEncode(this.documentCaption),
-                canBack         : this.canBack,
-                textBack        : this.textBack
+                // canBack         : this.canBack,
+                // textBack        : this.textBack
             }));
 
             var menuNewTab = new Common.UI.MenuItem({

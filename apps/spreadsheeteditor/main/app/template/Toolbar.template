@@ -286,13 +286,5 @@
         </div>
         <div class="toolbar-group" id="id-toolbar-full-placeholder-field-styles" style="width: 100%; min-width: 160px;">
         </div>
-        <div class="toolbar-group no-mask">
-            <div class="toolbar-row">
-                <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-hidebars"></span>
-            </div>
-            <div class="toolbar-row">
-                <span class="btn-placeholder" id="id-toolbar-full-placeholder-btn-settings"></span>
-            </div>
-        </div>
     </div>
 </div>

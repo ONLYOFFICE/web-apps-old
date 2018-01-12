@@ -66,18 +66,18 @@ define([
                 Common.Utils.String.format(this.pageIndexText, model.get('current'), model.get('count')) );
         }
 
-        function _clickLanguage(menu, item, state) {
-            var $parent = $(menu.el.parentNode, this.$el);
+        // function _clickLanguage(menu, item, state) {
+        //     var $parent = $(menu.el.parentNode, this.$el);
 
-            $parent.find('#status-label-lang').text(item.caption);
-            $parent.find('.icon-lang-flag')
-                    .removeClass(this.langMenu.prevTip)
-                    .addClass(item.value.tip);
+        //     $parent.find('#status-label-lang').text(item.caption);
+        //     $parent.find('.icon-lang-flag')
+        //             .removeClass(this.langMenu.prevTip)
+        //             .addClass(item.value.tip);
 
-            this.langMenu.prevTip = item.value.tip;
+        //     this.langMenu.prevTip = item.value.tip;
 
-            this.fireEvent('langchanged', [this, item.value.code, item.caption]);
-        }
+        //     this.fireEvent('langchanged', [this, item.value.code, item.caption]);
+        // }
 
         DE.Views.Statusbar = Backbone.View.extend(_.extend({
             el: '#statusbar',
@@ -260,7 +260,7 @@ define([
                 this.zoomMenu.cmpEl.attr({tabindex: -1});
 
                 this.langMenu.prevTip = 'en';
-                this.langMenu.on('item:click', _.bind(_clickLanguage,this));
+                // this.langMenu.on('item:click', _.bind(_clickLanguage,this));
 
                 /** coauthoring begin **/
                 this.panelUsersList = $('#status-users-list', this.el);
@@ -484,20 +484,20 @@ define([
             },
 
             setLanguage: function(info) {
-                if (this.langMenu.prevTip != info.tip && info.code !== undefined) {
-                    var $parent = $(this.langMenu.el.parentNode, this.$el);
-                    $parent.find('.icon-lang-flag')
-                        .removeClass(this.langMenu.prevTip)
-                        .addClass(info.tip);
+                // if (this.langMenu.prevTip != info.tip && info.code !== undefined) {
+                //     var $parent = $(this.langMenu.el.parentNode, this.$el);
+                //     $parent.find('.icon-lang-flag')
+                //         .removeClass(this.langMenu.prevTip)
+                //         .addClass(info.tip);
 
-                    this.langMenu.prevTip = info.tip;
+                //     this.langMenu.prevTip = info.tip;
 
-                    $parent.find('#status-label-lang').text(info.title);
+                //     $parent.find('#status-label-lang').text(info.title);
 
-                    var index = $parent.find('ul li a:contains("'+info.title+'")').parent().index();
-                    index < 0 ? this.langMenu.saved = info.title :
-                                this.langMenu.items[index-1].setChecked(true);
-                }
+                //     var index = $parent.find('ul li a:contains("'+info.title+'")').parent().index();
+                //     index < 0 ? this.langMenu.saved = info.title :
+                //                 this.langMenu.items[index-1].setChecked(true);
+                // }
             },
 
             showStatusMessage: function(message) {
