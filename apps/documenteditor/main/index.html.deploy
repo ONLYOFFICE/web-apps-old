@@ -23,7 +23,7 @@
             z-index: 100;
         }
 
-        .loader-page {
+        /*.loader-page {
             width: 100%;
             height: 170px;
             bottom: 42%;
@@ -50,13 +50,17 @@
             color: #888;
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
             line-height: 20px;
-        }
+        }*/
 
         .loader-page-text-loading {
-            font-size: 14px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 34px;
         }
 
-        .loader-page-text-customer {
+        /*.loader-page-text-customer {
             font-size: 16px;
             margin-bottom: 5px;
         }
@@ -174,7 +178,7 @@
              25%    { background: #f4f4f4; top:0; opacity:0; }
              45%    { background: #EFEFEF; top:0; opacity:0,2; }
             100%    { top:100px; background: #55bce6; }
-        }
+        }*/
     </style>
 
     <script>
