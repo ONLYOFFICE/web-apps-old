@@ -198,6 +198,8 @@ define([
                                 !/area_id/.test(e.target.id) && $(e.target).parent().find(e.relatedTarget).length<1 /* Check if focus in combobox goes from input to it's menu button or menu items */
                                 && (e.relatedTarget.localName != 'input' || !/form-control/.test(e.relatedTarget.className)) /* Check if focus goes to text input with class "form-control" */
                                 && (e.relatedTarget.localName != 'textarea' || /area_id/.test(e.relatedTarget.id))) /* Check if focus goes to textarea, but not to "area_id" */ {
+                                if (Common.Utils.isIE && e.originalEvent && e.originalEvent.target && /area_id/.test(e.originalEvent.target.id) && (e.originalEvent.target === e.originalEvent.srcElement))
+                                    return;
                                 me.api.asc_enableKeyEvents(true);
                                 if (/msg-reply/.test(e.target.className))
                                     me.dontCloseDummyComment = false;
@@ -652,7 +654,7 @@ define([
                     case Asc.c_oAscAsyncAction['ForceSaveButton']:
                         clearTimeout(this._state.timerSave);
                         force = true;
-                        title   = (!this.appOptions.isOffline) ? this.saveTitleText : '';
+                        title   = this.saveTitleText;
                         text    = (!this.appOptions.isOffline) ? this.saveTextText : '';
                         break;
 
@@ -1977,15 +1979,26 @@ define([
                                 guid: item.guid,
                                 baseUrl : item.baseUrl,
                                 variations: variationsArr,
-                                currentVariation: 0
+                                currentVariation: 0,
+                                groupName: (item.group) ? item.group.name : '',
+                                groupRank: (item.group) ? item.group.rank : 0
                             }));
                     });
 
                     if (uiCustomize!==false)  // from ui customizer in editor config or desktop event
                         this.UICustomizePlugins = arrUI;
 
-                    if ( !uiCustomize ) {
-                        if (pluginStore) pluginStore.reset(arr);
+                    if ( !uiCustomize && pluginStore) {
+                        arr.sort(function(a, b){
+                            var rank_a = a.get('groupRank'),
+                                rank_b = b.get('groupRank');
+                            if (rank_a < rank_b)
+                                return (rank_a==0) ? 1 : -1;
+                            if (rank_a > rank_b)
+                                return (rank_b==0) ? -1 : 1;
+                            return 0;
+                        });
+                        pluginStore.reset(arr);
                         this.appOptions.canPlugins = !pluginStore.isEmpty();
                     }
                 } else if (!uiCustomize){
