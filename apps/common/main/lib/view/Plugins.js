@@ -91,7 +91,7 @@ define([
                 enableKeyEvents: false,
                 itemTemplate: _.template([
                     '<div id="<%= id %>" class="item-plugins" style="display: block;">',
-                        '<div class="plugin-icon" style="background-image: url(' + '<%= baseUrl %>' + '<%= variations[currentVariation].get("icons")[(window.devicePixelRatio > 1) ? 1 : 0] %>);"></div>',
+                        '<div class="plugin-icon" style="background-image: url(' + '<% print(baseUrl.replace(/(\\(|\\))/g,"\\\\$1")) %>' + '<%= variations[currentVariation].get("icons")[(window.devicePixelRatio > 1) ? 1 : 0] %>);"></div>',
                         '<% if (variations.length>1) { %>',
                         '<div class="plugin-caret img-commonctrl"></div>',
                         '<% } %>',
