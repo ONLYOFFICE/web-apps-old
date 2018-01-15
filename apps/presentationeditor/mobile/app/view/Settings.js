@@ -75,8 +75,8 @@ define([
                 $('#settings-document-info').single('click', _.bind(me.showInfo, me));
                 $('#settings-download').single('click', _.bind(me.showDownload, me));
                 $('#settings-history').single('click', _.bind(me.showHistory, me));
-                $('#settings-help').single('click', _.bind(me.showHelp, me));
-                $('#settings-about').single('click', _.bind(me.showAbout, me));
+                // $('#settings-help').single('click', _.bind(me.showHelp, me));
+                // $('#settings-about').single('click', _.bind(me.showAbout, me));
                 $('#settings-presentation-setup').single('click', _.bind(me.showSetup, me));
 
                 me.initControls();

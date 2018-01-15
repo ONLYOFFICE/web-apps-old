@@ -64,11 +64,7 @@ define([
         template: _.template(headerTemplate),
 
         // Delegated events for creating new items, and clearing completed ones.
-        events: {
-            'click #header-logo': function() {
-                Common.UI.Menu.Manager.hideAll();
-            }
-        },
+        events: {},
 
         initialize: function (options) {
             this.options = this.options ? _({}).extend(this.options, options) : options;

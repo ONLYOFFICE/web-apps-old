@@ -1,7 +1,7 @@
 #header-container {
+    width: 100%;
     height: @app-header-height;
     display: table;
-
     & > div {
         display: table-cell;
         height: @app-header-height;
@@ -11,13 +11,13 @@
     }
 }
 
-#header-logo {
-    background-color: @app-header-bg-color;
-    min-width: 20px;
-    .background-ximage('@{common-image-path}/header/header-back.png', '@{common-image-path}/header/header-back@2x.png', 20px);
-    background-repeat: no-repeat;
-    cursor: pointer;
-}
+// #header-logo {
+//     background-color: @app-header-bg-color;
+//     min-width: 20px;
+//     .background-ximage('@{common-image-path}/header/header-back.png', '@{common-image-path}/header/header-back@2x.png', 20px);
+//     background-repeat: no-repeat;
+//     cursor: pointer;
+// }
 
 // #header-caption {
 //     & > div {
@@ -56,7 +56,7 @@
 
     div {
         display: inline-block;
-        padding: 2px 8px;
+        padding: 2px 20px;
 
         &.renamed:hover {
             background-color: @app-header-bg-color-dark;
