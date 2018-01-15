@@ -94,7 +94,7 @@ define([
             this.btnFile = new Common.UI.Button({
                 action: 'file',
                 el: $('#left-btn-file'),
-                hint: this.tipFile + Common.Utils.String.platformKey('Alt+F'),
+                // hint: this.tipFile + Common.Utils.String.platformKey('Alt+F'),
                 enableToggle: true,
                 disabled: true,
                 toggleGroup: 'leftMenuGroup'
@@ -127,7 +127,7 @@ define([
             /** coauthoring begin **/
             this.btnComments = new Common.UI.Button({
                 el: $('#left-btn-comments'),
-                hint: this.tipComments + Common.Utils.String.platformKey('Ctrl+Shift+H'),
+                // hint: this.tipComments + Common.Utils.String.platformKey('Ctrl+Shift+H'),
                 enableToggle: true,
                 disabled: true,
                 toggleGroup: 'leftMenuGroup'
@@ -135,7 +135,7 @@ define([
 
             this.btnChat = new Common.UI.Button({
                 el: $('#left-btn-chat'),
-                hint: this.tipChat + Common.Utils.String.platformKey('Alt+Q'),
+                // hint: this.tipChat + Common.Utils.String.platformKey('Alt+Q'),
                 enableToggle: true,
                 disabled: true,
                 toggleGroup: 'leftMenuGroup'

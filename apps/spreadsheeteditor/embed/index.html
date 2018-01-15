@@ -27,7 +27,7 @@
             z-index: 20002;
         }
 
-        .loader-page {
+        /*.loader-page {
             width: 100%;
             height: 170px;
             bottom: 42%;
@@ -54,13 +54,17 @@
             color: #888;
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
             line-height: 20px;
-        }
+        }*/
 
         .loader-page-text-loading {
-            font-size: 14px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 34px;
         }
 
-        .loader-page-text-customer {
+        /*.loader-page-text-customer {
             font-size: 16px;
             margin-bottom: 5px;
         }
@@ -178,7 +182,7 @@
              25%    { background: #f4f4f4; top:0; opacity:0; }
              45%    { background: #EFEFEF; top:0; opacity:0,2; }
             100%    { top:100px; background: #55bce6; }
-        }
+        }*/
     </style>
 
     <!--[if lt IE 9]>
@@ -234,8 +238,8 @@
 
           var params = getUrlParams(),
               lang = (params["lang"] || 'en').split("-")[0],
-              customer = params["customer"] ? ('<div class="loader-page-text-customer">' + encodeUrlParam(params["customer"]) + '</div>') : '',
-              margin = (customer !== '') ? 50 : 20,
+              // customer = params["customer"] ? ('<div class="loader-page-text-customer">' + encodeUrlParam(params["customer"]) + '</div>') : '',
+              // margin = (customer !== '') ? 50 : 20,
               loading = 'Loading...',
               logo = params["logo"] ? ((params["logo"] !== 'none') ? ('<img src="' + encodeUrlParam(params["logo"]) + '" class="loader-logo" />') : '') : null;
 
@@ -252,17 +256,7 @@
 
           document.write(
               '<div id="loading-mask" class="loadmask">' +
-                      '<div class="loader-page" style="margin-bottom: ' + margin + 'px;' + ((logo!==null) ? 'height: auto;' : '') + '">' +
-                          ((logo!==null) ? logo :
-                          '<div class="loader-page-romb">' +
-                              '<div class="romb" id="blue"></div>' +
-                              '<div class="romb" id="green"></div>' +
-                              '<div class="romb" id="red"></div>' +
-                          '</div>') +
-                      '</div>' +
-                      '<div class="loader-page-text">' +  customer +
-                      '<div class="loader-page-text-loading">' + loading + '</div>' +
-                  '</div>' +
+                  '<div class="loader-page-text-loading">' + loading + '</div>' +
               '</div>');
       </script>
 
