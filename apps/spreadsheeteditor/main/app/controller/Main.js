@@ -310,7 +310,7 @@ define([
 
                 value = Common.localStorage.getItem("sse-settings-func-locale");
                 if (value===null) {
-                    var lang = ((this.editorConfig.lang) ? this.editorConfig.lang : 'en').split("-")[0].toLowerCase();
+                    var lang = ((this.editorConfig.lang) ? this.editorConfig.lang : 'en').split(/[\-\_]/)[0].toLowerCase();
                     if (lang !== 'en')
                         value = SSE.Views.FormulaLang.get(lang);
                 } else

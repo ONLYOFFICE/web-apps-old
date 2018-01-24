@@ -1051,7 +1051,7 @@ define([
             var me = this;
             var store = this.viewHelpPicker.store;
             if (lang) {
-                lang = lang.split("-")[0];
+                lang = lang.split(/[\-\_]/)[0];
                 var config = {
                     dataType: 'json',
                     error: function () {

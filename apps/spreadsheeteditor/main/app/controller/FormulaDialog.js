@@ -139,7 +139,7 @@ define([
             if (store) {
                 var value = Common.localStorage.getItem("sse-settings-func-locale");
                 if (value===null)
-                    value = ((this.mode.lang) ? this.mode.lang : 'en').split("-")[0].toLowerCase();
+                    value = ((this.mode.lang) ? this.mode.lang : 'en').split(/[\-\_]/)[0].toLowerCase();
                 value = SSE.Views.FormulaLang.getDescription(value);
 
                 allFunctionsGroup = new SSE.Models.FormulaGroup ({
