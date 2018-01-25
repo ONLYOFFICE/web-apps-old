@@ -479,6 +479,9 @@ define([
                 me.hidePreloader();
                 me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], LoadingDocument);
 
+                if (me.appOptions.isReviewOnly)
+                    me.api.asc_SetTrackRevisions(true);
+
                 /** coauthoring begin **/
                 value = Common.localStorage.getItem("de-settings-livecomment");
                 this.isLiveCommenting = !(value!==null && parseInt(value) == 0);
