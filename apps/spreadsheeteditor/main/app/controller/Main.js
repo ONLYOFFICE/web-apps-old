@@ -1921,7 +1921,7 @@ define([
                     plugins.pluginsData.forEach(function(item){
                         var variationsArr = [];
                         item.variations.forEach(function(itemVar){
-                            if (_.contains(itemVar.EditorsSupport, 'word') && (isEdit || itemVar.isViewer)) {
+                            if (_.contains(itemVar.EditorsSupport, 'cell') && (isEdit || itemVar.isViewer)) {
                                 var icons = itemVar.icons;
                                 if (item.oldVersion) { // for compatibility with previouse version of server, where plugins.url is used.
                                     icons = [];
