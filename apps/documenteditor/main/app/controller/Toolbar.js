@@ -55,7 +55,8 @@ define([
     'documenteditor/main/app/view/PageMarginsDialog',
     'documenteditor/main/app/view/PageSizeDialog',
     'documenteditor/main/app/view/NoteSettingsDialog',
-    'documenteditor/main/app/view/CustomColumnsDialog'
+    'documenteditor/main/app/view/CustomColumnsDialog',
+    'documenteditor/main/app/view/TableOfContentsSettings'
 ], function () {
     'use strict';
 
@@ -269,6 +270,8 @@ define([
             toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
             toolbar.btnNotes.on('click',                                _.bind(this.onNotesClick, this));
             toolbar.btnNotes.menu.on('item:click',                      _.bind(this.onNotesMenuClick, this));
+            toolbar.btnContents.on('click',                             _.bind(this.onContentsClick, this));
+            toolbar.btnContents.menu.on('item:click',                   _.bind(this.onContentsMenuClick, this));
             toolbar.mnuGotoFootPrev.on('click',                         _.bind(this.onFootnotePrevClick, this));
             toolbar.mnuGotoFootNext.on('click',                         _.bind(this.onFootnoteNextClick, this));
 
@@ -2062,6 +2065,57 @@ define([
                     })).show();
                 } else
                     return;
+
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            }
+        },
+
+        onContentsClick: function() {
+            if (this.api) {
+                var props = this.api.asc_GetTableOfContentsPr();
+                if (!props) {
+                    props = new Asc.CTableOfContentsPr();
+                    props.put_OutlineRange(1, 9);
+                }
+                props.put_Hyperlink(true);
+                props.put_ShowPageNumbers(true);
+                props.put_RightAlignTab(true);
+                props.put_TabLeader(Asc.c_oAscTabLeader.Dot);
+                this.api.asc_AddTableOfContents(null, props);
+            }
+        },
+
+        onContentsMenuClick: function(menu, item) {
+            if (this.api) {
+                if (item.value == 0 || item.value == 1) {
+                    var props = this.api.asc_GetTableOfContentsPr();
+                    if (!props) {
+                        props = new Asc.CTableOfContentsPr();
+                        props.put_OutlineRange(1, 9);
+                    }
+                    props.put_Hyperlink(true);
+                    props.put_ShowPageNumbers(item.value == 0);
+                    props.put_RightAlignTab(item.value == 0);
+                    props.put_TabLeader((item.value == 0) ? Asc.c_oAscTabLeader.Dot : Asc.c_oAscTabLeader.None);
+                    this.api.asc_AddTableOfContents(null, props);
+                } else if (item.value == 'settings') {
+                    var props = this.api.asc_GetTableOfContentsPr(),
+                        me = this;
+                    var win = new DE.Views.TableOfContentsSettings({
+                        api: this.api,
+                        props: props,
+                        handler: function (result, value) {
+                            if (result == 'ok') {
+                                (props) ? me.api.asc_SetTableOfContentsPr(value) : me.api.asc_AddTableOfContents(null, value);
+                            }
+                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                        }
+                    });
+                    win.show();
+                } else if (item.value == 'remove') {
+                    this.api.asc_RemoveTableOfContents();
+                } else if (item.value == 'all' || 'pages')
+                    this.api.asc_UpdateTableOfContents(item.value == 'pages');
 
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             }

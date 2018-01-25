@@ -1634,5 +1634,10 @@
   "DE.Views.Toolbar.txtScheme6": "Concourse",
   "DE.Views.Toolbar.txtScheme7": "Equity",
   "DE.Views.Toolbar.txtScheme8": "Flow",
-  "DE.Views.Toolbar.txtScheme9": "Foundry"
+  "DE.Views.Toolbar.txtScheme9": "Foundry",
+  "DE.Views.Toolbar.textContentsRemove": "Remove table of contents",
+  "DE.Views.Toolbar.textContentsSettings": "Settings",
+  "DE.Views.Toolbar.textUpdateAll": "Update entire table",
+  "DE.Views.Toolbar.textUpdatePages": "Update page numbers only",
+  "DE.Views.Toolbar.tipContents": "Insert or edit table of contents"
 }

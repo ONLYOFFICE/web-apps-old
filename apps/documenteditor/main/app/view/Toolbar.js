@@ -748,6 +748,15 @@ define([
             });
             this.paragraphControls.push(this.btnNotes);
 
+            this.btnContents = new Common.UI.Button({
+                id          : 'id-toolbar-btn-contents',
+                cls         : 'btn-toolbar',
+                iconCls     : 'btn-contents',
+                split       : true,
+                menu        : true
+            });
+            this.paragraphControls.push(this.btnContents);
+
             this.btnMailRecepients= new Common.UI.Button({
                 id          : 'id-toolbar-btn-mailrecepients',
                 cls         : 'btn-toolbar',
@@ -1087,7 +1096,8 @@ define([
             replacePlacholder('#id-toolbar-full-placeholder-field-styles',                 this.listStyles);
             replacePlacholder('#id-toolbar-short-placeholder-btn-halign',                  this.btnHorizontalAlign);
             replacePlacholder('#id-toolbar-full-placeholder-btn-mailrecepients',           this.btnMailRecepients);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-notes',      this.btnNotes);
+            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-notes',          this.btnNotes);
+            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-contents',       this.btnContents);
         },
 
         createDelayedElements: function() {
@@ -1152,6 +1162,7 @@ define([
             this.btnHide.updateHint(this.tipViewSettings);
             this.btnAdvSettings.updateHint(this.tipAdvSettings);
             this.btnNotes.updateHint(this.tipNotes);
+            this.btnContents.updateHint(this.tipContents);
 
             // set menus
 
@@ -1317,6 +1328,21 @@ define([
                         { caption: '--' },
                         { caption: this.mniDelFootnote,  value: 'delele' },
                         { caption: this.mniNoteSettings, value: 'settings' }
+                    ]
+                })
+            );
+
+            var contentsTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem" class="item-contents"><div style="background-position: 0 -<%= options.offsety %>px;" ></div></a>');
+            this.btnContents.setMenu(
+                new Common.UI.Menu({
+                    items: [
+                        {template: contentsTemplate, offsety: 0, value: 0},
+                        {template: contentsTemplate, offsety: 72, value: 1},
+                        {caption: this.textContentsSettings, value: 'settings'},
+                        {caption: this.textContentsRemove, value: 'remove'},
+                        { caption: '--' },
+                        {caption: this.textUpdateAll, value: 'all'},
+                        {caption: this.textUpdatePages, value: 'pages'}
                     ]
                 })
             );
@@ -1923,7 +1949,11 @@ define([
         textGotoFootnote: 'Go to Footnotes',
         tipChangeChart: 'Change Chart Type',
         textColumnsCustom: 'Custom Columns',
-        textSurface: 'Surface'
-
+        textSurface: 'Surface',
+        tipContents: 'Insert or edit table of contents',
+        textContentsSettings: 'Settings',
+        textContentsRemove: 'Remove table of contents',
+        textUpdateAll: 'Update entire table',
+        textUpdatePages: 'Update page numbers only'
     }, DE.Views.Toolbar || {}));
 });
