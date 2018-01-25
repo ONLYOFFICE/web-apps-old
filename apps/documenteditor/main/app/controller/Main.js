@@ -130,7 +130,8 @@ define([
                         'Diagram Title': this.txtDiagramTitle,
                         'X Axis': this.txtXAxis,
                         'Y Axis': this.txtYAxis,
-                        'Your text here': this.txtArt
+                        'Your text here': this.txtArt,
+                        "No table of contents entries found.": this.txtNoTableOfContents
                     };
                 styleNames.forEach(function(item){
                     translate[item] = me.translationTable[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
@@ -2138,7 +2139,8 @@ define([
             txtStyle_Quote: 'Quote',
             txtStyle_Intense_Quote: 'Intense Quote',
             txtStyle_List_Paragraph: 'List Paragraph',
-            warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.'
+            warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.',
+            txtNoTableOfContents: "No table of contents entries found."
         }
     })(), DE.Controllers.Main || {}))
 });
