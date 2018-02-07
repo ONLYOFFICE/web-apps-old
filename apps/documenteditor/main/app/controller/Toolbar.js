@@ -676,7 +676,8 @@ define([
                 toolbar.mnuInsertPageNum.setDisabled(need_disable);
             }
 
-            need_disable = paragraph_locked || header_locked || in_header || in_equation && !btn_eq_state || this.api.asc_IsCursorInFootnote();
+            var in_footnote = this.api.asc_IsCursorInFootnote();
+            need_disable = paragraph_locked || header_locked || in_header || in_equation && !btn_eq_state || in_footnote;
             if (need_disable != toolbar.btnInsertPageBreak.isDisabled()) {
                 toolbar.btnInsertPageBreak.setDisabled(need_disable);
             }
@@ -688,8 +689,8 @@ define([
                 toolbar.btnInsertText.setDisabled(need_disable);
             }
 
-            if ((need_disable || in_image) != toolbar.mnuInsertTextArt.isDisabled())
-                toolbar.mnuInsertTextArt.setDisabled(need_disable || in_image);
+            if ((need_disable || in_image || in_footnote) != toolbar.mnuInsertTextArt.isDisabled())
+                toolbar.mnuInsertTextArt.setDisabled(need_disable || in_image || in_footnote);
 
             if (in_chart !== this._state.in_chart) {
                 toolbar.btnInsertChart.updateHint(in_chart ? toolbar.tipChangeChart : toolbar.tipInsertChart);
