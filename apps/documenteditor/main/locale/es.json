@@ -858,7 +858,7 @@
   "DE.Views.DocumentHolder.txtTopAndBottom": "Superior e inferior",
   "DE.Views.DocumentHolder.txtUnderbar": "Barra debajo de texto",
   "DE.Views.DocumentHolder.txtUngroup": "Desagrupar",
-  "DE.Views.DocumentHolder.updateStyleText": "Actualizar 1% estilo",
+  "DE.Views.DocumentHolder.updateStyleText": "Actualizar estilo %1",
   "DE.Views.DocumentHolder.vertAlignText": "Alineación vertical",
   "DE.Views.DropcapSettingsAdvanced.cancelButtonText": "Cancelar",
   "DE.Views.DropcapSettingsAdvanced.okButtonText": "Aceptar",
