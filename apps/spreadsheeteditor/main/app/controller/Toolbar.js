@@ -197,17 +197,17 @@ define([
                 toolbar.mnuBorderWidth.on('item:toggle',                    _.bind(this.onBordersWidth, this));
                 toolbar.mnuBorderColorPicker.on('select',                   _.bind(this.onBordersColor, this));
             }
-            toolbar.btnAlignLeft.on('click',                            _.bind(this.onHorizontalAlign, this, 'left'));
-            toolbar.btnAlignCenter.on('click',                          _.bind(this.onHorizontalAlign, this, 'center'));
-            toolbar.btnAlignRight.on('click',                           _.bind(this.onHorizontalAlign, this, 'right'));
-            toolbar.btnAlignJust.on('click',                            _.bind(this.onHorizontalAlign, this, 'justify'));
+            toolbar.btnAlignLeft.on('click',                            _.bind(this.onHorizontalAlign, this, AscCommon.align_Left));
+            toolbar.btnAlignCenter.on('click',                          _.bind(this.onHorizontalAlign, this, AscCommon.align_Center));
+            toolbar.btnAlignRight.on('click',                           _.bind(this.onHorizontalAlign, this, AscCommon.align_Right));
+            toolbar.btnAlignJust.on('click',                            _.bind(this.onHorizontalAlign, this, AscCommon.align_Justify));
             toolbar.btnHorizontalAlign.menu.on('item:click',            _.bind(this.onHorizontalAlignMenu, this));
             toolbar.btnVerticalAlign.menu.on('item:click',              _.bind(this.onVerticalAlignMenu, this));
             toolbar.btnMerge.on('click',                                _.bind(this.onMergeCellsMenu, this, toolbar.btnMerge.menu, toolbar.btnMerge.menu.items[0]));
             toolbar.btnMerge.menu.on('item:click',                      _.bind(this.onMergeCellsMenu, this));
-            toolbar.btnAlignTop.on('click',                             _.bind(this.onVerticalAlign, this, 'top'));
-            toolbar.btnAlignMiddle.on('click',                          _.bind(this.onVerticalAlign, this, 'center'));
-            toolbar.btnAlignBottom.on('click',                          _.bind(this.onVerticalAlign, this, 'bottom'));
+            toolbar.btnAlignTop.on('click',                             _.bind(this.onVerticalAlign, this, Asc.c_oAscVAlign.Top));
+            toolbar.btnAlignMiddle.on('click',                          _.bind(this.onVerticalAlign, this, Asc.c_oAscVAlign.Center));
+            toolbar.btnAlignBottom.on('click',                          _.bind(this.onVerticalAlign, this, Asc.c_oAscVAlign.Bottom));
             toolbar.btnWrap.on('click',                                 _.bind(this.onWrap, this));
             toolbar.btnTextOrient.menu.on('item:click',                 _.bind(this.onTextOrientationMenu, this));
             toolbar.btnInsertImage.menu.on('item:click',                _.bind(this.onInsertImageMenu, this));
@@ -307,7 +307,7 @@ define([
             if (this.api) {
                 var isModified = this.api.asc_isDocumentCanSave();
                 var isSyncButton = $('.btn-icon', this.toolbar.btnSave.cmpEl).hasClass('btn-synch');
-                if (!isModified && !isSyncButton)
+                if (!isModified && !isSyncButton && !this.toolbar.mode.forcesave)
                     return;
 
                 this.api.asc_Save();
@@ -540,8 +540,8 @@ define([
         onHorizontalAlign: function(type, btn, e) {
             this._state.pralign = undefined;
             if (this.api) {
-                this.api.asc_setCellAlign(!btn.pressed ? 'none' : type);
-                this.toolbar.btnWrap.allowDepress = !(type == 'justify');
+                this.api.asc_setCellAlign(!btn.pressed ? null : type);
+                this.toolbar.btnWrap.allowDepress = !(type == AscCommon.align_Justify);
             }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
@@ -560,9 +560,9 @@ define([
 
             this._state.pralign = undefined;
             if (this.api)
-                this.api.asc_setCellAlign(!item.checked ? 'none' : item.value);
+                this.api.asc_setCellAlign(!item.checked ? null : item.value);
 
-            this.toolbar.btnWrap.allowDepress = !(item.value == 'justify');
+            this.toolbar.btnWrap.allowDepress = !(item.value == AscCommon.align_Justify);
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Horizontal Align');
@@ -580,7 +580,7 @@ define([
 
             this._state.valign = undefined;
             if (this.api)
-                this.api.asc_setCellVertAlign(!item.checked ? 'bottom' : item.value);
+                this.api.asc_setCellVertAlign(!item.checked ? Asc.c_oAscVAlign.Bottom : item.value);
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             Common.component.Analytics.trackEvent('ToolBar', 'Vertical Align');
@@ -589,7 +589,7 @@ define([
         onVerticalAlign: function(type, btn, e) {
             this._state.valign = undefined;
             if (this.api) {
-                this.api.asc_setCellVertAlign(!btn.pressed ? 'bottom' : type);
+                this.api.asc_setCellVertAlign(!btn.pressed ? Asc.c_oAscVAlign.Bottom : type);
             }
 
             Common.NotificationCenter.trigger('edit:complete', this.toolbar);
@@ -608,7 +608,7 @@ define([
 
             if (me.api) {
                 var merged = me.api.asc_getCellInfo().asc_getFlags().asc_getMerge();
-                if (!merged && me.api.asc_mergeCellsDataLost(item.value)) {
+                if ((merged !== Asc.c_oAscMergeOptions.Merge) && me.api.asc_mergeCellsDataLost(item.value)) {
                     Common.UI.warning({
                         msg: me.warnMergeLostData,
                         buttons: ['yes', 'no'],
@@ -810,7 +810,20 @@ define([
                     props = me.api.asc_getChartObject();
                     if (props) {
                         props.putType(record.get('type'));
-                        (ischartedit) ? me.api.asc_editChartDrawingObject(props) : me.api.asc_addChartDrawingObject(props);
+                        var range = props.getRange(),
+                            isvalid = me.api.asc_checkDataRange(Asc.c_oAscSelectionDialogType.Chart, range, true, !props.getInColumns(), props.getType());
+                        if (isvalid == Asc.c_oAscError.ID.No) {
+                            (ischartedit) ? me.api.asc_editChartDrawingObject(props) : me.api.asc_addChartDrawingObject(props);
+                        } else {
+                            Common.UI.warning({
+                                msg: (isvalid == Asc.c_oAscError.ID.StockChartError) ? me.errorStockChart : ((isvalid == Asc.c_oAscError.ID.MaxDataSeriesError) ? me.errorMaxRows : me.txtInvalidRange),
+                                callback: function() {
+                                    _.defer(function(btn) {
+                                        Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                                    })
+                                }
+                            });
+                        }
                     }
                 }
             }
@@ -938,8 +951,8 @@ define([
 
         onCustomNumberFormat: function() {
             var me = this,
-                value = Common.localStorage.getItem("sse-settings-reg-settings");
-            value = (value!==null) ? parseInt(value) : ((me.toolbar.mode.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(me.toolbar.mode.lang)) : 0x0409);
+                value = me.api.asc_getLocale();
+            (!value) && (value = ((me.toolbar.mode.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(me.toolbar.mode.lang)) : 0x0409));
 
             (new SSE.Views.FormatSettingsDialog({
                 api: me.api,
@@ -957,10 +970,9 @@ define([
 
         onNumberFormatOpenBefore: function(combo) {
             if (this.api) {
-                var me = this;
-
-                var value = Common.localStorage.getItem("sse-settings-reg-settings");
-                value = (value!==null) ? parseInt(value) : ((this.toolbar.mode.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(this.toolbar.mode.lang)) : 0x0409);
+                var me = this,
+                    value = me.api.asc_getLocale();
+                (!value) && (value = ((me.toolbar.mode.lang) ? parseInt(Common.util.LanguageInfo.getLocalLanguageCode(me.toolbar.mode.lang)) : 0x0409));
 
                 if (this._state.langId !== value) {
                     this._state.langId = value;
@@ -1308,8 +1320,13 @@ define([
                 shortcuts: {
                     'command+l,ctrl+l': function(e) {
                         if (me.editMode && !me._state.multiselect) {
-                            if (!me.api.asc_getCellInfo().asc_getFormatTableInfo())
-                                me._setTableFormat(me.toolbar.mnuTableTemplatePicker.store.at(23).get('name'));
+                            var formattableinfo = me.api.asc_getCellInfo().asc_getFormatTableInfo();
+                            if (!formattableinfo) {
+                                if (_.isUndefined(me.toolbar.mnuTableTemplatePicker))
+                                    me.onApiInitTableTemplates(me.api.asc_getTablePictures(formattableinfo));
+                                var store = me.getCollection('TableTemplates');
+                                me._setTableFormat(store.at(23).get('name'));
+                            }
                         }
 
                         return false;
@@ -1431,7 +1448,7 @@ define([
                     restoreHeight: 300,
                     style: 'max-height: 300px;',
                     store: me.getCollection('TableTemplates'),
-                    itemTemplate: _.template('<div class="item-template"><img src="<%= imageUrl %>" id="<%= id %>"></div>')
+                    itemTemplate: _.template('<div class="item-template"><img src="<%= imageUrl %>" id="<%= id %>" style="width:61px;height:46px;"></div>')
                 });
 
                 picker.on('item:click', function(picker, item, record) {
@@ -1519,11 +1536,13 @@ define([
 
             listStyles.menuPicker.store.reset([]); // remove all
 
+            var mainController = this.getApplication().getController('Main');
             var merged_array = styles.asc_getDefaultStyles().concat(styles.asc_getDocStyles());
             _.each(merged_array, function(style){
                 listStyles.menuPicker.store.add({
                     imageUrl: style.asc_getImage(),
                     name    : style.asc_getName(),
+                    tip     : mainController.translationTable[style.get_Name()] || style.get_Name(),
                     uid     : Common.UI.getId()
                 });
             });
@@ -1736,6 +1755,7 @@ define([
 
             toolbar.lockToolbar(SSE.enumLock.cantHyperlink, (selectionType == Asc.c_oAscSelectionType.RangeShapeText) && (this.api.asc_canAddShapeHyperlink()===false), { array: [toolbar.btnInsertHyperlink]});
 
+            /*
             need_disable = selectionType != Asc.c_oAscSelectionType.RangeCells && selectionType != Asc.c_oAscSelectionType.RangeCol &&
                            selectionType != Asc.c_oAscSelectionType.RangeRow && selectionType != Asc.c_oAscSelectionType.RangeMax;
             if (this._state.sparklines_disabled !== need_disable) {
@@ -1745,6 +1765,7 @@ define([
                     this._state.sparklines_disabled = need_disable;
                 }
             }
+            */
 
             if (editOptionsDisabled) return;
 
@@ -1861,10 +1882,10 @@ define([
 
                         var index = -1, align;
                         switch (fontparam) {
-                            case 'left':    index = 0;      align = 'btn-align-left';      break;
-                            case 'center':  index = 1;      align = 'btn-align-center';    break;
-                            case 'right':   index = 2;      align = 'btn-align-right';     break;
-                            case 'justify': index = 3;      align = 'btn-align-just';      break;
+                            case AscCommon.align_Left:    index = 0;      align = 'btn-align-left';      break;
+                            case AscCommon.align_Center:  index = 1;      align = 'btn-align-center';    break;
+                            case AscCommon.align_Right:   index = 2;      align = 'btn-align-right';     break;
+                            case AscCommon.align_Justify: index = 3;      align = 'btn-align-just';      break;
                             default:        index = -255;   align = 'btn-align-left';      break;
                         }
                         if (!(index < 0)) {
@@ -1893,8 +1914,8 @@ define([
                             }
                         }
 
-                        toolbar.btnTextOrient.menu.items[1].setDisabled(fontparam == 'justify');
-                        toolbar.btnTextOrient.menu.items[2].setDisabled(fontparam == 'justify');
+                        toolbar.btnTextOrient.menu.items[1].setDisabled(fontparam == AscCommon.align_Justify);
+                        toolbar.btnTextOrient.menu.items[2].setDisabled(fontparam == AscCommon.align_Justify);
                     }
 
                     /* read cell vertical align */
@@ -1905,9 +1926,9 @@ define([
 
                         index = -1;   align = '';
                         switch (fontparam) {
-                            case 'top':    index = 0; align = 'btn-valign-top';     break;
-                            case 'center': index = 1; align = 'btn-valign-middle';  break;
-                            case 'bottom': index = 2; align = 'btn-valign-bottom';  break;
+                            case Asc.c_oAscVAlign.Top:    index = 0; align = 'btn-valign-top';     break;
+                            case Asc.c_oAscVAlign.Center: index = 1; align = 'btn-valign-middle';  break;
+                            case Asc.c_oAscVAlign.Bottom: index = 2; align = 'btn-valign-bottom';  break;
                         }
 
                         if (index > -1) {
@@ -1935,7 +1956,7 @@ define([
 
                     val = info.asc_getFlags().asc_getMerge();
                     if (this._state.merge !== val) {
-                        toolbar.btnMerge.toggle(val===true, true);
+                        toolbar.btnMerge.toggle(val===Asc.c_oAscMergeOptions.Merge, true);
                         this._state.merge = val;
                     }
 
@@ -1986,6 +2007,9 @@ define([
 
                 this._state.multiselect = info.asc_getFlags().asc_getMultiselect();
                 toolbar.lockToolbar(SSE.enumLock.multiselect, this._state.multiselect, { array: [toolbar.btnTableTemplate, toolbar.btnInsertHyperlink]});
+
+                need_disable = !!info.asc_getPivotTableInfo();
+                toolbar.lockToolbar(SSE.enumLock.editPivot, need_disable, { array: [toolbar.btnMerge, toolbar.btnInsertHyperlink, toolbar.btnSetAutofilter, toolbar.btnClearAutofilter, toolbar.btnSortDown, toolbar.btnSortUp, toolbar.btnAutofilter]});
             }
 
             val = info.asc_getNumFormatInfo();
@@ -2217,7 +2241,7 @@ define([
                     store: this.getApplication().getCollection('Common.Collections.TextArt'),
                     parentMenu: this.toolbar.mnuInsertTextArt.menu,
                     showLast: false,
-                    itemTemplate: _.template('<div class="item-art"><img src="<%= imageUrl %>" id="<%= id %>"></div>')
+                    itemTemplate: _.template('<div class="item-art"><img src="<%= imageUrl %>" id="<%= id %>" style="width:50px;height:50px;"></div>')
                 });
 
                 this.toolbar.mnuTextArtPicker.on('item:click', function(picker, item, record, e) {
@@ -2564,8 +2588,23 @@ define([
 
                             if (me._state.tablename)
                                 me.api.asc_changeAutoFilter(me._state.tablename, Asc.c_oAscChangeFilterOptions.style, fmtname);
-                            else
-                                me.api.asc_addAutoFilter(fmtname, dlg.getSettings());
+                            else {
+                                var settings = dlg.getSettings();
+                                if (settings.selectionType == Asc.c_oAscSelectionType.RangeMax || settings.selectionType == Asc.c_oAscSelectionType.RangeRow ||
+                                    settings.selectionType == Asc.c_oAscSelectionType.RangeCol)
+                                    Common.UI.warning({
+                                        title: me.textLongOperation,
+                                        msg: me.warnLongOperation,
+                                        buttons: ['ok', 'cancel'],
+                                        callback: function(btn) {
+                                            if (btn == 'ok')
+                                                setTimeout(function() { me.api.asc_addAutoFilter(fmtname, settings.range)}, 1);
+                                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                                        }
+                                    });
+                                else
+                                    me.api.asc_addAutoFilter(fmtname, settings.range);
+                            }
                         }
 
                         Common.NotificationCenter.trigger('edit:complete', me.toolbar);
@@ -2577,14 +2616,30 @@ define([
 
                     win.show();
                     win.setSettings({
-                        api     : me.api
+                        api     : me.api,
+                        selectionType: me.api.asc_getCellInfo().asc_getFlags().asc_getSelectionType()
                     });
                 } else {
                     me._state.filter = undefined;
                     if (me._state.tablename)
                         me.api.asc_changeAutoFilter(me._state.tablename, Asc.c_oAscChangeFilterOptions.style, fmtname);
-                    else
-                        me.api.asc_addAutoFilter(fmtname);
+                    else {
+                        var selectionType = me.api.asc_getCellInfo().asc_getFlags().asc_getSelectionType();
+                        if (selectionType == Asc.c_oAscSelectionType.RangeMax || selectionType == Asc.c_oAscSelectionType.RangeRow ||
+                            selectionType == Asc.c_oAscSelectionType.RangeCol)
+                            Common.UI.warning({
+                                title: me.textLongOperation,
+                                msg: me.warnLongOperation,
+                                buttons: ['ok', 'cancel'],
+                                callback: function(btn) {
+                                    if (btn == 'ok')
+                                        setTimeout(function() { me.api.asc_addAutoFilter(fmtname)}, 1);
+                                    Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                                }
+                            });
+                        else
+                            me.api.asc_addAutoFilter(fmtname);
+                    }
                 }
             }
         },
@@ -2661,9 +2716,11 @@ define([
         },
 
         applyFormulaSettings: function() {
-            var formulas = this.toolbar.btnInsertFormula.menu.items;
-            for (var i=0; i<Math.min(4,formulas.length); i++) {
-                formulas[i].setCaption(this.api.asc_getFormulaLocaleName(formulas[i].value));
+            if (this.toolbar.rendered) {
+                var formulas = this.toolbar.btnInsertFormula.menu.items;
+                for (var i=0; i<Math.min(4,formulas.length); i++) {
+                    formulas[i].setCaption(this.api.asc_getFormulaLocaleName(formulas[i].value));
+                }
             }
         },
 
@@ -3017,7 +3074,12 @@ define([
         txtExpandSort: 'The data next to the selection will not be sorted. Do you want to expand the selection to include the adjacent data or continue with sorting the currently selected cells only?',
         txtExpand: 'Expand and sort',
         txtSorting: 'Sorting',
-        txtSortSelected: 'Sort selected'
+        txtSortSelected: 'Sort selected',
+        textLongOperation: 'Long operation',
+        warnLongOperation: 'The operation you are about to perform might take rather much time to complete.<br>Are you sure you want to continue?',
+        txtInvalidRange: 'ERROR! Invalid cells range',
+        errorMaxRows: 'ERROR! The maximum number of data series per chart is 255.',
+        errorStockChart: 'Incorrect row order. To build a stock chart place the data on the sheet in the following order:<br> opening price, max price, min price, closing price.'
 
     }, SSE.Controllers.Toolbar || {}));
 });

@@ -78,24 +78,11 @@
     z-index: @zindex-tooltip + 1;
 }
 
-.menu-markers,
-.menu-numbers {
-    //
-}
-
 .item-markerlist {
-    .background-ximage('@{app-image-path}/toolbar/bullets.png', '@{app-image-path}/toolbar/bullets@2x.png', 38px);
+    .background-ximage('@{app-image-path}/toolbar/bullets-and-numbering.png', '@{app-image-path}/toolbar/bullets-and-numbering@2x.png', 38px);
     width: 38px;
     height: 38px;
 }
-
-.item-numberlist,
-.item-multilevellist {
-    .background-ximage('@{app-image-path}/toolbar/multilevels-numbering.png', '@{app-image-path}/toolbar/multilevels-numbering@2x.png', 74px);
-    width: 74px;
-    height: 74px;
-}
-
 
 .color-schemas-menu {
     span {
@@ -278,6 +265,22 @@
     background-position: -200px 0;
 }
 
+.surface-normal{
+    background-position: 0px -300px;
+}
+
+.surface-wireframe{
+    background-position: -50px -300px;
+}
+
+.contour-normal{
+    background-position: -100px -300px;
+}
+
+.contour-wireframe{
+    background-position: -150px -300px;
+}
+
 @toolbar-icon-size: 20px;
 .button-normal-icon(btn-align-center,     0, @toolbar-icon-size);
 .button-normal-icon(btn-align-just,       1, @toolbar-icon-size);
@@ -334,6 +337,7 @@
 .button-normal-icon(btn-columns,          82, @toolbar-icon-size);
 .button-normal-icon(btn-pagemargins,      83, @toolbar-icon-size);
 .button-normal-icon(btn-notes,            85, @toolbar-icon-size);
+.button-normal-icon(btn-contents,         89, @toolbar-icon-size);
 
 .button-normal-icon(mmerge-next,          71, @toolbar-icon-size);
 .button-normal-icon(mmerge-last,          72, @toolbar-icon-size);
@@ -394,6 +398,7 @@
     color: #ffffff;
     font: 11px arial;
     white-space: nowrap;
+    letter-spacing: 1px;
 }
 
 #id-toolbar-menu-auto-fontcolor > a.selected {
@@ -435,5 +440,37 @@
         cursor: default;
         color: @dropdown-link-disabled-color;
         background-position: @plus-offset-x @plus-offset-y - 16;
+    }
+}
+
+#special-paste-container {
+    position: absolute;
+    z-index: @zindex-dropdown - 20;
+    background-color: @gray-light;
+    border: 1px solid @gray;
+}
+
+.dropdown-menu {
+    > li > a.item-contents {
+        div {
+            .background-ximage('@{app-image-path}/toolbar/contents.png', '@{app-image-path}/toolbar/contents@2x.png', 246px);
+            width: 246px;
+            height: 72px;
+
+            .box-shadow(0 0 0 1px @gray);
+
+            &:hover,
+            &.selected {
+                .box-shadow(0 0 0 2px @primary);
+            }
+        }
+
+        &:hover, &:focus {
+            background-color: transparent;
+
+            div {
+                .box-shadow(0 0 0 2px @primary);
+            }
+        }
     }
 }

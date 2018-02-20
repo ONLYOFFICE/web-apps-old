@@ -100,7 +100,7 @@ define([
                         '<tr>',
                             '<td class="padding-large" style="white-space: nowrap;">',
                                 '<label style="vertical-align: middle; margin-right: 4px;">' + me.txtSample + '</label>',
-                                '<label id="format-settings-label-example" style="vertical-align: middle; max-width: 220px; overflow: hidden; text-overflow: ellipsis;>100</label>',
+                                '<label id="format-settings-label-example" style="vertical-align: middle; max-width: 220px; overflow: hidden; text-overflow: ellipsis;">100</label>',
                             '</td>',
                         '</tr>',
                         '<tr>',
@@ -288,13 +288,16 @@ define([
                             this.cmbType.selectRecord(selectedItem);
                         else if (props.formatInfo.asc_getType() == Asc.c_oAscNumFormatType.Fraction)
                             this.cmbType.setValue(this.txtCustom);
+                        else if (props.formatInfo.asc_getType() == Asc.c_oAscNumFormatType.Time)
+                            this.cmbType.setValue(this.api.asc_getLocaleExample(props.format, 1.534));
                         else
-                            this.cmbType.setValue(this.api.asc_getLocaleExample(props.format), 37973);
+                            this.cmbType.setValue(this.api.asc_getLocaleExample(props.format, 38822));
                     }
                     this.Format = props.format;
+                    this.lblExample.text(this.api.asc_getLocaleExample(this.Format));
                 }
                 // for fraction - if props.format not in cmbType - setValue(this.txtCustom)
-                // for date/time - if props.format not in cmbType - setValue(this.api.asc_getLocaleExample(props.format, 37973))
+                // for date/time - if props.format not in cmbType - setValue(this.api.asc_getLocaleExample(props.format, 38822))
                 // for cmbNegative - if props.format not in cmbNegative - setValue(this.api.asc_getLocaleExample(props.format))
             }
         },
@@ -314,7 +317,8 @@ define([
         },
 
         onPrimary: function() {
-            return true;
+            this.onDlgBtnClick('ok');
+            return false;
         },
 
         onNegativeSelect: function(combo, record) {
@@ -439,7 +443,7 @@ define([
 
                     var formatsarr = this.api.asc_getFormatCells(info),
                         data = [],
-                        exampleVal = (record.value == Asc.c_oAscNumFormatType.Date) ? 37973 : ((record.value == Asc.c_oAscNumFormatType.Time) ? 0.123 : parseFloat("-1234.12345678901234567890"));
+                        exampleVal = (record.value == Asc.c_oAscNumFormatType.Date) ? 38822 : ((record.value == Asc.c_oAscNumFormatType.Time) ? 1.534 : parseFloat("-1234.12345678901234567890"));
                     formatsarr.forEach(function(item) {
                         data.push({value: item, displayValue: me.api.asc_getLocaleExample(item, exampleVal)});
                     });
@@ -462,7 +466,7 @@ define([
 
             } else {
                 var info = new Asc.asc_CFormatCellsInfo();
-                info.asc_setType(Asc.c_oAscNumFormatType.None);
+                info.asc_setType(Asc.c_oAscNumFormatType.Custom);
                 info.asc_setSymbol(valSymbol);
 
                 var formatsarr = this.api.asc_getFormatCells(info),

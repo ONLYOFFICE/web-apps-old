@@ -49,23 +49,24 @@ Common.Utils = _.extend(new(function() {
             return (is && (m = regex.exec(userAgent))) ? parseFloat(m[1]) : 0;
         },
         docMode = document.documentMode,
+        isEdge = check(/edge/),
         isOpera = check(/opera/),
         isOpera10_5 = isOpera && check(/version\/10\.5/),
-        isChrome = check(/\bchrome\b/),
-        isWebKit = check(/webkit/),
-        isSafari = !isChrome && check(/safari/),
-        isSafari2 = isSafari && check(/applewebkit\/4/), // unique to Safari 2
-        isSafari3 = isSafari && check(/version\/3/),
-        isSafari4 = isSafari && check(/version\/4/),
-        isSafari5_0 = isSafari && check(/version\/5\.0/),
-        isSafari5 = isSafari && check(/version\/5/),
-        isIE = !isOpera && (check(/msie/) || check(/trident/)),
+        isIE = !isOpera && (check(/msie/) || check(/trident/) || check(/edge/)),
         isIE7 = isIE && ((check(/msie 7/) && docMode != 8 && docMode != 9 && docMode != 10) || docMode == 7),
         isIE8 = isIE && ((check(/msie 8/) && docMode != 7 && docMode != 9 && docMode != 10) || docMode == 8),
         isIE9 = isIE && ((check(/msie 9/) && docMode != 7 && docMode != 8 && docMode != 10) || docMode == 9),
         isIE10 = isIE && ((check(/msie 10/) && docMode != 7 && docMode != 8 && docMode != 9) || docMode == 10),
         isIE11 = isIE && ((check(/trident\/7\.0/) && docMode != 7 && docMode != 8 && docMode != 9 && docMode != 10) || docMode == 11),
         isIE6 = isIE && check(/msie 6/),
+        isChrome = !isIE && check(/\bchrome\b/),
+        isWebKit = !isIE && check(/webkit/),
+        isSafari = !isIE && !isChrome && check(/safari/),
+        isSafari2 = isSafari && check(/applewebkit\/4/), // unique to Safari 2
+        isSafari3 = isSafari && check(/version\/3/),
+        isSafari4 = isSafari && check(/version\/4/),
+        isSafari5_0 = isSafari && check(/version\/5\.0/),
+        isSafari5 = isSafari && check(/version\/5/),
         isGecko = !isWebKit && !isIE && check(/gecko/), // IE11 adds "like gecko" into the user agent string
         isGecko3 = isGecko && check(/rv:1\.9/),
         isGecko4 = isGecko && check(/rv:2\.0/),
@@ -680,6 +681,40 @@ Common.Utils.fillUserInfo = function(info, lang, defname) {
     } else
         _user.fullname = _user.name;
     return _user;
+};
+
+Common.Utils.createXhr = function () {
+    var xmlhttp;
+    try {
+        xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+    } catch (e) {
+        try {
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        } catch (E) {
+            xmlhttp = false;
+        }
+    }
+    if (!xmlhttp && typeof XMLHttpRequest != 'undefined') {
+        xmlhttp = new XMLHttpRequest();
+    }
+
+    return xmlhttp;
+};
+
+Common.Utils.getConfigJson = function (url) {
+    if ( url ) {
+        try {
+            var xhrObj = Common.Utils.createXhr();
+            if ( xhrObj ) {
+                xhrObj.open('GET', url, false);
+                xhrObj.send('');
+
+                return JSON.parse(xhrObj.responseText);
+            }
+        } catch (e) {}
+    }
+
+    return null;
 };
 
 // Extend javascript String type

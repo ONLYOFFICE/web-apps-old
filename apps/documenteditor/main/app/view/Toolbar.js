@@ -606,7 +606,9 @@ define([
                         { caption: this.textColumnsTwo,     iconCls: 'mnu-columns-two',   checkable: true, toggleGroup: 'menuColumns', value: 1 },
                         { caption: this.textColumnsThree,   iconCls: 'mnu-columns-three', checkable: true, toggleGroup: 'menuColumns', value: 2 },
                         { caption: this.textColumnsLeft,    iconCls: 'mnu-columns-left',  checkable: true, toggleGroup: 'menuColumns', value: 3 },
-                        { caption: this.textColumnsRight,   iconCls: 'mnu-columns-right', checkable: true, toggleGroup: 'menuColumns', value: 4 }
+                        { caption: this.textColumnsRight,   iconCls: 'mnu-columns-right', checkable: true, toggleGroup: 'menuColumns', value: 4 },
+                        { caption: '--' },
+                        { caption: this.textColumnsCustom, value: 'advanced' }
                     ]
                 })
             });
@@ -745,6 +747,15 @@ define([
                 menu        : true
             });
             this.paragraphControls.push(this.btnNotes);
+
+            this.btnContents = new Common.UI.Button({
+                id          : 'id-toolbar-btn-contents',
+                cls         : 'btn-toolbar',
+                iconCls     : 'btn-contents',
+                split       : true,
+                menu        : true
+            });
+            this.paragraphControls.push(this.btnContents);
 
             this.btnMailRecepients= new Common.UI.Button({
                 id          : 'id-toolbar-btn-mailrecepients',
@@ -1085,7 +1096,8 @@ define([
             replacePlacholder('#id-toolbar-full-placeholder-field-styles',                 this.listStyles);
             replacePlacholder('#id-toolbar-short-placeholder-btn-halign',                  this.btnHorizontalAlign);
             replacePlacholder('#id-toolbar-full-placeholder-btn-mailrecepients',           this.btnMailRecepients);
-            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-notes',      this.btnNotes);
+            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-notes',          this.btnNotes);
+            replacePlacholder('#id-toolbar-' + prefix + '-placeholder-btn-contents',       this.btnContents);
         },
 
         createDelayedElements: function() {
@@ -1150,6 +1162,7 @@ define([
             this.btnHide.updateHint(this.tipViewSettings);
             this.btnAdvSettings.updateHint(this.tipAdvSettings);
             this.btnNotes.updateHint(this.tipNotes);
+            this.btnContents.updateHint(this.tipContents);
 
             // set menus
 
@@ -1206,7 +1219,9 @@ define([
             );
             if (this.mode.isDesktopApp || this.mode.canBrandingExt && this.mode.customization && this.mode.customization.header===false)
                 this.mnuitemHideTitleBar.hide();
-            
+            if (this.mode.canBrandingExt && this.mode.customization && this.mode.customization.statusBar===false)
+                this.mnuitemHideStatusBar.hide();
+
             this.btnMarkers.setMenu(
                 new Common.UI.Menu({
                     items: [
@@ -1218,15 +1233,16 @@ define([
             this.btnNumbers.setMenu(
                 new Common.UI.Menu({
                     items: [
-                        { template: _.template('<div id="id-toolbar-menu-numbering" class="menu-markers" style="width: 330px; margin: 0 5px;"></div>') }
+                        { template: _.template('<div id="id-toolbar-menu-numbering" class="menu-markers" style="width: 185px; margin: 0 5px;"></div>') }
                     ]
                 })
             );
 
             this.btnMultilevels.setMenu(
                 new Common.UI.Menu({
+                    style: 'min-width: 90px',
                     items: [
-                        { template: _.template('<div id="id-toolbar-menu-multilevels" class="menu-markers" style="width: 165px; margin: 0 5px;"></div>') }
+                        { template: _.template('<div id="id-toolbar-menu-multilevels" class="menu-markers" style="width: 93px; margin: 0 5px;"></div>') }
                     ]
                 })
             );
@@ -1316,6 +1332,21 @@ define([
                 })
             );
 
+            var contentsTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem" class="item-contents"><div style="background-position: 0 -<%= options.offsety %>px;" ></div></a>');
+            this.btnContents.setMenu(
+                new Common.UI.Menu({
+                    items: [
+                        {template: contentsTemplate, offsety: 0, value: 0},
+                        {template: contentsTemplate, offsety: 72, value: 1},
+                        {caption: this.textContentsSettings, value: 'settings'},
+                        {caption: this.textContentsRemove, value: 'remove'},
+                        { caption: '--' },
+                        {caption: this.textUpdateAll, value: 'all'},
+                        {caption: this.textUpdatePages, value: 'pages'}
+                    ]
+                })
+            );
+
             this.mnuGotoFootPrev = new Common.UI.Button({
                 el  : $('#id-menu-goto-footnote-prev'),
                 cls : 'btn-toolbar'
@@ -1351,19 +1382,19 @@ define([
             this.mnuNumbersPicker = new Common.UI.DataView({
                 el: $('#id-toolbar-menu-numbering'),
                 parentMenu: this.btnNumbers.menu,
-                restoreHeight: 164,
+                restoreHeight: 92,
                 allowScrollbar: false,
                 store: new Common.UI.DataViewStore([
                     {offsety: 0, data: {type: 1, subtype: -1}},
-                    {offsety: 518, data: {type: 1, subtype: 4}},
-                    {offsety: 592, data: {type: 1, subtype: 5}},
-                    {offsety: 666, data: {type: 1, subtype: 6}},
-                    {offsety: 296, data: {type: 1, subtype: 1}},
-                    {offsety: 370, data: {type: 1, subtype: 2}},
-                    {offsety: 444, data: {type: 1, subtype: 3}},
-                    {offsety: 740, data: {type: 1, subtype: 7}}
+                    {offsety: 570, data: {type: 1, subtype: 4}},
+                    {offsety: 532, data: {type: 1, subtype: 5}},
+                    {offsety: 608, data: {type: 1, subtype: 6}},
+                    {offsety: 418, data: {type: 1, subtype: 1}},
+                    {offsety: 456, data: {type: 1, subtype: 2}},
+                    {offsety: 494, data: {type: 1, subtype: 3}},
+                    {offsety: 646, data: {type: 1, subtype: 7}}
                 ]),
-                itemTemplate: _.template('<div id="<%= id %>" class="item-numberlist" style="background-position: 0 -<%= offsety %>px;"></div>')
+                itemTemplate: _.template('<div id="<%= id %>" class="item-markerlist" style="background-position: 0 -<%= offsety %>px;"></div>')
             });
             _conf && this.mnuNumbersPicker.selectByIndex(_conf.index, true);
 
@@ -1371,15 +1402,15 @@ define([
             this.mnuMultilevelPicker = new Common.UI.DataView({
                 el: $('#id-toolbar-menu-multilevels'),
                 parentMenu: this.btnMultilevels.menu,
-                restoreHeight: 164,
+                restoreHeight: 92,
                 allowScrollbar: false,
                 store: new Common.UI.DataViewStore([
                         { offsety:0,   data:{type:2, subtype:-1} },
-                        { offsety:74,  data:{type:2, subtype:1} },
-                        { offsety:148, data:{type:2, subtype:2} },
-                        { offsety:222, data:{type:2, subtype:3} }
-                    ]),
-                itemTemplate: _.template('<div id="<%= id %>" class="item-multilevellist" style="background-position: 0 -<%= offsety %>px;"></div>')
+                        {offsety: 304, data: {type: 2, subtype: 1}},
+                        {offsety: 342, data: {type: 2, subtype: 2}},
+                        {offsety: 380, data: {type: 2, subtype: 3}}
+                ]),
+                itemTemplate: _.template('<div id="<%= id %>" class="item-markerlist" style="background-position: 0 -<%= offsety %>px;"></div>')
             });
             _conf && this.mnuMultilevelPicker.selectByIndex(_conf.index, true);
 
@@ -1412,6 +1443,7 @@ define([
                     { id: 'menu-chart-group-area',    caption: me.textArea, inline: true },
                     { id: 'menu-chart-group-scatter', caption: me.textPoint, inline: true },
                     { id: 'menu-chart-group-stock',   caption: me.textStock, inline: true }
+                    // { id: 'menu-chart-group-surface', caption: me.textSurface}
                 ]),
                 store: new Common.UI.DataViewStore([
                     { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal,          allowSelected: true, iconCls: 'column-normal', selected: true},
@@ -1439,6 +1471,10 @@ define([
                     { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStackedPer,     allowSelected: true, iconCls: 'area-pstack'},
                     { group: 'menu-chart-group-scatter', type: Asc.c_oAscChartTypeSettings.scatter,            allowSelected: true, iconCls: 'point-normal'},
                     { group: 'menu-chart-group-stock',   type: Asc.c_oAscChartTypeSettings.stock,              allowSelected: true, iconCls: 'stock-normal'}
+                    // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.surfaceNormal,      allowSelected: true, iconCls: 'surface-normal'},
+                    // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.surfaceWireframe,   allowSelected: true, iconCls: 'surface-wireframe'},
+                    // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.contourNormal,      allowSelected: true, iconCls: 'contour-normal'},
+                    // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.contourWireframe,   allowSelected: true, iconCls: 'contour-wireframe'}
                 ]),
                 itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
             });
@@ -1511,55 +1547,6 @@ define([
                 this.btnNewDocument.setDisabled(true);
                 this.btnOpenDocument.setDisabled(true);
                 this.btnSave.setDisabled(true);
-                this.btnCopy.setDisabled(true);
-                this.btnPaste.setDisabled(true);
-                this.btnUndo.setDisabled(true);
-                this.btnRedo.setDisabled(true);
-                this.btnIncFontSize.setDisabled(true);
-                this.btnDecFontSize.setDisabled(true);
-                this.btnBold.setDisabled(true);
-                this.btnItalic.setDisabled(true);
-                this.btnUnderline.setDisabled(true);
-                this.btnStrikeout.setDisabled(true);
-                this.btnSuperscript.setDisabled(true);
-                this.btnSubscript.setDisabled(true);
-                this.btnHighlightColor.setDisabled(true);
-                this.btnFontColor.setDisabled(true);
-                this.btnParagraphColor.setDisabled(true);
-                this.btnMarkers.setDisabled(true);
-                this.btnNumbers.setDisabled(true);
-                this.btnMultilevels.setDisabled(true);
-                this.btnAlignLeft.setDisabled(true);
-                this.btnAlignCenter.setDisabled(true);
-                this.btnAlignRight.setDisabled(true);
-                this.btnAlignJust.setDisabled(true);
-                this.btnDecLeftOffset.setDisabled(true);
-                this.btnIncLeftOffset.setDisabled(true);
-                this.btnLineSpace.setDisabled(true);
-                this.btnShowHidenChars.setDisabled(true);
-                this.btnInsertTable.setDisabled(true);
-                this.btnInsertImage.setDisabled(true);
-                this.btnInsertChart.setDisabled(true);
-                this.btnInsertText.setDisabled(true);
-                this.btnDropCap.setDisabled(true);
-                this.btnColumns.setDisabled(true);
-                this.btnInsertPageBreak.setDisabled(true);
-                this.btnInsertHyperlink.setDisabled(true);
-                this.btnEditHeader.setDisabled(true);
-                this.btnInsertShape.setDisabled(true);
-                this.btnInsertEquation.setDisabled(true);
-                this.btnPageOrient.setDisabled(true);
-                this.btnPageMargins.setDisabled(true);
-                this.btnPageSize.setDisabled(true);
-                this.btnClearStyle.setDisabled(true);
-                this.btnCopyStyle.setDisabled(true);
-                this.btnColorSchemas.setDisabled(true);
-                this.btnMailRecepients.setDisabled(true);
-                this.btnHorizontalAlign.setDisabled(true);
-                this.cmbFontName.setDisabled(true);
-                this.cmbFontSize.setDisabled(true);
-                this.listStyles.setDisabled(true);
-                this.btnNotes.setDisabled(true);
                 if (mode.disableDownload)
                     this.btnPrint.setDisabled(true);
             }
@@ -1960,7 +1947,13 @@ define([
         mniDelFootnote: 'Delete All Footnotes',
         mniNoteSettings: 'Notes Settings',
         textGotoFootnote: 'Go to Footnotes',
-        tipChangeChart: 'Change Chart Type'
-
+        tipChangeChart: 'Change Chart Type',
+        textColumnsCustom: 'Custom Columns',
+        textSurface: 'Surface',
+        tipContents: 'Insert or edit table of contents',
+        textContentsSettings: 'Settings',
+        textContentsRemove: 'Remove table of contents',
+        textUpdateAll: 'Update entire table',
+        textUpdatePages: 'Update page numbers only'
     }, DE.Views.Toolbar || {}));
 });

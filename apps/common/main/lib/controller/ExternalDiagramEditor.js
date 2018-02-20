@@ -60,7 +60,7 @@ define([
                 height      : '100%',
                 documentType: 'spreadsheet',
                 document    : {
-                    url         : '_offline_',
+                    url         : '_chart_',
                     permissions : {
                         edit    : true,
                         download: false
@@ -77,7 +77,7 @@ define([
                     user            : {id: ('uid-'+Date.now())}
                 },
                 events: {
-                    'onReady'               : function() {},
+                    'onAppReady'            : function() {},
                     'onDocumentStateChange' : function() {},
                     'onError'               : function() {},
                     'onInternalMessage'     : _.bind(this.onInternalMessage, this)
@@ -142,7 +142,6 @@ define([
                 if (this.isHandlerCalled) return;
                 this.isHandlerCalled = true;
                 externalEditor && externalEditor.serviceCommand('queryClose',{mr:result});
-                return true;
             },
 
             setChartData: function() {
@@ -210,6 +209,7 @@ define([
                             }
                             this.diagramEditorView.hide();
                         }
+                        this.isHandlerCalled = false;
                     } else
                     if (eventData.type == "processMouse") {
                         if (eventData.data.event == 'mouse:up') {

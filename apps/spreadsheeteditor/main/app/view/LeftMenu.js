@@ -135,6 +135,7 @@ define([
             this.btnChat.hide();
 
             this.btnComments.on('click',        _.bind(this.onBtnMenuClick, this));
+            this.btnComments.on('toggle',       _.bind(this.onBtnCommentsToggle, this));
             this.btnChat.on('click',            _.bind(this.onBtnMenuClick, this));
             /** coauthoring end **/
 
@@ -175,6 +176,11 @@ define([
             }
             if (this.mode.isEdit) SSE.getController('Toolbar').DisableToolbar(state==true);
             Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
+        },
+
+        onBtnCommentsToggle: function(btn, state) {
+            if (!state)
+                this.fireEvent('comments:hide', this);
         },
 
         onBtnMenuClick: function(btn, e) {
@@ -339,6 +345,26 @@ define([
             return this;
         },
 
+        setDeveloperMode: function(mode) {
+            if ( !this.$el.is(':visible') ) return;
+
+            if (!this.developerHint) {
+                this.developerHint = $('<div id="developer-hint">' + ((mode == Asc.c_oLicenseMode.Trial) ? this.txtTrial : this.txtDeveloper) + '</div>').appendTo(this.$el);
+                this.devHeight = this.developerHint.outerHeight();
+                $(window).on('resize', _.bind(this.onWindowResize, this));
+            }
+            this.developerHint.toggleClass('hidden', !mode);
+
+            var btns = this.$el.find('button.btn-category:visible'),
+                lastbtn = (btns.length>0) ? $(btns[btns.length-1]) : null;
+            this.minDevPosition = (lastbtn) ? (lastbtn.offset().top - lastbtn.offsetParent().offset().top + lastbtn.height() + 20) : 20;
+            this.onWindowResize();
+        },
+
+        onWindowResize: function() {
+            this.developerHint.css('top', Math.max((this.$el.height()-this.devHeight)/2, this.minDevPosition));
+        },
+
         /** coauthoring begin **/
         tipComments : 'Comments',
         tipChat     : 'Chat',
@@ -347,6 +373,8 @@ define([
         tipSupport  : 'Feedback & Support',
         tipFile     : 'File',
         tipSearch   : 'Search',
-        tipPlugins  : 'Plugins'
+        tipPlugins  : 'Plugins',
+        txtDeveloper: 'DEVELOPER MODE',
+        txtTrial: 'TRIAL MODE'
     }, SSE.Views.LeftMenu || {}));
 });

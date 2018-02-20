@@ -92,14 +92,13 @@ define([
                 }));
 
                 $('.view-main .navbar').on('addClass removeClass', _.bind(me.onDisplayMainNavbar, me));
+                $('#toolbar-edit, #toolbar-add, #toolbar-settings, #toolbar-search, #document-back').addClass('disabled');
 
                 return me;
             },
 
             setMode: function (mode) {
-                var isEdit = (mode === 'edit');
-
-                if (isEdit) {
+                if (mode.isEdit) {
                     $('#toolbar-edit, #toolbar-add, #toolbar-undo, #toolbar-redo').show();
                 }
             },

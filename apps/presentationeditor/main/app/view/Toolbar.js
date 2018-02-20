@@ -442,7 +442,7 @@ define([
             me.btnVerticalAlign = new Common.UI.Button({
                 id          : 'id-toolbar-btn-valign',
                 cls         : 'btn-toolbar',
-                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected],
+                lock        : [_set.slideDeleted, _set.paragraphLock, _set.lostConnect, _set.noSlides, _set.noParagraphSelected, _set.noObjectSelected],
                 iconCls     : 'btn-align-middle',
                 icls        : 'btn-align-middle',
                 menu        : new Common.UI.Menu({
@@ -573,6 +573,7 @@ define([
                         { id: 'menu-chart-group-area',    caption: me.textArea, inline: true },
                         { id: 'menu-chart-group-scatter', caption: me.textPoint, inline: true },
                         { id: 'menu-chart-group-stock',   caption: me.textStock, inline: true }
+                        // { id: 'menu-chart-group-surface', caption: me.textSurface}
                     ]),
                     store: new Common.UI.DataViewStore([
                         { group: 'menu-chart-group-bar',     type: Asc.c_oAscChartTypeSettings.barNormal,          allowSelected: true, iconCls: 'column-normal', selected: true},
@@ -600,6 +601,10 @@ define([
                         { group: 'menu-chart-group-area',    type: Asc.c_oAscChartTypeSettings.areaStackedPer,     allowSelected: true, iconCls: 'area-pstack'},
                         { group: 'menu-chart-group-scatter', type: Asc.c_oAscChartTypeSettings.scatter,            allowSelected: true, iconCls: 'point-normal'},
                         { group: 'menu-chart-group-stock',   type: Asc.c_oAscChartTypeSettings.stock,              allowSelected: true, iconCls: 'stock-normal'}
+                        // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.surfaceNormal,      allowSelected: true, iconCls: 'surface-normal'},
+                        // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.surfaceWireframe,   allowSelected: true, iconCls: 'surface-wireframe'},
+                        // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.contourNormal,      allowSelected: true, iconCls: 'contour-normal'},
+                        // { group: 'menu-chart-group-surface', type: Asc.c_oAscChartTypeSettings.contourWireframe,   allowSelected: true, iconCls: 'contour-wireframe'}
                     ]),
                     itemTemplate: _.template('<div id="<%= id %>" class="item-chartlist <%= iconCls %>"></div>')
                 })
@@ -855,7 +860,7 @@ define([
                 enableKeyEvents: true,
                 itemHeight  : 38,
                 hint: this.tipSlideTheme,
-                lock: [_set.lostConnect, _set.noSlides],
+                lock: [_set.themeLock, _set.lostConnect, _set.noSlides],
                 beforeOpenHandler: function(e) {
                     var cmp = this,
                         menu = cmp.openButton.menu,
@@ -1159,6 +1164,8 @@ define([
             );
             if (this.mode.isDesktopApp || this.mode.canBrandingExt && this.mode.customization && this.mode.customization.header===false)
                 this.mnuitemHideTitleBar.hide();
+            if (this.mode.canBrandingExt && this.mode.customization && this.mode.customization.statusBar===false)
+                this.mnuitemHideStatusBar.hide();
 
             this.mnuZoomOut = new Common.UI.Button({
                 el  : $('#id-menu-zoom-out'),
@@ -1180,7 +1187,7 @@ define([
             this.btnNumbers.setMenu(
                 new Common.UI.Menu({
                     items: [
-                        { template: _.template('<div id="id-toolbar-menu-numbering" class="menu-markers" style="width: 330px; margin: 0 5px;"></div>') }
+                        { template: _.template('<div id="id-toolbar-menu-numbering" class="menu-markers" style="width: 185px; margin: 0 5px;"></div>') }
                     ]
                 })
             );
@@ -1227,19 +1234,19 @@ define([
             this.mnuNumbersPicker = new Common.UI.DataView({
                 el: $('#id-toolbar-menu-numbering'),
                 parentMenu: this.btnNumbers.menu,
-                restoreHeight: 164,
+                restoreHeight: 92,
                 allowScrollbar: false,
                 store: new Common.UI.DataViewStore([
                     { offsety: 0,   data:{type:1,subtype:-1} },
-                    { offsety: 296, data:{type:1,subtype:4} },
-                    { offsety: 370, data:{type:1,subtype:5} },
-                    { offsety: 444, data:{type:1,subtype:6} },
-                    { offsety: 74,  data:{type:1,subtype:1} },
-                    { offsety: 148, data:{type:1,subtype:2} },
-                    { offsety: 222, data:{type:1,subtype:3} },
-                    { offsety: 518, data:{type:1,subtype:7} }
+                    {offsety: 570, data: {type: 1, subtype: 4}},
+                    {offsety: 532, data: {type: 1, subtype: 5}},
+                    {offsety: 608, data: {type: 1, subtype: 6}},
+                    {offsety: 418, data: {type: 1, subtype: 1}},
+                    {offsety: 456, data: {type: 1, subtype: 2}},
+                    {offsety: 494, data: {type: 1, subtype: 3}},
+                    {offsety: 646, data: {type: 1, subtype: 7}}
                 ]),
-                itemTemplate: _.template('<div id="<%= id %>" class="item-numberlist" style="background-position: 0 -<%= offsety %>px;"></div>')
+                itemTemplate: _.template('<div id="<%= id %>" class="item-markerlist" style="background-position: 0 -<%= offsety %>px;"></div>')
             });
             _conf && this.mnuNumbersPicker.selectByIndex(_conf.index, true);
 
@@ -1714,6 +1721,7 @@ define([
         textShowSettings:       'Show Settings',
         tipInsertEquation: 'Insert Equation',
         textCharts:         'Charts',
-        tipChangeChart: 'Change Chart Type'
+        tipChangeChart: 'Change Chart Type',
+        textSurface: 'Surface'
     }, PE.Views.Toolbar || {}));
 });

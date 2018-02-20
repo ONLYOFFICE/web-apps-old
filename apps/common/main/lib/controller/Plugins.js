@@ -126,6 +126,7 @@ define([
                     variation.set_Url(itemVar.get('url'));
                     variation.set_Icons(itemVar.get('icons'));
                     variation.set_Visual(itemVar.get('isVisual'));
+                    variation.set_CustomWindow(itemVar.get('isCustomWindow'));
                     variation.set_Viewer(itemVar.get('isViewer'));
                     variation.set_EditorsSupport(itemVar.get('EditorsSupport'));
                     variation.set_Modal(itemVar.get('isModal'));
@@ -215,17 +216,18 @@ define([
                 this.api.asc_pluginRun(record.get('guid'), 0, '');
         },
 
-        onPluginShow: function(plugin, variationIndex) {
+        onPluginShow: function(plugin, variationIndex, frameId) {
             var variation = plugin.get_Variations()[variationIndex];
             if (variation.get_Visual()) {
                 var url = variation.get_Url();
                 url = ((plugin.get_BaseUrl().length == 0) ? url : plugin.get_BaseUrl()) + url;
 
                 if (variation.get_InsideMode()) {
-                    if (!this.panelPlugins.openInsideMode(plugin.get_Name(), url))
+                    if (!this.panelPlugins.openInsideMode(plugin.get_Name(), url, frameId))
                         this.api.asc_pluginButtonClick(-1);
                 } else {
                     var me = this,
+                        isCustomWindow = variation.get_CustomWindow(),
                         arrBtns = variation.get_Buttons(),
                         newBtns = {},
                         size = variation.get_Size();
@@ -238,11 +240,14 @@ define([
                     }
 
                     me.pluginDlg = new Common.Views.PluginDlg({
+                        cls: isCustomWindow ? 'plain' : '',
+                        header: !isCustomWindow,
                         title: plugin.get_Name(),
                         width: size[0], // inner width
                         height: size[1], // inner height
                         url: url,
-                        buttons: newBtns,
+                        frameId : frameId,
+                        buttons: isCustomWindow ? undefined : newBtns,
                         toolcallback: _.bind(this.onToolClose, this)
                     });
                     me.pluginDlg.on('render:after', function(obj){

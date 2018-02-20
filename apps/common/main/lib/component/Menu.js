@@ -405,6 +405,7 @@ define([
                     item.off('click').off('toggle');
                     item.remove();
                 });
+                this.rendered && this.cmpEl.find('.menu-scroll').off('click').remove();
 
                 me.items = [];
             },
@@ -439,9 +440,9 @@ define([
                     e.preventDefault();
             },
 
-            onAfterHideMenu: function(e) {
-                this.trigger('hide:after', this, e);
-                Common.NotificationCenter.trigger('menu:hide', this);
+            onAfterHideMenu: function(e, isFromInputControl) {
+                this.trigger('hide:after', this, e, isFromInputControl);
+                Common.NotificationCenter.trigger('menu:hide', this, isFromInputControl);
             },
 
             onAfterKeydownMenu: function(e) {
@@ -453,6 +454,7 @@ define([
                         Common.UI.Menu.Manager.hideAll();
                     if ( $(e.currentTarget).closest('li').hasClass('dropdown-submenu')) {
                         e.stopPropagation();
+                        return false;
                     }
                 } else if (e.keyCode == Common.UI.Keys.UP || e.keyCode == Common.UI.Keys.DOWN)  {
                     this.fromKeyDown = true;

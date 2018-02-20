@@ -161,7 +161,7 @@ define([
         onCheckRepeatRowChange: function(field, newValue, oldValue, eOpts) {
             if (this.api)   {
                 var properties = new Asc.CTableProp();
-                properties.put_RowsInHeader((field.getValue()=='checked') ? 1 : 0 );
+                properties.put_RowsInHeader(field.getValue()=='checked');
                 this.api.tblApply(properties);
             }
             this.fireEvent('editcomplete', this);
@@ -430,7 +430,7 @@ define([
             if (this._initSettings)
                 this.createDelayedElements();
 
-            this.disableControls(this._locked);
+            this.disableControls(this._locked); // need to update combodataview after disabled state
 
             if (props )
             {
@@ -461,7 +461,7 @@ define([
 
                     if (this._isTemplatesChanged) {
                         if (rec)
-                            this.cmbTableTemplate.fillComboView(this.cmbTableTemplate.menuPicker.getSelectedRec(),true);
+                            this.cmbTableTemplate.fillComboView(this.cmbTableTemplate.menuPicker.getSelectedRec()[0],true);
                         else
                             this.cmbTableTemplate.fillComboView(this.cmbTableTemplate.menuPicker.store.at(0), true);
                     }
@@ -557,10 +557,8 @@ define([
 
                 value = props.get_RowsInHeader();
                 if ( this._state.RepeatRow!==value ) {
-                    if ( value !== null )
-                        this.chRepeatRow.setValue((value>0) ? 1 : 0, true);
-                    else
-                        this.chRepeatRow.setValue('indeterminate', true);
+                    this.chRepeatRow.setValue(!!value, true);
+                    this.chRepeatRow.setDisabled(value === null);
                     this._state.RepeatRow=value;
                 }
             }

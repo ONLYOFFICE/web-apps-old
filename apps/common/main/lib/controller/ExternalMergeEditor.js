@@ -60,7 +60,7 @@ define([
                 height      : '100%',
                 documentType: 'spreadsheet',
                 document    : {
-                    url         : '_offline_',
+                    url         : '_chart_',
                     permissions : {
                         edit    : true,
                         download: false
@@ -77,7 +77,7 @@ define([
                     user            : {id: ('uid-'+Date.now())}
                 },
                 events: {
-                    'onReady'               : function() {},
+                    'onAppReady'            : function() {},
                     'onDocumentStateChange' : function() {},
                     'onError'               : function() {},
                     'onInternalMessage'     : _.bind(this.onInternalMessage, this)

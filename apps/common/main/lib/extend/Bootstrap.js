@@ -81,8 +81,8 @@ function patchDropDownKeyDown(e) {
     if (!isActive || (isActive && e.keyCode == 27)) {
         if (e.which == 27) {
             $items = $('[role=menu] li.dropdown-submenu.over:visible', $parent);
-            if ($items.size()) {
-                $items.eq($items.size()-1).removeClass('over');
+            if ($items.length) {
+                $items.eq($items.length-1).removeClass('over');
                 return false;
             } else if ($parent.hasClass('dropdown-submenu') && $parent.hasClass('over')) {
                 $parent.removeClass('over');
@@ -110,6 +110,7 @@ function patchDropDownKeyDown(e) {
              _.delay(function() {
                  var mnu = $('> [role=menu]', li),
                     $subitems = mnu.find('> li:not(.divider):not(.disabled):visible > a'),
+                    $dataviews = mnu.find('> li:not(.divider):not(.disabled):visible .dataview'),
                     focusIdx = 0;
                  if (mnu.find('> .menu-scroll').length>0) {
                     var offset = mnu.scrollTop();
@@ -119,7 +120,7 @@ function patchDropDownKeyDown(e) {
                         }
                     }
                 }
-                if ($subitems.length>0)
+                if ($subitems.length>0 && $dataviews.length<1)
                     $subitems.eq(focusIdx).focus();
             }, 250);
         }
@@ -186,13 +187,13 @@ function getParent($this) {
     return $parent && $parent.length ? $parent : $this.parent();
 }
 
-function clearMenus() {
+function clearMenus(isFromInputControl) {
     $('.dropdown-toggle').each(function (e) {
         var $parent = ($(this)).parent();
         if (!$parent.hasClass('open')) return;
         $parent.trigger(e = $.Event('hide.bs.dropdown'));
         if (e.isDefaultPrevented()) return;
-        $parent.removeClass('open').trigger('hidden.bs.dropdown');
+        $parent.removeClass('open').trigger('hidden.bs.dropdown', isFromInputControl);
     })
 }
 
@@ -217,7 +218,7 @@ $(document)
 
     function onDropDownClick(e) {
         if (e.which == 1 || e.which == undefined)
-            clearMenus();
+            clearMenus(/form-control/.test(e.target.className));
     }
 
     if (!!clickDefHandler) {

@@ -531,7 +531,7 @@ define([
             if (this.api && !this._noApply) {
                 var props = new Asc.asc_CShapeProperty();
                 var stroke = new Asc.asc_CStroke();
-                if (this.BorderSize<0.01) {
+                if (this.BorderSize<0.00001) {
                     stroke.put_type( Asc.c_oAscStrokeType.STROKE_NONE);
                     this._state.StrokeType = this._state.StrokeWidth = -1;
                 } else {
@@ -582,7 +582,7 @@ define([
             if (this.api && !this._noApply) {
                 var props = new Asc.asc_CShapeProperty();
                 var stroke = new Asc.asc_CStroke();
-                if (this.BorderSize<0.01) {
+                if (this.BorderSize<0.00001) {
                     stroke.put_type( Asc.c_oAscStrokeType.STROKE_NONE);
                 } else {
                     stroke.put_type( Asc.c_oAscStrokeType.STROKE_COLOR);
@@ -602,7 +602,7 @@ define([
             if (this.api && this.BorderSize>0 && !this._noApply) {
                 var props = new Asc.asc_CShapeProperty();
                 var stroke = new Asc.asc_CStroke();
-                if (this.BorderSize<0.01) {
+                if (this.BorderSize<0.00001) {
                     stroke.put_type( Asc.c_oAscStrokeType.STROKE_NONE);
                 } else {
                     stroke.put_type( Asc.c_oAscStrokeType.STROKE_COLOR);
@@ -687,11 +687,17 @@ define([
                 var shapetype = props.asc_getType();
 
                 this.disableControls(this._locked==true, props.get_CanFill() !== true);
-                this.hideShapeOnlySettings(props.get_FromChart());
-                this.hideChangeTypeSettings(shapetype=='line' || shapetype=='bentConnector2' || shapetype=='bentConnector3'
-                                            || shapetype=='bentConnector4' || shapetype=='bentConnector5' || shapetype=='curvedConnector2'
-                                            || shapetype=='curvedConnector3' || shapetype=='curvedConnector4' || shapetype=='curvedConnector5'
-                                            || shapetype=='straightConnector1');
+                this.hideShapeOnlySettings(props.get_FromChart() || props.get_FromImage());
+
+                var hidechangetype = props.get_FromChart() || shapetype=='line' || shapetype=='bentConnector2' || shapetype=='bentConnector3'
+                    || shapetype=='bentConnector4' || shapetype=='bentConnector5' || shapetype=='curvedConnector2'
+                    || shapetype=='curvedConnector3' || shapetype=='curvedConnector4' || shapetype=='curvedConnector5'
+                    || shapetype=='straightConnector1';
+                this.hideChangeTypeSettings(hidechangetype);
+                if (!hidechangetype) {
+                    this.btnChangeShape.menu.items[0].setVisible(props.get_FromImage());
+                    this.btnChangeShape.menu.items[1].setVisible(!props.get_FromImage());
+                }
 
                 // background colors
                 var rec = null;
@@ -942,14 +948,14 @@ define([
                 if (this._state.StrokeType !== strokeType || strokeType == Asc.c_oAscStrokeType.STROKE_COLOR) {
                     if ( strokeType == Asc.c_oAscStrokeType.STROKE_COLOR ) {
                         var w = stroke.get_width();
-                        var check_value = (Math.abs(this._state.StrokeWidth-w)<0.001) && !((new RegExp(this.txtPt + '\\s*$')).test(this.cmbBorderSize.getRawValue()));
-                        if ( Math.abs(this._state.StrokeWidth-w)>0.001 || check_value ||
+                        var check_value = (Math.abs(this._state.StrokeWidth-w)<0.00001) && !((new RegExp(this.txtPt + '\\s*$')).test(this.cmbBorderSize.getRawValue()));
+                        if ( Math.abs(this._state.StrokeWidth-w)>0.00001 || check_value ||
                             (this._state.StrokeWidth===null || w===null)&&(this._state.StrokeWidth!==w)) {
                             this._state.StrokeWidth = w;
 
                             if (w!==null) w = this._mm2pt(w);
                             var _selectedItem = (w===null) ? w : _.find(this.cmbBorderSize.store.models, function(item) {
-                                if ( w<item.attributes.value+0.01 && w>item.attributes.value-0.01) {
+                                if ( w<item.attributes.value+0.00001 && w>item.attributes.value-0.00001) {
                                     return true;
                                 }
                             });
@@ -1114,7 +1120,7 @@ define([
             this.fillControls.push(this.btnInsertFromUrl);
 
             this.btnInsertFromFile.on('click', _.bind(function(btn){
-                if (this.api) this.api.ChangeShapeImageFromFile();
+                if (this.api) this.api.ChangeShapeImageFromFile(this.BlipFillType);
                 this.fireEvent('editcomplete', this);
             }, this));
             this.btnInsertFromUrl.on('click', _.bind(this.insertFromUrl, this));
@@ -1233,6 +1239,18 @@ define([
             });
             this.sldrGradient.on('thumbdblclick', function(cmp){
                 me.btnGradColor.cmpEl.find('button').dropdown('toggle');
+            });
+            this.sldrGradient.on('sortthumbs', function(cmp, recalc_indexes){
+                var colors = [],
+                    currentIdx;
+                _.each (recalc_indexes, function(recalc_index, index) {
+                    colors.push(me.GradColor.colors[recalc_index]);
+                    if (me.GradColor.currentIdx == recalc_index)
+                        currentIdx = index;
+                });
+                me.OriginalFillType = null;
+                me.GradColor.colors = colors;
+                me.GradColor.currentIdx = currentIdx;
             });
             this.fillControls.push(this.sldrGradient);
 
@@ -1382,22 +1400,27 @@ define([
                 shapesStore = this.application.getCollection('ShapeGroups');
 
             var count = shapesStore.length;
-            for (var i=0; i<count-1; i++) {
-                var shapeGroup = shapesStore.at(i);
+            for (var i=-1; i<count-1 && count>0; i++) {
+                var shapeGroup = shapesStore.at(i>-1 ? i : i+1);
                 var menuItem = new Common.UI.MenuItem({
                     caption: shapeGroup.get('groupName'),
                     menu: new Common.UI.Menu({
                         menuAlign: 'tr-tl',
                         items: [
-                            { template: _.template('<div id="id-shape-menu-shapegroup' + i + '" class="menu-shape" style="width: ' + (shapeGroup.get('groupWidth') - 8) + 'px; margin-left: 5px;"></div>') }
+                            { template: _.template('<div id="id-shape-menu-shapegroup' + (i+1) + '" class="menu-shape" style="width: ' + (shapeGroup.get('groupWidth') - 8) + 'px; margin-left: 5px;"></div>') }
                         ]
                     })
                 });
                 me.btnChangeShape.menu.addItem(menuItem);
 
+                var store = shapeGroup.get('groupStore');
+                if (i<0) {
+                    store = store.clone();
+                    store.shift();
+                }
                 var shapePicker = new Common.UI.DataView({
-                    el: $('#id-shape-menu-shapegroup' + i),
-                    store: shapeGroup.get('groupStore'),
+                    el: $('#id-shape-menu-shapegroup' + (i+1)),
+                    store: store,
                     parentMenu: menuItem.menu,
                     showLast: false,
                     itemTemplate: _.template('<div class="item-shape"><img src="<%= imageUrl %>" id="<%= id %>"></div>')

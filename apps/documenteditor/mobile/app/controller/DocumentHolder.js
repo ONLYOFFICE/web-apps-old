@@ -88,11 +88,12 @@ define([
                 me.api.asc_registerCallback('asc_onAuthParticipantsChanged',_.bind(me.onApiUsersChanged, me));
                 me.api.asc_registerCallback('asc_onConnectionStateChanged', _.bind(me.onApiUserConnection, me));
                 me.api.asc_registerCallback('asc_onDocumentContentReady',   _.bind(me.onApiDocumentContentReady, me));
+                Common.NotificationCenter.on('api:disconnect',              _.bind(me.onCoAuthoringDisconnect, me));
                 me.api.asc_coAuthoringGetUsers();
             },
 
             setMode: function (mode) {
-                _isEdit = ('edit' === mode);
+                _isEdit = mode.isEdit;
             },
 
             // When our application is ready, lets get started
@@ -161,7 +162,7 @@ define([
             },
 
             onApiShowPopMenu: function(posX, posY) {
-                if ($('.popover.settings, .popup.settings, .picker-modal.settings, .modal.modal-in').length > 0) {
+                if ($('.popover.settings, .popup.settings, .picker-modal.settings, .modal.modal-in, .actions-modal').length > 0) {
                     return;
                 }
 
@@ -344,7 +345,7 @@ define([
                         items[indexAfter] = items.splice(indexBefore, 1, items[indexAfter])[0];
                     };
 
-                    if (!objectLocked && _isEdit) {
+                    if (!objectLocked && _isEdit && !me.isDisconnected) {
                         if (canCopy) {
                             menuItems.push({
                                 caption: me.menuCut,
@@ -397,6 +398,10 @@ define([
                 }
 
                 return menuItems;
+            },
+
+            onCoAuthoringDisconnect: function() {
+                this.isDisconnected = true;
             },
 
             textGuest: 'Guest',

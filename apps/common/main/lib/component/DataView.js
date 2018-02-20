@@ -297,7 +297,7 @@ define([
 
             if (_.isUndefined(this.scroller) && this.allowScrollbar) {
                 this.scroller = new Common.UI.Scroller({
-                    el: $(this.el).find('.inner').andSelf().filter('.inner'),
+                    el: $(this.el).find('.inner').addBack().filter('.inner'),
                     useKeyboard: this.enableKeyEvents && !this.handleSelect,
                     minScrollbarLength  : 40,
                     wheelSpeed: 10
@@ -394,7 +394,7 @@ define([
             });
 
             if (view) {
-                var innerEl = $(this.el).find('.inner').andSelf().filter('.inner');
+                var innerEl = $(this.el).find('.inner').addBack().filter('.inner');
 
                 if (this.groups && this.groups.length > 0) {
                     var group = this.groups.findWhere({id: record.get('group')});
@@ -452,7 +452,7 @@ define([
             }
 
             if (this.store.length < 1 && this.emptyText.length > 0)
-                $(this.el).find('.inner').andSelf().filter('.inner').append('<table cellpadding="10" class="empty-text"><tr><td>' + this.emptyText + '</td></tr></table>');
+                $(this.el).find('.inner').addBack().filter('.inner').append('<table cellpadding="10" class="empty-text"><tr><td>' + this.emptyText + '</td></tr></table>');
 
             _.each(this.dataViewItems, function(item) {
                 this.stopListening(item);
@@ -464,7 +464,7 @@ define([
 
             if (this.allowScrollbar) {
                 this.scroller = new Common.UI.Scroller({
-                    el: $(this.el).find('.inner').andSelf().filter('.inner'),
+                    el: $(this.el).find('.inner').addBack().filter('.inner'),
                     useKeyboard: this.enableKeyEvents && !this.handleSelect,
                     minScrollbarLength  : 40,
                     wheelSpeed: 10
@@ -487,7 +487,7 @@ define([
             view.stopListening();
 
             if (this.store.length < 1 && this.emptyText.length > 0) {
-                var el = $(this.el).find('.inner').andSelf().filter('.inner');
+                var el = $(this.el).find('.inner').addBack().filter('.inner');
                 if ( el.find('.empty-text').length<=0 )
                     el.append('<table cellpadding="10" class="empty-text"><tr><td>' + this.emptyText + '</td></tr></table>');
             }
@@ -653,7 +653,7 @@ define([
 
         attachKeyEvents: function() {
             if (this.enableKeyEvents && this.handleSelect) {
-                var el = $(this.el).find('.inner').andSelf().filter('.inner');
+                var el = $(this.el).find('.inner').addBack().filter('.inner');
                 el.addClass('canfocused');
                 el.attr('tabindex', '0');
                 el.on((this.parentMenu && this.useBSKeydown) ? 'dataview:keydown' : 'keydown', _.bind(this.onKeyDown, this));
@@ -673,7 +673,7 @@ define([
 
         setDisabled: function(disabled) {
             this.disabled = disabled;
-            $(this.el).find('.inner').andSelf().filter('.inner').toggleClass('disabled', disabled);
+            $(this.el).find('.inner').addBack().filter('.inner').toggleClass('disabled', disabled);
         },
 
         isDisabled: function() {
@@ -688,7 +688,7 @@ define([
             var menuRoot = (this.parentMenu.cmpEl.attr('role') === 'menu')
                             ? this.parentMenu.cmpEl
                             : this.parentMenu.cmpEl.find('[role=menu]'),
-                innerEl = $(this.el).find('.inner').andSelf().filter('.inner'),
+                innerEl = $(this.el).find('.inner').addBack().filter('.inner'),
                 docH = Common.Utils.innerHeight(),
                 menuH = menuRoot.outerHeight(),
                 top = parseInt(menuRoot.css('top'));
@@ -718,10 +718,11 @@ define([
             var el = $(this.dataViewItems[0].el),
                 itemW = el.outerWidth() + parseInt(el.css('margin-left')) + parseInt(el.css('margin-right')),
                 offsetLeft = this.$el.offset().left,
+                offsetTop = el.offset().top,
                 prevtop = -1, topIdx = 0, leftIdx = 0;
 
             for (var i=0; i<this.dataViewItems.length; i++) {
-                var top = $(this.dataViewItems[i].el).offset().top;
+                var top = $(this.dataViewItems[i].el).offset().top - offsetTop;
                 leftIdx = Math.floor(($(this.dataViewItems[i].el).offset().left - offsetLeft)/itemW);
                 if (top>prevtop) {
                     prevtop = top;

@@ -225,7 +225,7 @@
         }
 
         var params = getUrlParams(),
-            lang = (params["lang"] || 'en').split("-")[0],
+            lang = (params["lang"] || 'en').split(/[\-\_]/)[0],
             customer = params["customer"] ? ('<div class="loader-page-text-customer">' + encodeUrlParam(params["customer"]) + '</div>') : '',
             margin = (customer !== '') ? 50 : 20,
             loading = 'Loading...',
@@ -316,9 +316,6 @@
       <script type="text/javascript" src="../../../vendor/bootstrap/dist/js/bootstrap.min.js"></script>
       <script type="text/javascript" src="../../../vendor/sockjs/sockjs.min.js"></script>
       <script type="text/javascript" src="../../../vendor/xregexp/xregexp-all-min.js"></script>
-      <script type="text/javascript" src="../../../vendor/jszip/jszip.min.js"></script>
-      <script type="text/javascript" src="../../../vendor/jszip-utils/jszip-utils.min.js"></script>
-      <script type="text/javascript" src="../../../vendor/jsrsasign/jsrsasign-latest-all-min.js"></script>
 
       <!--sdk-->
       <script type="text/javascript" src="../../../../sdkjs/common/AllFonts.js"></script>

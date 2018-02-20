@@ -68,7 +68,7 @@ define([
 
             templateUserList: _.template('<ul>' +
                 '<% _.each(users, function(item) { %>' +
-                    '<%= _.template(usertpl, {user: item, scope: scope}) %>' +
+                    '<%= _.template(usertpl)({user: item, scope: scope}) %>' +
                 '<% }); %>' +
             '</ul>'),
 
@@ -189,6 +189,8 @@ define([
                 this.panelUsers = $('#status-users-ct', this.el);
                 this.panelUsers.on('shown.bs.dropdown', function () {
                     me.panelUsersList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true});
+                    var tip = me.panelUsersBlock.data('bs.tooltip');
+                    if (tip) tip.hide();
                 });
 
                 this.panelUsersBlock = this.panelUsers.find('#status-users-block');
@@ -487,7 +489,7 @@ define([
 
             _onAddUser: function(m, c, opts) {
                 if (this.panelUsersList) {
-                    this.panelUsersList.find('ul').append(_.template(this.tplUser, {user: m, scope: this}));
+                    this.panelUsersList.find('ul').append(_.template(this.tplUser)({user: m, scope: this}));
                     this.panelUsersList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true});
                 }
             },
@@ -704,7 +706,7 @@ define([
                     label: this.labelSheetName,
                     btns: {ok: this.okButtonText, cancel: this.cancelButtonText}
                 });
-                this.options.tpl = _.template(this.template, this.options);
+                this.options.tpl = _.template(this.template)(this.options);
 
                 Common.UI.Window.prototype.initialize.call(this, this.options);
             },
@@ -821,7 +823,7 @@ define([
                     label: options.ismove ? this.textMoveBefore : this.textCopyBefore,
                     btns: {ok: this.okButtonText, cancel: this.cancelButtonText}
                 });
-                this.options.tpl = _.template(this.template, this.options);
+                this.options.tpl = _.template(this.template)(this.options);
 
                 Common.UI.Window.prototype.initialize.call(this, this.options);
             },

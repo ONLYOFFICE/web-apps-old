@@ -581,7 +581,6 @@ define([
                     paragraph_locked = pr.get_Locked();
                     no_paragraph = false;
                     no_text = false;
-                    no_object = false;
                 } else if (type == Asc.c_oAscTypeSelectElement.Slide) {
                     slide_deleted = pr.get_LockDelete();
                     slide_layout_lock = pr.get_LockLayout();
@@ -625,7 +624,7 @@ define([
 
             if (this._state.no_object !== no_object ) {
                 if (this._state.activated) this._state.no_object = no_object;
-                this.toolbar.lockToolbar(PE.enumLock.noObjectSelected, no_object, {array: [me.toolbar.btnShapeAlign, me.toolbar.btnShapeArrange ]});
+                this.toolbar.lockToolbar(PE.enumLock.noObjectSelected, no_object, {array: [me.toolbar.btnShapeAlign, me.toolbar.btnShapeArrange, me.toolbar.btnVerticalAlign ]});
             }
 
             if (slide_layout_lock !== undefined && this._state.slidelayoutdisable !== slide_layout_lock ) {
@@ -697,11 +696,11 @@ define([
         },
 
         onApiLockDocumentTheme: function() {
-            this.toolbar.lockToolbar(PE.enumLock.themeLock, true, {array: [this.toolbar.btnColorSchemas]});
+            this.toolbar.lockToolbar(PE.enumLock.themeLock, true, {array: [this.toolbar.btnColorSchemas, this.toolbar.listTheme]});
         },
 
         onApiUnLockDocumentTheme: function() {
-            this.toolbar.lockToolbar(PE.enumLock.themeLock, false, {array: [this.toolbar.btnColorSchemas]});
+            this.toolbar.lockToolbar(PE.enumLock.themeLock, false, {array: [this.toolbar.btnColorSchemas, this.toolbar.listTheme]});
         },
 
         onApiCoAuthoringDisconnect: function(disableDownload) {
@@ -872,7 +871,7 @@ define([
             if (this.api && this.api.asc_isDocumentCanSave) {
                 var isModified = this.api.asc_isDocumentCanSave();
                 var isSyncButton = $('.btn-icon', this.toolbar.btnSave.cmpEl).hasClass('btn-synch');
-                if (!isModified && !isSyncButton)
+                if (!isModified && !isSyncButton && !this.toolbar.mode.forcesave)
                     return;
 
                 this.api.asc_Save();
@@ -1718,7 +1717,7 @@ define([
                     store: this.getApplication().getCollection('Common.Collections.TextArt'),
                     parentMenu: this.toolbar.mnuInsertTextArt.menu,
                     showLast: false,
-                    itemTemplate: _.template('<div class="item-art"><img src="<%= imageUrl %>" id="<%= id %>"></div>')
+                    itemTemplate: _.template('<div class="item-art"><img src="<%= imageUrl %>" id="<%= id %>" style="width:50px;height:50px;"></div>')
                 });
 
                 this.toolbar.mnuTextArtPicker.on('item:click', function(picker, item, record, e) {

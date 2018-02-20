@@ -58,6 +58,7 @@ define([
                 isViewer: false,
                 EditorsSupport: ["word", "cell", "slide"],
                 isVisual: false,
+                isCustomWindow: false,
                 isModal: false,
                 isInsideMode: false,
                 initDataType: 0,
@@ -81,7 +82,9 @@ define([
                 currentVariation: 0,
                 pluginObj: undefined,
                 allowSelected: false,
-                selected: false
+                selected: false,
+                groupName: '',
+                groupRank: 0
             }
         }
     });

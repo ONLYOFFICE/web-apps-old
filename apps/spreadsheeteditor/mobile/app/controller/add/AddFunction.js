@@ -87,6 +87,7 @@ define([
 
                 _.defer(function () {
                     var editorLang = SSE.getController("Main").editorConfig.lang;
+                    editorLang = (editorLang ? editorLang : 'en').split(/[\-\_]/)[0].toLowerCase();
 
                     var localizationFunctions = function(data) {
                         fc = data;
@@ -106,6 +107,8 @@ define([
                 var me = this,
                     functions = {},
                     editorLang = SSE.getController("Main").editorConfig.lang;
+
+                editorLang = (editorLang ? editorLang : 'en').split(/[\-\_]/)[0].toLowerCase();
 
                 var localizationFunctionsDesc = function (data) {
                     var jsonDesc = {},
@@ -132,8 +135,8 @@ define([
                                 type:       _name,
                                 group:      groupname,
                                 caption:    func.asc_getLocaleName(),
-                                args:       jsonDesc[_name].a || '',
-                                descr:      jsonDesc[_name].d || ''
+                                args:       (jsonDesc && jsonDesc[_name]) ? jsonDesc[_name].a : '',
+                                descr:      (jsonDesc && jsonDesc[_name]) ? jsonDesc[_name].d : ''
                             };
                         }
                     }

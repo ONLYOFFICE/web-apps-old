@@ -89,13 +89,15 @@ var ApplicationController = new(function(){
         if (docConfig) {
             permissions = $.extend(permissions, docConfig.permissions);
 
-            var docInfo = new Asc.asc_CDocInfo();
+            var _permissions = $.extend({}, docConfig.permissions),
+                docInfo = new Asc.asc_CDocInfo();
             docInfo.put_Id(docConfig.key);
             docInfo.put_Url(docConfig.url);
             docInfo.put_Title(docConfig.title);
             docInfo.put_Format(docConfig.fileType);
             docInfo.put_VKey(docConfig.vkey);
             docInfo.put_Token(docConfig.token);
+            docInfo.put_Permissions(_permissions);
 
             if (api) {
                 api.asc_registerCallback('asc_onGetEditorPermissions', onEditorPermissions);
@@ -166,6 +168,8 @@ var ApplicationController = new(function(){
     }
 
     function onDocumentContentReady() {
+        Common.Gateway.documentReady();
+
         hidePreloader();
 
         if ( !embedConfig.shareUrl )
@@ -292,7 +296,7 @@ var ApplicationController = new(function(){
     }
 
     function onEditorPermissions(params) {
-        if ( params.asc_getCanBranding() && (typeof config.customization == 'object') &&
+        if ( (params.asc_getLicenseType() === Asc.c_oLicenseResult.Success) && (typeof config.customization == 'object') &&
             config.customization && config.customization.logo ) {
 
             var logo = $('#header-logo');
@@ -414,14 +418,14 @@ var ApplicationController = new(function(){
         Common.Analytics.trackEvent('Internal Error', id.toString());
     }
 
-    function onExternalError(error) {
+    function onExternalMessage(error) {
         if (error) {
             hidePreloader();
-            $('#id-error-mask-title').text(error.title);
+            $('#id-error-mask-title').text('Error');
             $('#id-error-mask-text').text(error.msg);
             $('#id-error-mask').css('display', 'block');
 
-            Common.Analytics.trackEvent('External Error', error.title);
+            Common.Analytics.trackEvent('External Error');
         }
     }
 
@@ -519,8 +523,8 @@ var ApplicationController = new(function(){
             // Initialize api gateway
             Common.Gateway.on('init',               loadConfig);
             Common.Gateway.on('opendocument',       loadDocument);
-            Common.Gateway.on('showerror',          onExternalError);
-            Common.Gateway.ready();
+            Common.Gateway.on('showmessage',        onExternalMessage);
+            Common.Gateway.appReady();
         }
 
         return me;

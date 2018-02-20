@@ -80,7 +80,6 @@ define([
                     isDisconnected      : false,
                     usersCount          : 1,
                     fastCoauth          : true,
-                    startModifyDocument : true,
                     lostEditingRights   : false,
                     licenseWarning      : false
                 };
@@ -97,10 +96,33 @@ define([
 
                 // window["flat_desine"] = true;
 
+                var styleNames = ['Normal', 'Neutral', 'Bad', 'Good', 'Input', 'Output', 'Calculation', 'Check Cell', 'Explanatory Text', 'Note', 'Linked Cell', 'Warning Text',
+                        'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Title', 'Total', 'Currency', 'Percent', 'Comma'],
+                    translate = {
+                        'Series': me.txtSeries,
+                        'Diagram Title': me.txtDiagramTitle,
+                        'X Axis': me.txtXAxis,
+                        'Y Axis': me.txtYAxis,
+                        'Your text here': me.txtArt
+                    };
+                styleNames.forEach(function(item){
+                    translate[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
+                });
+                translate['Currency [0]'] = me.txtStyle_Currency + ' [0]';
+                translate['Comma [0]'] = me.txtStyle_Comma + ' [0]';
+
+                for (var i=1; i<7; i++) {
+                    translate['Accent'+i] = me.txtAccent + i;
+                    translate['20% - Accent'+i] = '20% - ' + me.txtAccent + i;
+                    translate['40% - Accent'+i] = '40% - ' + me.txtAccent + i;
+                    translate['60% - Accent'+i] = '60% - ' + me.txtAccent + i;
+                }
+
                 me.api = new Asc.spreadsheet_api({
                     'id-view'  : 'editor_sdk',
                     'id-input' : 'ce-cell-content'
-                    ,'mobile'  : true
+                    ,'mobile'  : true,
+                    'translate': translate
                 });
 
                 // Localization uiApp params
@@ -152,7 +174,7 @@ define([
                     Common.Gateway.on('init',           _.bind(me.loadConfig, me));
                     Common.Gateway.on('showmessage',    _.bind(me.onExternalMessage, me));
                     Common.Gateway.on('opendocument',   _.bind(me.loadDocument, me));
-                    Common.Gateway.ready();
+                    Common.Gateway.appReady();
                 }
             },
 
@@ -198,7 +220,8 @@ define([
                 if ( data.doc ) {
                     this.permissions = $.extend(this.permissions, data.doc.permissions);
 
-                    var _user = new Asc.asc_CUserInfo();
+                    var _permissions = $.extend({}, data.doc.permissions),
+                        _user = new Asc.asc_CUserInfo();
                     _user.put_Id(this.appOptions.user.id);
                     _user.put_FullName(this.appOptions.user.fullname);
 
@@ -212,9 +235,11 @@ define([
                     docInfo.put_UserInfo(_user);
                     docInfo.put_CallbackUrl(this.editorConfig.callbackUrl);
                     docInfo.put_Token(data.doc.token);
+                    docInfo.put_Permissions(_permissions);
                 }
 
                 this.api.asc_registerCallback('asc_onGetEditorPermissions', _.bind(this.onEditorPermissions, this));
+                this.api.asc_registerCallback('asc_onLicenseChanged',       _.bind(this.onLicenseChanged, this));
                 this.api.asc_setDocInfo(docInfo);
                 this.api.asc_getEditorPermissions(this.editorConfig.licenseUrl, this.editorConfig.customerId);
 
@@ -229,11 +254,11 @@ define([
             setMode: function(mode){
                 var me = this;
 
-                Common.SharedSettings.set('mode', mode);
+                Common.SharedSettings.set('mode', mode.isEdit ? 'edit' : 'view');
 
                 if ( me.api ) {
-                    me.api.asc_enableKeyEvents(mode == 'edit');
-                    me.api.asc_setViewMode(mode != 'edit');
+                    me.api.asc_enableKeyEvents(mode.isEdit);
+                    me.api.asc_setViewMode(!mode.isEdit);
                 }
             },
 
@@ -306,15 +331,9 @@ define([
                     me.setLongActionView(action)
                 } else {
                     if (me._state.fastCoauth && me._state.usersCount>1 && id==Asc.c_oAscAsyncAction['Save']) {
-                        var me = me;
-                        if (me._state.timerSave===undefined)
-                            me._state.timerSave = setInterval(function(){
-                                if ((new Date()) - me._state.isSaving>500) {
-                                    clearInterval(me._state.timerSave);
-                                    // console.debug('End long action');
-                                    me._state.timerSave = undefined;
-                                }
-                            }, 500);
+                        // me._state.timerSave = setTimeout(function () {
+                            //console.debug('End long action');
+                        // }, 500);
                     } else {
                         // console.debug('End long action');
                     }
@@ -347,7 +366,7 @@ define([
                         break;
 
                     case Asc.c_oAscAsyncAction['Save']:
-                        me._state.isSaving = new Date();
+                        // clearTimeout(me._state.timerSave);
                         title   = me.saveTitleText;
                         text    = me.saveTextText;
                         break;
@@ -421,6 +440,12 @@ define([
                         title   = me.loadingDocumentTitleText;
                         text    = me.loadingDocumentTextText;
                         break;
+                    default:
+                        if (typeof action.id == 'string'){
+                            title   = action.id;
+                            text    = action.id;
+                        }
+                        break;
                 }
 
                 if (action.type == Asc.c_oAscAsyncActionType.BlockInteraction) {
@@ -438,6 +463,11 @@ define([
             onDocumentContentReady: function() {
                 if (this._isDocReady)
                     return;
+
+                Common.Gateway.documentReady();
+
+                if (this._state.openDlg)
+                    uiApp.closeModal(this._state.openDlg);
 
                 var me = this,
                     value;
@@ -460,7 +490,7 @@ define([
                 /** coauthoring begin **/
                 value = Common.localStorage.getItem("sse-settings-livecomment");
                 this.isLiveCommenting = !(value!==null && parseInt(value) == 0);
-                this.isLiveCommenting?this.api.asc_showComments():this.api.asc_hideComments();
+                this.isLiveCommenting?this.api.asc_showComments(true):this.api.asc_hideComments();
 
                 if (this.appOptions.isEdit && this.appOptions.canLicense && !this.appOptions.isOffline && this.appOptions.canCoAuthoring) {
                     value = Common.localStorage.getItem("sse-settings-coauthmode");
@@ -511,9 +541,33 @@ define([
                     mode: me.appOptions.isEdit ? 'edit' : 'view'
                 });
 
+                me.applyLicense();
 
+                $('.view-main').on('click', function (e) {
+                    uiApp.closeModal('.document-menu.modal-in');
+                })
+            },
+
+            onLicenseChanged: function(params) {
+                if (this.appOptions.isEditDiagram || this.appOptions.isEditMailMerge) return;
+
+                var licType = params.asc_getLicenseType();
+                if (licType !== undefined && (licType===Asc.c_oLicenseResult.Connections || licType===Asc.c_oLicenseResult.UsersCount) && this.appOptions.canEdit && this.editorConfig.mode !== 'view') {
+                    this._state.licenseWarning = (licType===Asc.c_oLicenseResult.Connections) ? this.warnNoLicense : this.warnNoLicenseUsers;
+                }
+
+                if (this._isDocReady && this._state.licenseWarning)
+                    this.applyLicense();
+            },
+
+            applyLicense: function() {
+                var me = this;
                 if (me._state.licenseWarning) {
-                    value = Common.localStorage.getItem("sse-license-warning");
+                    SSE.getController('Toolbar').activateViewControls();
+                    SSE.getController('Toolbar').deactivateEditControls();
+                    Common.NotificationCenter.trigger('api:disconnect');
+
+                    var value = Common.localStorage.getItem("sse-license-warning");
                     value = (value!==null) ? parseInt(value) : 0;
                     var now = (new Date).getTime();
 
@@ -521,13 +575,13 @@ define([
                         Common.localStorage.setItem("sse-license-warning", now);
                         uiApp.modal({
                             title: me.textNoLicenseTitle,
-                            text : me.warnNoLicense,
+                            text : me._state.licenseWarning,
                             buttons: [
                                 {
                                     text: me.textBuyNow,
                                     bold: true,
                                     onClick: function() {
-                                        window.open('http://www.onlyoffice.com/enterprise-edition.aspx', "_blank");
+                                        window.open('https://www.onlyoffice.com', "_blank");
                                     }
                                 },
                                 {
@@ -536,14 +590,11 @@ define([
                                         window.open('mailto:sales@onlyoffice.com', "_blank");
                                     }
                                 }
-                            ],
+                            ]
                         });
                     }
-                }
-
-                $('.view-main').on('click', function (e) {
-                    uiApp.closeModal('.document-menu.modal-in');
-                })
+                } else
+                    SSE.getController('Toolbar').activateControls();
             },
 
             onOpenDocument: function(progress) {
@@ -580,7 +631,7 @@ define([
                     me.appOptions.canAnalytics = params.asc_getIsAnalyticsEnable();
 
                     me.appOptions.isOffline      = me.api.asc_isOffline();
-                    me.appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success);
+                    me.appOptions.canLicense     = (licType === Asc.c_oLicenseResult.Success || licType === Asc.c_oLicenseResult.SuccessLimit);
                     me.appOptions.isLightVersion = params.asc_getIsLight();
                     /** coauthoring begin **/
                     me.appOptions.canCoAuthoring = !me.appOptions.isLightVersion;
@@ -589,7 +640,7 @@ define([
                     me.appOptions.canChat        = me.appOptions.canLicense && !me.appOptions.isOffline && !((typeof (me.editorConfig.customization) == 'object') && me.editorConfig.customization.chat===false);
                     me.appOptions.canRename      = !!me.permissions.rename;
 
-                    me.appOptions.canBranding  = (licType!==Asc.c_oLicenseResult.Error) && (typeof me.editorConfig.customization == 'object');
+                    me.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof me.editorConfig.customization == 'object');
                     me.appOptions.canBrandingExt = params.asc_getCanBranding() && (typeof me.editorConfig.customization == 'object');
                 }
 
@@ -600,13 +651,11 @@ define([
                 me.appOptions.canDownload    = !me.appOptions.nativeApp && (me.permissions.download !== false);
                 me.appOptions.canPrint       = (me.permissions.print !== false);
 
-                me._state.licenseWarning = !(me.appOptions.isEditDiagram || me.appOptions.isEditMailMerge) && (licType===Asc.c_oLicenseResult.Connections) && me.appOptions.canEdit && me.editorConfig.mode !== 'view';
-
                 me.applyModeCommonElements();
                 me.applyModeEditorElements();
 
                 me.api.asc_setViewMode(!me.appOptions.isEdit);
-                (me.appOptions.isEditMailMerge || me.appOptions.isEditDiagram) ? me.api.asc_LoadEmptyDocument() : me.api.asc_LoadDocument();
+                me.api.asc_LoadDocument();
 
                 if (!me.appOptions.isEdit) {
                     me.hidePreloader();
@@ -621,22 +670,9 @@ define([
 
                 _.each(me.getApplication().controllers, function(controller) {
                     if (controller && _.isFunction(controller.setMode)) {
-                        controller.setMode(me.editorConfig.mode);
+                        controller.setMode(me.appOptions);
                     }
                 });
-
-                if (me.api) {
-                    var translateChart = new Asc.asc_CChartTranslate();
-                    translateChart.asc_setTitle(me.txtDiagramTitle);
-                    translateChart.asc_setXAxis(me.txtXAxis);
-                    translateChart.asc_setYAxis(me.txtYAxis);
-                    translateChart.asc_setSeries(me.txtSeries);
-                    me.api.asc_setChartTranslate(translateChart);
-
-                    var translateArt = new Asc.asc_TextArtTranslate();
-                    translateArt.asc_setDefaultText(me.txtArt);
-                    me.api.asc_setTextArtTranslate(translateArt);
-                }
 
                 if (!me.appOptions.isEditMailMerge && !me.appOptions.isEditDiagram) {
                     me.api.asc_registerCallback('asc_onSendThemeColors', _.bind(me.onSendThemeColors, me));
@@ -653,7 +689,6 @@ define([
 
                     me.api.asc_registerCallback('asc_onDocumentModifiedChanged', _.bind(me.onDocumentModifiedChanged, me));
                     me.api.asc_registerCallback('asc_onDocumentCanSaveChanged',  _.bind(me.onDocumentCanSaveChanged, me));
-                    me.api.asc_registerCallback('asc_onSaveUrl',                 _.bind(me.onSaveUrl, me));
                     /** coauthoring begin **/
                     me.api.asc_registerCallback('asc_onCollaborativeChanges',    _.bind(me.onCollaborativeChanges, me));
                     me.api.asc_registerCallback('asc_OnTryUndoInFastCollaborative',_.bind(me.onTryUndoInFastCollaborative, me));
@@ -684,7 +719,7 @@ define([
                         message: [msg.msg.charAt(0).toUpperCase() + msg.msg.substring(1)]
                     });
 
-                    Common.component.Analytics.trackEvent('External Error', msg.title);
+                    Common.component.Analytics.trackEvent('External Error');
                 }
             },
 
@@ -794,6 +829,7 @@ define([
 
                     case Asc.c_oAscError.ID.FrmlOperandExpected:
                         config.msg = this.errorOperandExpected;
+                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.VKeyEncrypt:
@@ -883,6 +919,7 @@ define([
 
                     case Asc.c_oAscError.ID.FrmlWrongReferences:
                         config.msg = this.errorFrmlWrongReferences;
+                        config.closable = true;
                         break;
 
                     case Asc.c_oAscError.ID.CopyMultiselectAreaError:
@@ -973,21 +1010,12 @@ define([
                     if (window.document.title != title)
                         window.document.title = title;
 
-                    if (!this._state.fastCoauth || this._state.usersCount<2 )
-                        Common.Gateway.setDocumentModified(isModified);
-                    else if ( this._state.startModifyDocument!==undefined && this._state.startModifyDocument === isModified){
-                        Common.Gateway.setDocumentModified(isModified);
-                        this._state.startModifyDocument = (this._state.startModifyDocument) ? !this._state.startModifyDocument : undefined;
-                    }
-
+                    Common.Gateway.setDocumentModified(isModified);
                     this._state.isDocModified = isModified;
                 }
             },
 
             onDocumentModifiedChanged: function() {
-                if (this._state.fastCoauth && this._state.usersCount > 1 && this._state.startModifyDocument===undefined )
-                    return;
-
                 var isModified = this.api.asc_isDocumentCanSave();
                 if (this._state.isDocModified !== isModified) {
                     Common.Gateway.setDocumentModified(this.api.asc_isDocumentModified());
@@ -1021,10 +1049,6 @@ define([
 
             hidePreloader: function() {
                 $('#loading-mask').hide().remove();
-            },
-
-            onSaveUrl: function(url) {
-                Common.Gateway.save(url);
             },
 
             onDownloadUrl: function(url) {
@@ -1107,8 +1131,10 @@ define([
             },
 
             onAdvancedOptions: function(advOptions) {
+                if (this._state.openDlg) return;
+
                 var type = advOptions.asc_getOptionId(),
-                    me = this, modal;
+                    me = this;
                 if (type == Asc.c_oAscAdvancedOptionsID.CSV) {
                     var picker,
                         pages = [],
@@ -1123,7 +1149,7 @@ define([
 
                     me.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
 
-                    modal = uiApp.modal({
+                    me._state.openDlg = uiApp.modal({
                         title: me.advCSVOptions,
                         text: '',
                         afterText:
@@ -1149,6 +1175,7 @@ define([
                                             me.onLongActionBegin(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
                                         }
                                     }
+                                    me._state.openDlg = null;
                                 }
                             }
                         ]
@@ -1177,11 +1204,15 @@ define([
                     });
 
                     // Vertical align
-                    $$(modal).css({
-                        marginTop: - Math.round($$(modal).outerHeight() / 2) + 'px'
+                    $$(me._state.openDlg).css({
+                        marginTop: - Math.round($$(me._state.openDlg).outerHeight() / 2) + 'px'
                     });
                 } else if (type == Asc.c_oAscAdvancedOptionsID.DRM) {
-                    modal = uiApp.modal({
+                    $(me.loadMask).hasClass('modal-in') && uiApp.closeModal(me.loadMask);
+
+                    me.onLongActionEnd(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
+
+                    me._state.openDlg = uiApp.modal({
                         title: me.advDRMOptions,
                         text: me.advDRMEnterPassword,
                         afterText: '<div class="input-field"><input type="password" name="modal-password" placeholder="' + me.advDRMPassword + '" class="modal-text-input"></div>',
@@ -1190,15 +1221,21 @@ define([
                                 text: 'OK',
                                 bold: true,
                                 onClick: function () {
-                                    var password = $(modal).find('.modal-text-input[name="modal-password"]').val();
+                                    var password = $(me._state.openDlg).find('.modal-text-input[name="modal-password"]').val();
                                     me.api.asc_setAdvancedOptions(type, new Asc.asc_CDRMAdvancedOptions(password));
 
                                     if (!me._isDocReady) {
                                         me.onLongActionBegin(Asc.c_oAscAsyncActionType.BlockInteraction, LoadingDocument);
                                     }
+                                    me._state.openDlg = null;
                                 }
                             }
                         ]
+                    });
+
+                    // Vertical align
+                    $$(me._state.openDlg).css({
+                        marginTop: - Math.round($$(me._state.openDlg).outerHeight() / 2) + 'px'
                     });
                 }
             },
@@ -1353,7 +1390,7 @@ define([
             txtErrorLoadHistory: 'Loading history failed',
             textBuyNow: 'Visit website',
             textNoLicenseTitle: 'ONLYOFFICE open source version',
-            warnNoLicense: 'You are using an open source version of ONLYOFFICE. The version has limitations for concurrent connections to the document server (20 connections at a time).<br>If you need more please consider purchasing a commercial license.',
+            warnNoLicense: 'This version of ONLYOFFICE Editors has certain limitations for concurrent connections to the document server.<br>If you need more please consider upgrading your current license or purchasing a commercial one.',
             textContactUs: 'Contact sales',
             errorViewerDisconnect: 'Connection is lost. You can still view the document,<br>but will not be able to download until the connection is restored.',
             warnLicenseExp: 'Your license has expired.<br>Please update your license and refresh the page.',
@@ -1383,7 +1420,30 @@ define([
             textClose: 'Close',
             textDone: 'Done',
             titleServerVersion: 'Editor updated',
-            errorServerVersion: 'The editor version has been updated. The page will be reloaded to apply the changes.'
+            errorServerVersion: 'The editor version has been updated. The page will be reloaded to apply the changes.',
+            txtAccent: 'Accent',
+            txtStyle_Normal: 'Normal',
+            txtStyle_Heading_1: 'Heading 1',
+            txtStyle_Heading_2: 'Heading 2',
+            txtStyle_Heading_3: 'Heading 3',
+            txtStyle_Heading_4: 'Heading 4',
+            txtStyle_Title: 'Title',
+            txtStyle_Neutral: 'Neutral',
+            txtStyle_Bad: 'Bad',
+            txtStyle_Good: 'Good',
+            txtStyle_Input: 'Input',
+            txtStyle_Output: 'Output',
+            txtStyle_Calculation: 'Calculation',
+            txtStyle_Check_Cell: 'Check Cell',
+            txtStyle_Explanatory_Text: 'Explanatory Text',
+            txtStyle_Note: 'Note',
+            txtStyle_Linked_Cell: 'Linked Cell',
+            txtStyle_Warning_Text: 'Warning Text',
+            txtStyle_Total: 'Total',
+            txtStyle_Currency: 'Currency',
+            txtStyle_Percent: 'Percent',
+            txtStyle_Comma: 'Comma',
+            warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.'
         }
     })(), SSE.Controllers.Main || {}))
 });

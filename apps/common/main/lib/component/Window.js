@@ -224,7 +224,7 @@ define([
 
             var win_width = (this.initConfig.width=='auto') ? parseInt(this.$window.find('.body').css('width')) : this.initConfig.width;
             
-            var top  = Math.floor(((parseInt(main_height) - parseInt(win_height)) / 2) * 0.9);
+            var top  = Math.floor((parseInt(main_height) - parseInt(win_height)) / 2);
             var left = Math.floor((parseInt(main_width) - parseInt(win_width)) / 2);
 
             this.$window.css('left',left);
@@ -247,8 +247,8 @@ define([
             Common.UI.Menu.Manager.hideAll();
             var zoom = (event instanceof jQuery.Event) ? Common.Utils.zoom() : 1;
             this.dragging.enabled = true;
-            this.dragging.initx = event.pageX*zoom - parseInt(this.$window.css('left'));
-            this.dragging.inity = event.pageY*zoom - parseInt(this.$window.css('top'));
+            this.dragging.initx = event.pageX*zoom - this.getLeft();
+            this.dragging.inity = event.pageY*zoom - this.getTop();
 
             if (window.innerHeight == undefined) {
                 var main_width  = document.documentElement.offsetWidth;
@@ -258,8 +258,8 @@ define([
                 main_height = Common.Utils.innerHeight();
             }
 
-            this.dragging.maxx  = main_width - parseInt(this.$window.css("width"));
-            this.dragging.maxy  = main_height - parseInt(this.$window.css("height"));
+            this.dragging.maxx  = main_width - this.getWidth();
+            this.dragging.maxy  = main_height - this.getHeight();
 
             $(document).on('mousemove', this.binding.drag);
             $(document).on('mouseup', this.binding.dragStop);
@@ -297,16 +297,16 @@ define([
         function _resizestart(event) {
             Common.UI.Menu.Manager.hideAll();
             var el = $(event.target),
-                left = parseInt(this.$window.css('left')),
-                top = parseInt(this.$window.css('top'));
+                left = this.getLeft(),
+                top = this.getTop();
 
             this.resizing.enabled = true;
             this.resizing.initpage_x = event.pageX*Common.Utils.zoom();
             this.resizing.initpage_y = event.pageY*Common.Utils.zoom();
             this.resizing.initx = this.resizing.initpage_x - left;
             this.resizing.inity = this.resizing.initpage_y - top;
-            this.resizing.initw = parseInt(this.$window.css("width"));
-            this.resizing.inith = parseInt(this.$window.css("height"));
+            this.resizing.initw = this.getWidth();
+            this.resizing.inith = this.getHeight();
             this.resizing.type = [el.hasClass('left') ? -1 : (el.hasClass('right') ? 1 : 0), el.hasClass('top') ? -1 : (el.hasClass('bottom') ? 1 : 0)];
 
             var main_width  = (window.innerHeight == undefined) ? document.documentElement.offsetWidth : Common.Utils.innerWidth(),
@@ -421,7 +421,7 @@ define([
             _.extend(options, {
                 cls: 'alert',
                 onprimary: onKeyDown,
-                tpl: _.template(template, options)
+                tpl: _.template(template)(options)
             });
 
             var win = new Common.UI.Window(options),
@@ -433,7 +433,8 @@ define([
                 var footer      = window.getChild('.footer');
                 var header      = window.getChild('.header');
                 var body        = window.getChild('.body');
-                var icon        = window.getChild('.icon');
+                var icon        = window.getChild('.icon'),
+                    icon_height = (icon.length>0) ? icon.height() : 0;
                 var check       = window.getChild('.info-box .dont-show-checkbox');
 
                 if (!options.dontshow) body.css('padding-bottom', '10px');
@@ -443,19 +444,19 @@ define([
                         options.width = options.maxwidth;
                 }
                 if (options.width=='auto') {
-                    text_cnt.height(Math.max(text.height() + ((check.length>0) ? (check.height() + parseInt(check.css('margin-top'))) : 0), icon.height()));
+                    text_cnt.height(Math.max(text.height() + ((check.length>0) ? (check.height() + parseInt(check.css('margin-top'))) : 0), icon_height));
                     body.height(parseInt(text_cnt.css('height')) + parseInt(footer.css('height')));
                     window.setSize(text.position().left + text.width() + parseInt(text_cnt.css('padding-right')),
                         parseInt(body.css('height')) + parseInt(header.css('height')));
                 } else {
                     text.css('white-space', 'normal');
                     window.setWidth(options.width);
-                    text_cnt.height(Math.max(text.height() + ((check.length>0) ? (check.height() + parseInt(check.css('margin-top'))) : 0), icon.height()));
+                    text_cnt.height(Math.max(text.height() + ((check.length>0) ? (check.height() + parseInt(check.css('margin-top'))) : 0), icon_height));
                     body.height(parseInt(text_cnt.css('height')) + parseInt(footer.css('height')));
                     window.setHeight(parseInt(body.css('height')) + parseInt(header.css('height')));
                 }
-                if (text.height() < icon.height()-10)
-                    text.css({'vertical-align': 'baseline', 'line-height': icon.height()+'px'});
+                if (text.height() < icon_height-10)
+                    text.css({'vertical-align': 'baseline', 'line-height': icon_height+'px'});
             }
 
             function onBtnClick(event) {
@@ -556,7 +557,7 @@ define([
             render : function() {
                 var renderto = this.initConfig.renderTo || document.body;
                 $(renderto).append(
-                    _.template(template, this.initConfig)
+                    _.template(template)(this.initConfig)
                 );
 
                 this.$window = $('#' + this.initConfig.id);
@@ -695,7 +696,7 @@ define([
                         hide_mask = true;
                     mask.attr('counter', parseInt(mask.attr('counter'))-1);
 
-                    if (this.$lastmodal.size() > 0) {
+                    if (this.$lastmodal.length > 0) {
                         this.$lastmodal.removeClass('dethrone');
                         hide_mask = !(this.$lastmodal.hasClass('modal') && this.$lastmodal.is(':visible'));
                     }
@@ -736,7 +737,7 @@ define([
                             hide_mask = true;
                         mask.attr('counter', parseInt(mask.attr('counter'))-1);
 
-                        if (this.$lastmodal.size() > 0) {
+                        if (this.$lastmodal.length > 0) {
                             this.$lastmodal.removeClass('dethrone');
                             hide_mask = !(this.$lastmodal.hasClass('modal') && this.$lastmodal.is(':visible'));
                         }
@@ -825,6 +826,14 @@ define([
                 return this.$window.find('> .header > .title').text();
             },
 
+            getLeft: function() {
+                return parseInt(this.$window.css('left'));
+            },
+
+            getTop: function() {
+                return parseInt(this.$window.css('top'));
+            },
+
             isVisible: function() {
                 return this.$window && this.$window.is(':visible');
             },
@@ -837,9 +846,9 @@ define([
                             '<div class="resize-border bottom" style="left: 4px; right: 4px; width: auto; z-index: 2; border-top-style: solid; cursor: s-resize;"></div>' +
                             '<div class="resize-border right bottom" style="border-bottom-right-radius: 5px; cursor: se-resize;"></div>' +
                             '<div class="resize-border right" style="top:' + ((this.initConfig.header) ? '33' : '5') + 'px; bottom: 5px; height: auto; border-left-style: solid; cursor: w-resize;"></div>' +
-                            '<div class="resize-border left top" style="border-top-left-radius: 5px; cursor: se-resize;"></div>' +
+                            '<div class="resize-border left top" style="border-top-left-radius: 5px; cursor: nw-resize;"></div>' +
                             '<div class="resize-border top" style="left: 4px; right: 4px; width: auto; z-index: 2; border-bottom-style:' + ((this.initConfig.header) ? "none" : "solid") + '; cursor: s-resize;"></div>' +
-                            '<div class="resize-border right top" style="border-top-right-radius: 5px; cursor: sw-resize;"></div>';
+                            '<div class="resize-border right top" style="border-top-right-radius: 5px; cursor: ne-resize;"></div>';
                         if (this.initConfig.header)
                             bordersTemplate += '<div class="resize-border left" style="top: 5px; height: 28px; cursor: e-resize;"></div>' +
                                                '<div class="resize-border right" style="top: 5px; height: 28px; cursor: w-resize;"></div>';

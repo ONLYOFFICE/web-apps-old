@@ -538,7 +538,7 @@ define([
             if (this.api && !this._noApply) {
                 var props = new Asc.asc_TextArtProperties();
                 var stroke = new Asc.asc_CStroke();
-                if (this.BorderSize<0.01) {
+                if (this.BorderSize<0.00001) {
                     stroke.put_type( Asc.c_oAscStrokeType.STROKE_NONE);
                     this._state.StrokeType = this._state.StrokeWidth = -1;
                 } else {
@@ -590,7 +590,7 @@ define([
             if (this.api && !this._noApply) {
                 var props = new Asc.asc_TextArtProperties();
                 var stroke = new Asc.asc_CStroke();
-                if (this.BorderSize<0.01) {
+                if (this.BorderSize<0.00001) {
                     stroke.put_type( Asc.c_oAscStrokeType.STROKE_NONE);
                 } else {
                     stroke.put_type( Asc.c_oAscStrokeType.STROKE_COLOR);
@@ -611,7 +611,7 @@ define([
             if (this.api && this.BorderSize>0 && !this._noApply) {
                 var props = new Asc.asc_TextArtProperties();
                 var stroke = new Asc.asc_CStroke();
-                if (this.BorderSize<0.01) {
+                if (this.BorderSize<0.00001) {
                     stroke.put_type( Asc.c_oAscStrokeType.STROKE_NONE);
                 } else {
                     stroke.put_type( Asc.c_oAscStrokeType.STROKE_COLOR);
@@ -920,14 +920,14 @@ define([
                 if (this._state.StrokeType !== strokeType || strokeType == Asc.c_oAscStrokeType.STROKE_COLOR) {
                     if ( strokeType == Asc.c_oAscStrokeType.STROKE_COLOR ) {
                         var w = stroke.get_width();
-                        var check_value = (Math.abs(this._state.StrokeWidth-w)<0.001) && !((new RegExp(this.txtPt + '\\s*$')).test(this.cmbBorderSize.getRawValue()));
-                        if ( Math.abs(this._state.StrokeWidth-w)>0.001 || check_value ||
+                        var check_value = (Math.abs(this._state.StrokeWidth-w)<0.00001) && !((new RegExp(this.txtPt + '\\s*$')).test(this.cmbBorderSize.getRawValue()));
+                        if ( Math.abs(this._state.StrokeWidth-w)>0.00001 || check_value ||
                             (this._state.StrokeWidth===null || w===null)&&(this._state.StrokeWidth!==w)) {
                             this._state.StrokeWidth = w;
 
                             if (w!==null) w = this._mm2pt(w);
                             var _selectedItem = (w===null) ? w : _.find(this.cmbBorderSize.store.models, function(item) {
-                                if ( w<item.attributes.value+0.01 && w>item.attributes.value-0.01) {
+                                if ( w<item.attributes.value+0.00001 && w>item.attributes.value-0.00001) {
                                     return true;
                                 }
                             });
@@ -1104,7 +1104,7 @@ define([
             this.lockedControls.push(this.btnInsertFromUrl);
 
             this.btnInsertFromFile.on('click', _.bind(function(btn){
-                if (this.api) this.api.ChangeArtImageFromFile();
+                if (this.api) this.api.ChangeArtImageFromFile(this.BlipFillType);
                 this.fireEvent('editcomplete', this);
             }, this));
             this.btnInsertFromUrl.on('click', _.bind(this.insertFromUrl, this));
@@ -1223,6 +1223,18 @@ define([
             });
             this.sldrGradient.on('thumbdblclick', function(cmp){
                 me.btnGradColor.cmpEl.find('button').dropdown('toggle');
+            });
+            this.sldrGradient.on('sortthumbs', function(cmp, recalc_indexes){
+                var colors = [],
+                    currentIdx;
+                _.each (recalc_indexes, function(recalc_index, index) {
+                    colors.push(me.GradColor.colors[recalc_index]);
+                    if (me.GradColor.currentIdx == recalc_index)
+                        currentIdx = index;
+                });
+                me.OriginalFillType = null;
+                me.GradColor.colors = colors;
+                me.GradColor.currentIdx = currentIdx;
             });
             this.lockedControls.push(this.sldrGradient);
 

@@ -176,6 +176,7 @@ define([
 
                     comment.asc_putText(commentVal);
                     comment.asc_putTime(this.utcDateToString(new Date()));
+                    comment.asc_putOnlyOfficeTime(this.ooDateToString(new Date()));
                     comment.asc_putUserId(this.currentUserId);
                     comment.asc_putUserName(this.currentUserName);
                     comment.asc_putSolved(false);
@@ -211,8 +212,9 @@ define([
                 ascComment.asc_putText(comment.get('comment'));
                 ascComment.asc_putQuoteText(comment.get('quote'));
                 ascComment.asc_putTime(t.utcDateToString(new Date(comment.get('time'))));
-                ascComment.asc_putUserId(t.currentUserId);
-                ascComment.asc_putUserName(t.currentUserName);
+                ascComment.asc_putOnlyOfficeTime(t.ooDateToString(new Date(comment.get('time'))));
+                ascComment.asc_putUserId(comment.get('userid'));
+                ascComment.asc_putUserName(comment.get('username'));
                 ascComment.asc_putSolved(!comment.get('resolved'));
 
                 if (!_.isUndefined(ascComment.asc_putDocumentFlag)) {
@@ -226,6 +228,7 @@ define([
                         if (addReply) {
                             addReply.asc_putText(reply.get('reply'));
                             addReply.asc_putTime(t.utcDateToString(new Date(reply.get('time'))));
+                            addReply.asc_putOnlyOfficeTime(t.ooDateToString(new Date(reply.get('time'))));
                             addReply.asc_putUserId(reply.get('userid'));
                             addReply.asc_putUserName(reply.get('username'));
 
@@ -299,6 +302,7 @@ define([
                     ascComment.asc_putText(commentVal);
                     ascComment.asc_putQuoteText(comment.get('quote'));
                     ascComment.asc_putTime(t.utcDateToString(new Date(comment.get('time'))));
+                    ascComment.asc_putOnlyOfficeTime(t.ooDateToString(new Date(comment.get('time'))));
                     ascComment.asc_putUserId(t.currentUserId);
                     ascComment.asc_putUserName(t.currentUserName);
                     ascComment.asc_putSolved(comment.get('resolved'));
@@ -325,6 +329,7 @@ define([
                             if (addReply) {
                                 addReply.asc_putText(reply.get('reply'));
                                 addReply.asc_putTime(t.utcDateToString(new Date(reply.get('time'))));
+                                addReply.asc_putOnlyOfficeTime(t.ooDateToString(new Date(reply.get('time'))));
                                 addReply.asc_putUserId(reply.get('userid'));
                                 addReply.asc_putUserName(reply.get('username'));
 
@@ -353,6 +358,7 @@ define([
                     ascComment.asc_putText(comment.get('comment'));
                     ascComment.asc_putQuoteText(comment.get('quote'));
                     ascComment.asc_putTime(me.utcDateToString(new Date(comment.get('time'))));
+                    ascComment.asc_putOnlyOfficeTime(me.ooDateToString(new Date(comment.get('time'))));
                     ascComment.asc_putUserId(comment.get('userid'));
                     ascComment.asc_putUserName(comment.get('username'));
                     ascComment.asc_putSolved(comment.get('resolved'));
@@ -378,6 +384,7 @@ define([
                                 }
 
                                 addReply.asc_putTime(me.utcDateToString(new Date(reply.get('time'))));
+                                addReply.asc_putOnlyOfficeTime(me.ooDateToString(new Date(reply.get('time'))));
 
                                 ascComment.asc_addReply(addReply);
                             }
@@ -413,6 +420,7 @@ define([
                     ascComment.asc_putText(comment.get('comment'));
                     ascComment.asc_putQuoteText(comment.get('quote'));
                     ascComment.asc_putTime(me.utcDateToString(new Date(comment.get('time'))));
+                    ascComment.asc_putOnlyOfficeTime(me.ooDateToString(new Date(comment.get('time'))));
                     ascComment.asc_putUserId(comment.get('userid'));
                     ascComment.asc_putUserName(comment.get('username'));
                     ascComment.asc_putSolved(comment.get('resolved'));
@@ -429,6 +437,7 @@ define([
                             if (addReply) {
                                 addReply.asc_putText(reply.get('reply'));
                                 addReply.asc_putTime(me.utcDateToString(new Date(reply.get('time'))));
+                                addReply.asc_putOnlyOfficeTime(me.ooDateToString(new Date(reply.get('time'))));
                                 addReply.asc_putUserId(reply.get('userid'));
                                 addReply.asc_putUserName(reply.get('username'));
 
@@ -441,6 +450,7 @@ define([
                     if (addReply) {
                         addReply.asc_putText(replyVal);
                         addReply.asc_putTime(me.utcDateToString(new Date()));
+                        addReply.asc_putOnlyOfficeTime(me.ooDateToString(new Date()));
                         addReply.asc_putUserId(me.currentUserId);
                         addReply.asc_putUserName(me.currentUserName);
 
@@ -467,6 +477,7 @@ define([
                     ascComment.asc_putText(comment.get('comment'));
                     ascComment.asc_putQuoteText(comment.get('quote'));
                     ascComment.asc_putTime(me.utcDateToString(new Date(comment.get('time'))));
+                    ascComment.asc_putOnlyOfficeTime(me.ooDateToString(new Date(comment.get('time'))));
                     ascComment.asc_putUserId(comment.get('userid'));
                     ascComment.asc_putUserName(comment.get('username'));
                     ascComment.asc_putSolved(comment.get('resolved'));
@@ -483,6 +494,7 @@ define([
                                 if (addReply) {
                                     addReply.asc_putText(reply.get('reply'));
                                     addReply.asc_putTime(me.utcDateToString(new Date(reply.get('time'))));
+                                    addReply.asc_putOnlyOfficeTime(me.ooDateToString(new Date(reply.get('time'))));
                                     addReply.asc_putUserId(reply.get('userid'));
                                     addReply.asc_putUserName(reply.get('username'));
 
@@ -661,8 +673,8 @@ define([
             if (comment) {
                 t = this;
 
-                date = (data.asc_getTime() == '') ?
-                    new Date() : new Date(this.stringUtcToLocalDate(data.asc_getTime()));
+                date = (data.asc_getOnlyOfficeTime()) ? new Date(this.stringOOToLocalDate(data.asc_getOnlyOfficeTime())) :
+                       ((data.asc_getTime() == '') ? new Date() : new Date(this.stringUtcToLocalDate(data.asc_getTime())));
 
                 comment.set('comment',  data.asc_getText());
                 comment.set('userid',   data.asc_getUserId());
@@ -679,8 +691,8 @@ define([
                 repliesCount = data.asc_getRepliesCount();
                 for (i = 0; i < repliesCount; ++i) {
 
-                    dateReply = (data.asc_getReply(i).asc_getTime() == '') ?
-                        new Date() : new Date(this.stringUtcToLocalDate(data.asc_getReply(i).asc_getTime()));
+                    dateReply = (data.asc_getReply(i).asc_getOnlyOfficeTime()) ? new Date(this.stringOOToLocalDate(data.asc_getReply(i).asc_getOnlyOfficeTime())) :
+                                ((data.asc_getReply(i).asc_getTime() == '') ? new Date() : new Date(this.stringUtcToLocalDate(data.asc_getReply(i).asc_getTime())));
 
                     replies.push(new Common.Models.Reply({
                         id                  : Common.UI.getId(),
@@ -744,14 +756,15 @@ define([
             if (this.mode && !this.mode.canComments)
                 hint = true;
 
-            if (this.getPopover()) {
+            var popover = this.getPopover();
+            if (popover) {
                 this.clearDummyComment();
 
                 if (this.isSelectedComment && (0 === _.difference(this.uids, uids).length)) {
                     //NOTE: click to sdk view ?
                     if (this.api) {
                         //this.view.txtComment.blur();
-                        this.getPopover().commentsView.setFocusToTextBox(true);
+                        popover.commentsView && popover.commentsView.setFocusToTextBox(true);
                         this.api.asc_enableKeyEvents(true);
                     }
 
@@ -807,12 +820,12 @@ define([
                     this._dontScrollToComment = false;
                 }
 
-                if (this.getPopover().isVisible()) {
-                    this.getPopover().hide();
+                if (popover.isVisible()) {
+                    popover.hide();
                 }
 
-                this.getPopover().setLeftTop(posX, posY, leftX);
-                this.getPopover().show(animate, false, true, text);
+                popover.setLeftTop(posX, posY, leftX);
+                popover.show(animate, false, true, text);
             }
         },
         onApiHideComment: function (hint) {
@@ -1024,7 +1037,8 @@ define([
         // helpers
 
         readSDKComment: function (id, data) {
-            var date = (data.asc_getTime() == '') ? new Date() : new Date(this.stringUtcToLocalDate(data.asc_getTime()));
+            var date = (data.asc_getOnlyOfficeTime()) ? new Date(this.stringOOToLocalDate(data.asc_getOnlyOfficeTime())) :
+                ((data.asc_getTime() == '') ? new Date() : new Date(this.stringUtcToLocalDate(data.asc_getTime())));
             var comment = new Common.Models.Comment({
                 uid                 : id,
                 userid              : data.asc_getUserId(),
@@ -1061,8 +1075,8 @@ define([
             var repliesCount = data.asc_getRepliesCount();
             if (repliesCount) {
                 for (i = 0; i < repliesCount; ++i) {
-                    date = (data.asc_getReply(i).asc_getTime() == '') ?
-                        new Date() : new Date(this.stringUtcToLocalDate(data.asc_getReply(i).asc_getTime()));
+                    date = (data.asc_getReply(i).asc_getOnlyOfficeTime()) ? new Date(this.stringOOToLocalDate(data.asc_getReply(i).asc_getOnlyOfficeTime())) :
+                        ((data.asc_getReply(i).asc_getTime() == '') ? new Date() : new Date(this.stringUtcToLocalDate(data.asc_getReply(i).asc_getTime())));
 
                     replies.push(new Common.Models.Reply({
                         id                  : Common.UI.getId(),
@@ -1163,6 +1177,7 @@ define([
                     }
                     comment.asc_putText(commentVal);
                     comment.asc_putTime(this.utcDateToString(new Date()));
+                    comment.asc_putOnlyOfficeTime(this.ooDateToString(new Date()));
                     comment.asc_putUserId(this.currentUserId);
                     comment.asc_putUserName(this.currentUserName);
                     comment.asc_putSolved(false);
@@ -1268,6 +1283,19 @@ define([
         // utils
 
         timeZoneOffsetInMs: (new Date()).getTimezoneOffset() * 60000,
+
+        stringOOToLocalDate: function (date) {
+            if (typeof date === 'string')
+                return parseInt(date);
+
+            return 0;
+        },
+        ooDateToString: function (date) {
+            if (Object.prototype.toString.call(date) === '[object Date]')
+                return (date.getTime()).toString();
+
+            return '';
+        },
 
         stringUtcToLocalDate: function (date) {
             if (typeof date === 'string')

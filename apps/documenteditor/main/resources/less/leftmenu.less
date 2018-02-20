@@ -6,6 +6,7 @@
         overflow: hidden;
 
         .tool-menu-btns {
+            border-right: 1px solid @gray-dark;
         }
     }
 }
@@ -28,7 +29,6 @@ button.notify .btn-menu-comments {background-position: -0*@toolbar-icon-size -60
     display: inline-block;
     position: absolute;
     padding-top: 15px;
-    border-right: 1px solid @gray-dark;
 
     button {
         margin-bottom: 8px;
@@ -429,4 +429,20 @@ button.notify .btn-menu-comments {background-position: -0*@toolbar-icon-size -60
     label, span {
         font: 12px tahoma, arial, verdana, sans-serif;
     }
+}
+
+#developer-hint {
+    position: absolute;
+    left: 0;
+    padding: 12px 0;
+    background-color: #ffb400;
+    color: #6e4e00 !important;
+    white-space: nowrap;
+    line-height: @app-header-height;
+    writing-mode: vertical-rl;
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
 }

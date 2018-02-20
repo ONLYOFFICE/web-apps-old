@@ -66,7 +66,7 @@ define([
                 '</div>'
             ].join('');
 
-            _options.tpl = _.template(this.template, _options);
+            _options.tpl = _.template(this.template)(_options);
 
             this.handler = _options.handler;
             this._mergeData = null;
@@ -134,7 +134,7 @@ define([
                 this.$window.find('> .body').css('height', height-header_height);
                 this.$window.find('> .body > .box').css('height', height-85);
 
-                var top  = ((Common.Utils.innerHeight() - parseInt(height)) / 2) * 0.9;
+                var top  = (Common.Utils.innerHeight() - parseInt(height)) / 2;
                 var left = (Common.Utils.innerWidth() - parseInt(this.initConfig.width)) / 2;
 
                 this.$window.css('left',left);

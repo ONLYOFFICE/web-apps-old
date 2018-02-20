@@ -82,10 +82,11 @@ define([
 
                 this.api.asc_registerCallback('asc_onShowPopMenu',      _.bind(this.onApiShowPopMenu, this));
                 this.api.asc_registerCallback('asc_onHidePopMenu',      _.bind(this.onApiHidePopMenu, this));
+                Common.NotificationCenter.on('api:disconnect',          _.bind(this.onCoAuthoringDisconnect, this));
             },
 
             setMode: function (mode) {
-                _isEdit = ('edit' === mode);
+                _isEdit = mode.isEdit;
             },
 
             // When our application is ready, lets get started
@@ -127,7 +128,7 @@ define([
                     }
                     break;
                 case 'unmerge':
-                    me.api.asc_mergeCells(Asc.c_oAscMergeOptions.Unmerge);
+                    me.api.asc_mergeCells(Asc.c_oAscMergeOptions.None);
                     break;
                 case 'hide':
                     me.api[info.asc_getFlags().asc_getSelectionType() == Asc.c_oAscSelectionType.RangeRow ? 'asc_hideRows' : 'asc_hideColumns']();
@@ -180,9 +181,9 @@ define([
             },
 
             onApiShowPopMenu: function(posX, posY) {
-                if ( !_isEdit ) return;
+                if ( !_isEdit || this.isDisconnected) return;
 
-                if ($('.popover.settings, .popup.settings, .picker-modal.settings, .modal-in').length > 0) {
+                if ($('.popover.settings, .popup.settings, .picker-modal.settings, .modal-in, .actions-modal').length > 0) {
                     return;
                 }
 
@@ -278,12 +279,13 @@ define([
                                 event: 'edit'
                             });
 
+                            (cellinfo.asc_getFlags().asc_getMerge() == Asc.c_oAscMergeOptions.None) &&
                             menuItems.push({
                                 caption: me.menuMerge,
                                 event: 'merge'
                             });
 
-                            cellinfo.asc_getFlags().asc_getMerge() &&
+                            (cellinfo.asc_getFlags().asc_getMerge() ==  Asc.c_oAscMergeOptions.Merge) &&
                             menuItems.push({
                                 caption: me.menuUnmerge,
                                 event: 'unmerge'
@@ -331,6 +333,10 @@ define([
                 }
 
                 return menuItems;
+            },
+
+            onCoAuthoringDisconnect: function() {
+                this.isDisconnected = true;
             },
 
             warnMergeLostData: 'Operation can destroy data in the selected cells.<br>Continue?',

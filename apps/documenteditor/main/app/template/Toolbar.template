@@ -162,6 +162,7 @@
                 <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-inserthyperlink"></span>
                 <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-insertshape"></span>
                 <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-notes"></span>
+                <span class="btn-placeholder split" id="id-toolbar-full-placeholder-btn-contents"></span>
             </div>
         </div>
         <div class="separator long" style="margin-left: 5px;"></div>
