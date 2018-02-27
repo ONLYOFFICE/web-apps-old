@@ -140,7 +140,10 @@ define([
                         'Slide number': this.txtSlideNumber,
                         'Slide subtitle': this.txtSlideSubtitle,
                         'Table': this.txtSldLtTTbl,
-                        'Slide title': this.txtSlideTitle
+                        'Slide title': this.txtSlideTitle,
+                        'Loading': this.txtLoading,
+                        'Click to add notes': this.txtAddNotes,
+                        'Click to add first slide': this.txtAddFirstSlide
                     }
                 });
 
@@ -1955,7 +1958,10 @@ define([
             txtSlideNumber: 'Slide number',
             txtSlideSubtitle: 'Slide subtitle',
             txtSlideTitle: 'Slide title',
-            warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.'
+            warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.',
+            txtLoading: 'Loading...',
+            txtAddNotes: 'Click to add notes',
+            txtAddFirstSlide: 'Click to add first slide'
         }
     })(), PE.Controllers.Main || {}))
 });
