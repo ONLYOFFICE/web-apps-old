@@ -858,7 +858,7 @@
   "DE.Views.DocumentHolder.txtTopAndBottom": "상단 및 하단",
   "DE.Views.DocumentHolder.txtUnderbar": "텍스트 아래에 바",
   "DE.Views.DocumentHolder.txtUngroup": "그룹 해제",
-  "DE.Views.DocumentHolder.updateStyleText": "% 1 스타일 업데이트",
+  "DE.Views.DocumentHolder.updateStyleText": "%1 스타일 업데이트",
   "DE.Views.DocumentHolder.vertAlignText": "Vertical Alignment",
   "DE.Views.DropcapSettingsAdvanced.cancelButtonText": "취소",
   "DE.Views.DropcapSettingsAdvanced.okButtonText": "Ok",
