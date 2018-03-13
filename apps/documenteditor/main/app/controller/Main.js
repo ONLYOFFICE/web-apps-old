@@ -133,7 +133,8 @@ define([
                         'Your text here': this.txtArt,
                         "No table of contents entries found.": this.txtNoTableOfContents,
                         "Header": this.txtHeader,
-                        "Footer": this.txtFooter
+                        "Footer": this.txtFooter,
+                        "Table of Contents": this.txtTableOfContents
                     };
                 styleNames.forEach(function(item){
                     translate[item] = me.translationTable[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
@@ -2153,7 +2154,8 @@ define([
             txtHeader: "Header",
             txtFooter: "Footer",
             warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.',
-            txtNoTableOfContents: "No table of contents entries found."
+            txtNoTableOfContents: "No table of contents entries found.",
+            txtTableOfContents: "Table of Contents",
         }
     })(), DE.Controllers.Main || {}))
 });
