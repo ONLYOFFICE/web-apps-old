@@ -2115,7 +2115,7 @@ define([
                     win.show();
                 } else if (item.value == 'remove') {
                     this.api.asc_RemoveTableOfContents();
-                } else if (item.value == 'all' || 'pages')
+                } else if (item.value == 'all' || item.value == 'pages')
                     this.api.asc_UpdateTableOfContents(item.value == 'pages');
 
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
