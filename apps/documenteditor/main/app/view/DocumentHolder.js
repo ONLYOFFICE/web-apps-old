@@ -1838,8 +1838,8 @@ define([
 
         onContentsMenuClick: function(type) {
             if (this.api) {
+                var props = this.api.asc_GetTableOfContentsPr(true); // current TOC
                 if (type == 0 || type == 1) {
-                    var props = this.api.asc_GetTableOfContentsPr();
                     if (!props) {
                         props = new Asc.CTableOfContentsPr();
                         props.put_OutlineRange(1, 9);
@@ -1848,10 +1848,9 @@ define([
                     props.put_ShowPageNumbers(type == 0);
                     props.put_RightAlignTab(type == 0);
                     props.put_TabLeader((type == 0) ? Asc.c_oAscTabLeader.Dot : Asc.c_oAscTabLeader.None);
-                    this.api.asc_AddTableOfContents(null, props);
+                    this.api.asc_SetTableOfContentsPr(props);
                 } else if (type == 'settings') {
-                    var props = this.api.asc_GetTableOfContentsPr(true), // current TOC
-                        me = this;
+                    var me = this;
                     var win = new DE.Views.TableOfContentsSettings({
                         api: this.api,
                         props: props,
@@ -1864,9 +1863,9 @@ define([
                     });
                     win.show();
                 } else if (type == 'remove') {
-                    this.api.asc_RemoveTableOfContents();
+                    this.api.asc_RemoveTableOfContents(props.get_InternalClass()); // remove current TOC
                 } else if (type == 'all' || type == 'pages') {
-                    this.api.asc_UpdateTableOfContents(type == 'pages', this.api.asc_GetTableOfContentsPr(true).get_InternalClass()); // update current TOC
+                    this.api.asc_UpdateTableOfContents(type == 'pages', props.get_InternalClass()); // update current TOC
                 }
                 this.fireEvent('editcomplete', this);
             }
