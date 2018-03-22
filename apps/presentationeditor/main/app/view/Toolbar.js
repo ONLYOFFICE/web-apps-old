@@ -140,7 +140,7 @@ define([
                 cls         : 'btn-toolbar',
                 iconCls     : 'btn-addslide',
                 split       : true,
-                lock        : [_set.menuFileOpen, _set.slideDeleted, _set.lostConnect, _set.disableOnStart],
+                lock        : [_set.menuFileOpen, _set.lostConnect, _set.disableOnStart],
                 menu        : true
             });
             me.slideOnlyControls.push(me.btnAddSlide);
