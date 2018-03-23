@@ -844,6 +844,7 @@
   "DE.Views.DocumentHolder.txtMatchBrackets": "Изменить размер скобок в соответствии с высотой аргумента",
   "DE.Views.DocumentHolder.txtMatrixAlign": "Выравнивание матрицы",
   "DE.Views.DocumentHolder.txtOverbar": "Черта над текстом",
+  "DE.Views.DocumentHolder.txtPasteSourceFormat": "Сохранить исходное форматирование",
   "DE.Views.DocumentHolder.txtPressLink": "Нажмите CTRL и щелкните по ссылке",
   "DE.Views.DocumentHolder.txtRemFractionBar": "Удалить дробную черту",
   "DE.Views.DocumentHolder.txtRemLimit": "Удалить предел",
