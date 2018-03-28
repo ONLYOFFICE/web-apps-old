@@ -337,6 +337,7 @@
 .button-normal-icon(btn-columns,          82, @toolbar-icon-size);
 .button-normal-icon(btn-pagemargins,      83, @toolbar-icon-size);
 .button-normal-icon(btn-notes,            85, @toolbar-icon-size);
+.button-normal-icon(btn-contents,         89, @toolbar-icon-size);
 
 .button-normal-icon(mmerge-next,          71, @toolbar-icon-size);
 .button-normal-icon(mmerge-last,          72, @toolbar-icon-size);
@@ -447,4 +448,29 @@
     z-index: @zindex-dropdown - 20;
     background-color: @gray-light;
     border: 1px solid @gray;
+}
+
+.dropdown-menu {
+    > li > a.item-contents {
+        div {
+            .background-ximage('@{app-image-path}/toolbar/contents.png', '@{app-image-path}/toolbar/contents@2x.png', 246px);
+            width: 246px;
+            height: 72px;
+
+            .box-shadow(0 0 0 1px @gray);
+
+            &:hover,
+            &.selected {
+                .box-shadow(0 0 0 2px @primary);
+            }
+        }
+
+        &:hover, &:focus {
+            background-color: transparent;
+
+            div {
+                .box-shadow(0 0 0 2px @primary);
+            }
+        }
+    }
 }

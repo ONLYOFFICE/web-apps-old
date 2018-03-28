@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *  Main controller
  *
  *  Created by Alexander Yuzhin on 1/15/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -124,17 +124,23 @@ define([
                 window["flat_desine"] = true;
 
                 var styleNames = ['Normal', 'No Spacing', 'Heading 1', 'Heading 2', 'Heading 3', 'Heading 4', 'Heading 5',
-                                  'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Title', 'Subtitle', 'Quote', 'Intense Quote', 'List Paragraph'],
+                                  'Heading 6', 'Heading 7', 'Heading 8', 'Heading 9', 'Title', 'Subtitle', 'Quote', 'Intense Quote', 'List Paragraph', 'footnote text'],
                     translate = {
                         'Series': this.txtSeries,
                         'Diagram Title': this.txtDiagramTitle,
                         'X Axis': this.txtXAxis,
                         'Y Axis': this.txtYAxis,
-                        'Your text here': this.txtArt
+                        'Your text here': this.txtArt,
+                        "No table of contents entries found.": this.txtNoTableOfContents,
+                        "Header": this.txtHeader,
+                        "Footer": this.txtFooter,
+                        "Table of Contents": this.txtTableOfContents
                     };
                 styleNames.forEach(function(item){
                     translate[item] = me.translationTable[item] = me['txtStyle_' + item.replace(/ /g, '_')] || item;
                 });
+                me.translationTable['Header'] = this.txtHeader;
+                me.translationTable['Footer'] = this.txtFooter;
 
                 this.api = new Asc.asc_docs_api({
                     'id-view'  : 'editor_sdk',
@@ -729,6 +735,12 @@ define([
                     case LoadingDocument:
                         title   = this.loadingDocumentTitleText;
                         text    = this.loadingDocumentTextText;
+                        break;
+                    default:
+                        if (typeof action.id == 'string'){
+                            title   = action.id;
+                            text    = action.id;
+                        }
                         break;
                 }
 
@@ -2004,12 +2016,12 @@ define([
                 } else if (!uiCustomize){
                     this.appOptions.canPlugins = false;
                 }
+                if (!uiCustomize) this.getApplication().getController('LeftMenu').enablePlugins();
                 if (this.appOptions.canPlugins) {
                     this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions);
                     if (plugins.autostart && plugins.autostart.length>0)
                         this.api.asc_pluginRun(plugins.autostart[0], 0, '');
                 }
-                if (!uiCustomize) this.getApplication().getController('LeftMenu').enablePlugins();
             },
 
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
@@ -2138,7 +2150,12 @@ define([
             txtStyle_Quote: 'Quote',
             txtStyle_Intense_Quote: 'Intense Quote',
             txtStyle_List_Paragraph: 'List Paragraph',
-            warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.'
+            txtStyle_footnote_text: 'Footnote Text',
+            txtHeader: "Header",
+            txtFooter: "Footer",
+            warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.',
+            txtNoTableOfContents: "No table of contents entries found.",
+            txtTableOfContents: "Table of Contents",
         }
     })(), DE.Controllers.Main || {}))
 });

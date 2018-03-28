@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *    Main controller
  *
  *    Created by Julia Radzhabova on 26 March 2014
- *    Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -140,7 +140,10 @@ define([
                         'Slide number': this.txtSlideNumber,
                         'Slide subtitle': this.txtSlideSubtitle,
                         'Table': this.txtSldLtTTbl,
-                        'Slide title': this.txtSlideTitle
+                        'Slide title': this.txtSlideTitle,
+                        'Loading': this.txtLoading,
+                        'Click to add notes': this.txtAddNotes,
+                        'Click to add first slide': this.txtAddFirstSlide
                     }
                 });
 
@@ -528,6 +531,12 @@ define([
                     case LoadingDocument:
                         title   = this.loadingDocumentTitleText;
                         text    = this.loadingDocumentTextText;
+                        break;
+                    default:
+                        if (typeof action.id == 'string'){
+                            title   = action.id;
+                            text    = action.id;
+                        }
                         break;
                 }
 
@@ -1730,7 +1739,7 @@ define([
                     plugins.pluginsData.forEach(function(item){
                         var variationsArr = [];
                         item.variations.forEach(function(itemVar){
-                            if (_.contains(itemVar.EditorsSupport, 'word') && (isEdit || itemVar.isViewer)) {
+                            if (_.contains(itemVar.EditorsSupport, 'slide') && (isEdit || itemVar.isViewer)) {
                                 var icons = itemVar.icons;
                                 if (item.oldVersion) { // for compatibility with previouse version of server, where plugins.url is used.
                                     icons = [];
@@ -1790,12 +1799,12 @@ define([
                 } else if (!uiCustomize){
                     this.appOptions.canPlugins = false;
                 }
+                if (!uiCustomize) this.getApplication().getController('LeftMenu').enablePlugins();
                 if (this.appOptions.canPlugins) {
                     this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions);
                     if (plugins.autostart && plugins.autostart.length>0)
                         this.api.asc_pluginRun(plugins.autostart[0], 0, '');
                 }
-                if (!uiCustomize) this.getApplication().getController('LeftMenu').enablePlugins();
             },
 
             // Translation
@@ -1949,7 +1958,10 @@ define([
             txtSlideNumber: 'Slide number',
             txtSlideSubtitle: 'Slide subtitle',
             txtSlideTitle: 'Slide title',
-            warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.'
+            warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.',
+            txtLoading: 'Loading...',
+            txtAddNotes: 'Click to add notes',
+            txtAddFirstSlide: 'Click to add first slide'
         }
     })(), PE.Controllers.Main || {}))
 });

@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *    Main controller
  *
  *    Created by Maxim Kadushkin on 24 March 2014
- *    Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -310,7 +310,7 @@ define([
 
                 value = Common.localStorage.getItem("sse-settings-func-locale");
                 if (value===null) {
-                    var lang = ((this.editorConfig.lang) ? this.editorConfig.lang : 'en').split("-")[0].toLowerCase();
+                    var lang = ((this.editorConfig.lang) ? this.editorConfig.lang : 'en').split(/[\-\_]/)[0].toLowerCase();
                     if (lang !== 'en')
                         value = SSE.Views.FormulaLang.get(lang);
                 } else
@@ -533,6 +533,11 @@ define([
 
                     case LoadingDocument:
                         title   = this.loadingDocumentTitleText;
+                        break;
+                    default:
+                        if (typeof action.id == 'string'){
+                            title   = action.id;
+                        }
                         break;
                 }
 
@@ -1126,6 +1131,10 @@ define([
                         config.msg = this.errorDataRange;
                         break;
 
+                    case Asc.c_oAscError.ID.MaxDataPointsError:
+                        config.msg = this.errorMaxPoints;
+                        break;
+
                     case Asc.c_oAscError.ID.VKeyEncrypt:
                         config.msg = this.errorToken;
                         break;
@@ -1683,7 +1692,8 @@ define([
                             this.isFrameClosed = true;
                             this.api.asc_closeCellEditor();
                             Common.Gateway.internalMessage('canClose', {mr:data.data.mr, answer: true});
-                        }
+                        } else
+                            Common.Gateway.internalMessage('canClose', {answer: false});
                         break;
                     case 'window:drag':
                         this.isDiagramDrag = data.data;
@@ -1921,7 +1931,7 @@ define([
                     plugins.pluginsData.forEach(function(item){
                         var variationsArr = [];
                         item.variations.forEach(function(itemVar){
-                            if (_.contains(itemVar.EditorsSupport, 'word') && (isEdit || itemVar.isViewer)) {
+                            if (_.contains(itemVar.EditorsSupport, 'cell') && (isEdit || itemVar.isViewer)) {
                                 var icons = itemVar.icons;
                                 if (item.oldVersion) { // for compatibility with previouse version of server, where plugins.url is used.
                                     icons = [];
@@ -1981,12 +1991,12 @@ define([
                 } else if (!uiCustomize){
                     this.appOptions.canPlugins = false;
                 }
+                if (!uiCustomize) this.getApplication().getController('LeftMenu').enablePlugins();
                 if (this.appOptions.canPlugins) {
                     this.getApplication().getController('Common.Controllers.Plugins').setMode(this.appOptions);
                     if (plugins.autostart && plugins.autostart.length>0)
                         this.api.asc_pluginRun(plugins.autostart[0], 0, '');
                 }
-                if (!uiCustomize) this.getApplication().getController('LeftMenu').enablePlugins();
             },
             
             leavePageText: 'You have unsaved changes in this document. Click \'Stay on this Page\' then \'Save\' to save them. Click \'Leave this Page\' to discard all the unsaved changes.',
@@ -2139,7 +2149,8 @@ define([
             txtStyle_Percent: 'Percent',
             txtStyle_Comma: 'Comma',
             errorLockedCellPivot: 'You cannot change data inside a pivot table.',
-            warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.'
+            warnNoLicenseUsers: 'This version of ONLYOFFICE Editors has certain limitations for concurrent users.<br>If you need more please consider upgrading your current license or purchasing a commercial one.',
+            errorMaxPoints: "The maximum number of points in series per chart is 4096."
         }
     })(), SSE.Controllers.Main || {}))
 });

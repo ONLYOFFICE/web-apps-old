@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -732,7 +732,7 @@ define([
                 value = ((this.mode.lang) ? this.mode.lang : 'en').toLowerCase();
             item = this.cmbFuncLocale.store.findWhere({value: value});
             if (!item)
-                item = this.cmbFuncLocale.store.findWhere({value: value.split("-")[0]});
+                item = this.cmbFuncLocale.store.findWhere({value: value.split(/[\-\_]/)[0]});
             this.cmbFuncLocale.setValue(item ? item.get('value') : 'en');
             this.updateFuncExample(item ? item.get('exampleValue') : this.txtExampleEn);
 
@@ -1278,7 +1278,7 @@ define([
             var me = this;
             var store = this.viewHelpPicker.store;
             if (lang) {
-                lang = lang.split("-")[0];
+                lang = lang.split(/[\-\_]/)[0];
                 var config = {
                     dataType: 'json',
                     error: function () {

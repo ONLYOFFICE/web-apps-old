@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,7 +34,7 @@
  *  TextArtSettings.js
  *
  *  Created by Julia Radzhabova on 7/10/15
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -1108,7 +1108,7 @@ define([
             this.lockedControls.push(this.btnInsertFromUrl);
 
             this.btnInsertFromFile.on('click', _.bind(function(btn){
-                if (this.api) this.api.asc_changeArtImageFromFile();
+                if (this.api) this.api.asc_changeArtImageFromFile(this.BlipFillType);
                 Common.NotificationCenter.trigger('edit:complete', this);
             }, this));
             this.btnInsertFromUrl.on('click', _.bind(this.insertFromUrl, this));

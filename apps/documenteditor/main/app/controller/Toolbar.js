@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *  Toolbar Controller
  *
  *  Created by Alexander Yuzhin on 1/15/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -55,7 +55,8 @@ define([
     'documenteditor/main/app/view/PageMarginsDialog',
     'documenteditor/main/app/view/PageSizeDialog',
     'documenteditor/main/app/view/NoteSettingsDialog',
-    'documenteditor/main/app/view/CustomColumnsDialog'
+    'documenteditor/main/app/view/CustomColumnsDialog',
+    'documenteditor/main/app/view/TableOfContentsSettings'
 ], function () {
     'use strict';
 
@@ -269,6 +270,8 @@ define([
             toolbar.btnInsertEquation.on('click',                       _.bind(this.onInsertEquationClick, this));
             toolbar.btnNotes.on('click',                                _.bind(this.onNotesClick, this));
             toolbar.btnNotes.menu.on('item:click',                      _.bind(this.onNotesMenuClick, this));
+            toolbar.btnContents.on('click',                             _.bind(this.onContentsClick, this));
+            toolbar.btnContents.menu.on('item:click',                   _.bind(this.onContentsMenuClick, this));
             toolbar.mnuGotoFootPrev.on('click',                         _.bind(this.onFootnotePrevClick, this));
             toolbar.mnuGotoFootNext.on('click',                         _.bind(this.onFootnoteNextClick, this));
 
@@ -673,7 +676,8 @@ define([
                 toolbar.mnuInsertPageNum.setDisabled(need_disable);
             }
 
-            need_disable = paragraph_locked || header_locked || in_header || in_equation && !btn_eq_state || this.api.asc_IsCursorInFootnote();
+            var in_footnote = this.api.asc_IsCursorInFootnote();
+            need_disable = paragraph_locked || header_locked || in_header || in_equation && !btn_eq_state || in_footnote;
             if (need_disable != toolbar.btnInsertPageBreak.isDisabled()) {
                 toolbar.btnInsertPageBreak.setDisabled(need_disable);
             }
@@ -685,8 +689,8 @@ define([
                 toolbar.btnInsertText.setDisabled(need_disable);
             }
 
-            if ((need_disable || in_image) != toolbar.mnuInsertTextArt.isDisabled())
-                toolbar.mnuInsertTextArt.setDisabled(need_disable || in_image);
+            if ((need_disable || in_image || in_footnote) != toolbar.mnuInsertTextArt.isDisabled())
+                toolbar.mnuInsertTextArt.setDisabled(need_disable || in_image || in_footnote);
 
             if (in_chart !== this._state.in_chart) {
                 toolbar.btnInsertChart.updateHint(in_chart ? toolbar.tipChangeChart : toolbar.tipInsertChart);
@@ -2062,6 +2066,57 @@ define([
                     })).show();
                 } else
                     return;
+
+                Common.NotificationCenter.trigger('edit:complete', this.toolbar);
+            }
+        },
+
+        onContentsClick: function() {
+            if (this.api) {
+                var props = this.api.asc_GetTableOfContentsPr();
+                if (!props) {
+                    props = new Asc.CTableOfContentsPr();
+                    props.put_OutlineRange(1, 9);
+                }
+                props.put_Hyperlink(true);
+                props.put_ShowPageNumbers(true);
+                props.put_RightAlignTab(true);
+                props.put_TabLeader(Asc.c_oAscTabLeader.Dot);
+                this.api.asc_AddTableOfContents(null, props);
+            }
+        },
+
+        onContentsMenuClick: function(menu, item) {
+            if (this.api) {
+                if (item.value == 0 || item.value == 1) {
+                    var props = this.api.asc_GetTableOfContentsPr();
+                    if (!props) {
+                        props = new Asc.CTableOfContentsPr();
+                        props.put_OutlineRange(1, 9);
+                    }
+                    props.put_Hyperlink(true);
+                    props.put_ShowPageNumbers(item.value == 0);
+                    props.put_RightAlignTab(item.value == 0);
+                    props.put_TabLeader((item.value == 0) ? Asc.c_oAscTabLeader.Dot : Asc.c_oAscTabLeader.None);
+                    this.api.asc_AddTableOfContents(null, props);
+                } else if (item.value == 'settings') {
+                    var props = this.api.asc_GetTableOfContentsPr(),
+                        me = this;
+                    var win = new DE.Views.TableOfContentsSettings({
+                        api: this.api,
+                        props: props,
+                        handler: function (result, value) {
+                            if (result == 'ok') {
+                                (props) ? me.api.asc_SetTableOfContentsPr(value) : me.api.asc_AddTableOfContents(null, value);
+                            }
+                            Common.NotificationCenter.trigger('edit:complete', me.toolbar);
+                        }
+                    });
+                    win.show();
+                } else if (item.value == 'remove') {
+                    this.api.asc_RemoveTableOfContents();
+                } else if (item.value == 'all' || item.value == 'pages')
+                    this.api.asc_UpdateTableOfContents(item.value == 'pages');
 
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);
             }

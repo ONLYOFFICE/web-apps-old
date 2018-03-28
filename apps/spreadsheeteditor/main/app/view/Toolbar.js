@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,7 +34,7 @@
  *  Toolbar.js
  *
  *  Created by Alexander Yuzhin on 3/31/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -966,7 +966,7 @@ define([
                             allowDepress: true,
                             toggleGroup : 'halignGroup',
                             checked     : true,
-                            value       : 'left'
+                            value       : AscCommon.align_Left
                         },
                         {
                             caption     : me.tipAlignCenter,
@@ -975,7 +975,7 @@ define([
                             checkable   : true,
                             allowDepress: true,
                             toggleGroup : 'halignGroup',
-                            value       : 'center'
+                            value       : AscCommon.align_Center
                         },
                         {
                             caption     : me.tipAlignRight,
@@ -984,7 +984,7 @@ define([
                             checkable   : true,
                             allowDepress: true,
                             toggleGroup : 'halignGroup',
-                            value       : 'right'
+                            value       : AscCommon.align_Right
                         },
                         {
                             caption     : me.tipAlignJust,
@@ -993,7 +993,7 @@ define([
                             checkable   : true,
                             allowDepress: true,
                             toggleGroup : 'halignGroup',
-                            value       : 'justify'
+                            value       : AscCommon.align_Justify
                         }
                     ]
                 })
@@ -1014,7 +1014,7 @@ define([
                             checkable   : true,
                             allowDepress: true,
                             toggleGroup : 'valignGroup',
-                            value       : 'top'
+                            value       : Asc.c_oAscVAlign.Top
                         },
                         {
                             caption     : me.tipAlignMiddle,
@@ -1023,7 +1023,7 @@ define([
                             checkable   : true,
                             allowDepress: true,
                             toggleGroup : 'valignGroup',
-                            value       : 'center'
+                            value       : Asc.c_oAscVAlign.Center
                         },
                         {
                             caption     : me.tipAlignBottom,
@@ -1033,7 +1033,7 @@ define([
                             allowDepress: true,
                             checked     : true,
                             toggleGroup : 'valignGroup',
-                            value       : 'bottom'
+                            value       : Asc.c_oAscVAlign.Bottom
                         }
                     ]
                 })

@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,7 +34,7 @@
  *  TableSettings.js
  *
  *  Created by Julia Radzhabova on 2/07/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -161,7 +161,7 @@ define([
         onCheckRepeatRowChange: function(field, newValue, oldValue, eOpts) {
             if (this.api)   {
                 var properties = new Asc.CTableProp();
-                properties.put_RowsInHeader((field.getValue()=='checked') ? 1 : 0 );
+                properties.put_RowsInHeader(field.getValue()=='checked');
                 this.api.tblApply(properties);
             }
             this.fireEvent('editcomplete', this);
@@ -557,10 +557,8 @@ define([
 
                 value = props.get_RowsInHeader();
                 if ( this._state.RepeatRow!==value ) {
-                    if ( value !== null )
-                        this.chRepeatRow.setValue((value>0) ? 1 : 0, true);
-                    else
-                        this.chRepeatRow.setValue('indeterminate', true);
+                    this.chRepeatRow.setValue(!!value, true);
+                    this.chRepeatRow.setDisabled(value === null);
                     this._state.RepeatRow=value;
                 }
             }

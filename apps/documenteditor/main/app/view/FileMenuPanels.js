@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *    Contains views for menu 'File'
  *
  *    Created by Maxim Kadushkin on 20 February 2014
- *    Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *    Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -52,9 +52,9 @@ define([
         menu: undefined,
 
         formats: [[
+            {name: 'DOCX',  imgCls: 'docx',  type: Asc.c_oAscFileType.DOCX},
             {name: 'PDF',   imgCls: 'pdf',   type: Asc.c_oAscFileType.PDF},
-            {name: 'TXT',   imgCls: 'txt',   type: Asc.c_oAscFileType.TXT},
-            {name: 'DOCX',  imgCls: 'docx',  type: Asc.c_oAscFileType.DOCX}
+            {name: 'TXT',   imgCls: 'txt',   type: Asc.c_oAscFileType.TXT}
         ],[
 //            {name: 'DOC',            imgCls: 'doc-format btn-doc',   type: Asc.c_oAscFileType.DOC},
             {name: 'ODT',   imgCls: 'odt',   type: Asc.c_oAscFileType.ODT},
@@ -1051,7 +1051,7 @@ define([
             var me = this;
             var store = this.viewHelpPicker.store;
             if (lang) {
-                lang = lang.split("-")[0];
+                lang = lang.split(/[\-\_]/)[0];
                 var config = {
                     dataType: 'json',
                     error: function () {

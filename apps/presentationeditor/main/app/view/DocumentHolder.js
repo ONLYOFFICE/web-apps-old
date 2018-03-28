@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -546,7 +546,7 @@ define([
                     src.css({height: me._TtHeight + 'px', position: 'absolute', zIndex: '900', display: 'none', 'pointer-events': 'none',
                              'background-color': '#'+Common.Utils.ThemeColor.getHexColor(color.get_r(), color.get_g(), color.get_b())});
                     src.text(getUserName(UserId));
-                    $('#id_main_view').append(src);
+                    $('#id_main_parent').append(src);
                     me.fastcoauthtips.push(src);
                     src.fadeIn(150);
                 }
@@ -2986,12 +2986,12 @@ define([
                         disabled = imgdisabled || shapedisabled || chartdisabled || (value.slideProps!==undefined && value.slideProps.locked);
 
                     // image properties
-                    menuImgOriginalSize.setVisible(_.isUndefined(value.shapeProps) && _.isUndefined(value.chartProps));
+                    menuImgOriginalSize.setVisible((_.isUndefined(value.shapeProps) || value.shapeProps.value.get_FromImage()) && _.isUndefined(value.chartProps));
 
                     if (menuImgOriginalSize.isVisible())
                         menuImgOriginalSize.setDisabled(disabled || _.isNull(value.imgProps.value.get_ImageUrl()) || _.isUndefined(value.imgProps.value.get_ImageUrl()));
 
-                    menuImageAdvanced.setVisible(_.isUndefined(value.shapeProps) && _.isUndefined(value.chartProps));
+                    menuImageAdvanced.setVisible((_.isUndefined(value.shapeProps) || value.shapeProps.value.get_FromImage()) && _.isUndefined(value.chartProps));
                     menuShapeAdvanced.setVisible(_.isUndefined(value.imgProps)   && _.isUndefined(value.chartProps));
                     menuChartEdit.setVisible(_.isUndefined(value.imgProps) && !_.isUndefined(value.chartProps) && (_.isUndefined(value.shapeProps) || value.shapeProps.isChart));
                     menuImgShapeSeparator.setVisible(menuImageAdvanced.isVisible() || menuShapeAdvanced.isVisible() || menuChartEdit.isVisible());
