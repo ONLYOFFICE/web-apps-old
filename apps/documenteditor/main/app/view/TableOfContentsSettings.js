@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -35,7 +35,7 @@
  *  TableOfContentsSettings.js.js
  *
  *  Created by Julia Radzhabova on 26.12.2017
- *  Copyright (c) 2017 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -67,8 +67,8 @@ define([
                                         '<div id="tableofcontents-chb-pages"></div>',
                                         '</td>',
                                         '<td rowspan="5" class="padding-small" style="vertical-align: top;">',
-                                        '<div style="border: 1px solid #cbcbcb;width: 230px; height: 172px; float: right;">',
-                                            '<div id="tableofcontents-img" style="width: 100%; height: 100%;"></div>',
+                                        '<div style="border: 1px solid #cbcbcb;width: 240px; height: 182px; float: right;position:relative;overflow:hidden;">',
+                                            '<div id="tableofcontents-img" style="width: 230px; height: 100%;"></div>',
                                         '</div>',
                                         '</td>',
                                     '</tr>',
@@ -91,8 +91,8 @@ define([
                                     '<tr>',
                                         '<td class="padding-small">',
                                             '<label class="input-label padding-small" style="display: block;">' + me.textBuildTable + '</label>',
-                                            '<div id="tableofcontents-radio-styles" class="padding-small" style="display: block;"></div>',
-                                            '<div id="tableofcontents-radio-levels" class="" style="display: block;"></div>',
+                                            '<div id="tableofcontents-radio-levels" class="padding-small" style="display: block;"></div>',
+                                            '<div id="tableofcontents-radio-styles" class="" style="display: block;"></div>',
                                         '</td>',
                                     '</tr>',
                                     '<tr>',
@@ -112,7 +112,7 @@ define([
                                             '</div>',
                                         '</td>',
                                         '<td class="padding-small" style="vertical-align: top;">',
-                                            '<label class="input-label" style="margin-left: 15px;">' + me.textStyles + '</label>',
+                                            '<label class="input-label" style="margin-left: 10px;">' + me.textStyles + '</label>',
                                             '<div id="tableofcontents-combo-styles" class="input-group-nr" style="display: inline-block; width:95px; margin-left: 10px;"></div>',
                                         '</td>',
                                     '</tr>',
@@ -159,7 +159,8 @@ define([
                         properties.put_RightAlignTab(this.chAlign.getValue() == 'checked');
                         properties.put_TabLeader(this.cmbLeader.getValue());
                     }
-                    // this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    this.scrollerY.update();
                 }
             }, this));
 
@@ -177,7 +178,8 @@ define([
                     if (checked) {
                         properties.put_TabLeader(this.cmbLeader.getValue());
                     }
-                    // this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    this.scrollerY.update();
                 }
             }, this));
 
@@ -199,7 +201,8 @@ define([
                 if (this.api && !this._noApply) {
                     var properties = (this._originalProps) ? this._originalProps : new Asc.CTableOfContentsPr();
                     properties.put_TabLeader(record.value);
-                    // this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    this.scrollerY.update();
                 }
             }, this));
 
@@ -212,7 +215,8 @@ define([
                 if (this.api && !this._noApply) {
                     var properties = (this._originalProps) ? this._originalProps : new Asc.CTableOfContentsPr();
                     properties.put_Hyperlink(field.getValue()=='checked');
-                    // this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    this.scrollerY.update();
                 }
             }, this));
 
@@ -269,7 +273,8 @@ define([
                 if (this.api && !this._noApply) {
                     var properties = (this._originalProps) ? this._originalProps : new Asc.CTableOfContentsPr();
                     properties.put_StylesType(record.value);
-                    // this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    this.scrollerY.update();
                 }
             }, this));
 
@@ -278,7 +283,7 @@ define([
                 step: 1,
                 width: 85,
                 defaultUnit : "",
-                value: 3,
+                value: this.endLevel,
                 maxValue: 9,
                 minValue: 1,
                 allowDecimal: false,
@@ -293,7 +298,8 @@ define([
                     var properties = (this._originalProps) ? this._originalProps : new Asc.CTableOfContentsPr();
                     properties.clear_Styles();
                     properties.put_OutlineRange(this.startLevel, this.endLevel);
-                    // this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    this.scrollerY.update();
                 }
             }, this));
 
@@ -322,6 +328,14 @@ define([
 
             this.levelsContainer = $('#tableofcontents-from-levels');
             this.stylesContainer = $('#tableofcontents-from-styles');
+
+            this.scrollerY = new Common.UI.Scroller({
+                el: this.$window.find('#tableofcontents-img').parent(),
+                minScrollbarLength  : 20
+            });
+            this.scrollerY.update();
+            this.scrollerY.scrollTop(0);
+
             this.afterRender();
         },
 
@@ -333,12 +347,19 @@ define([
             Common.Views.AdvancedSettingsWindow.prototype.show.apply(this, arguments);
         },
 
+        close: function() {
+            this.api.SetDrawImagePlaceContents(null);
+            this.scrollerY.update();
+            Common.Views.AdvancedSettingsWindow.prototype.close.apply(this);
+        },
+
         _setDefaults: function (props) {
             this._noApply = true;
 
             var me = this,
                 docStyles = this.api.asc_GetStylesArray(),
-                styles = [];
+                styles = [],
+                checkStyles = false;
             _.each(docStyles, function (style) {
                     var name = style.get_Name(),
                         level = me.api.asc_GetHeadingLevel(name);
@@ -436,10 +457,25 @@ define([
                 }
 
                 this.spnLevels.setValue(new_end>0 ? new_end : '', true);
-                this.spnLevels.setDisabled(disable_outlines || new_start>1 );
+                checkStyles = (disable_outlines || new_start>1);
+            } else {
+                for (var i=this.startLevel; i<=this.endLevel; i++) {
+                    var rec = _.findWhere(styles, {headerLevel: i});
+                    if (rec) {
+                        rec.checked = true;
+                        rec.value = i;
+                    }
+                }
             }
+            styles.sort(function(a, b){
+                var aname = a.name.toLocaleLowerCase(),
+                    bname = b.name.toLocaleLowerCase();
+                if (aname < bname) return -1;
+                if (aname > bname) return 1;
+                return 0;
+            });
             this.stylesLevels.reset(styles);
-            if (this.spnLevels.isDisabled()) {
+            if (checkStyles) {
                 this.radioStyles.setValue(true);
                 this.stylesList.scroller.update({alwaysVisibleY: true});
                 var rec = this.stylesLevels.findWhere({checked: true});
@@ -459,7 +495,8 @@ define([
                 }
             }
 
-            // this.api.SetDrawImagePlaceContents('tableofcontents-img', this._originalProps);
+            this.api.SetDrawImagePlaceContents('tableofcontents-img', this._originalProps);
+            this.scrollerY.update();
 
             this._noApply = false;
         },
@@ -521,12 +558,11 @@ define([
             this.endLevel = new_end;
 
             this.spnLevels.setValue(new_end>0 ? new_end : '', true);
-            this.spnLevels.setDisabled(disable_outlines || new_start>1 );
             this._needUpdateOutlineLevels = false;
         },
 
         getSettings: function () {
-            var props = new Asc.CTableOfContentsPr();
+            var props = this._originalProps;
 
             props.put_Hyperlink(this.chLinks.getValue() == 'checked');
             props.put_ShowPageNumbers(this.chPages.getValue() == 'checked');
@@ -583,7 +619,8 @@ define([
                         properties.put_OutlineRange(-1, -1);
                     else
                         properties.put_OutlineRange(1, 9);
-                    // this.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    me.api.SetDrawImagePlaceContents('tableofcontents-img', properties);
+                    me.scrollerY.update();
                 }
 
             });

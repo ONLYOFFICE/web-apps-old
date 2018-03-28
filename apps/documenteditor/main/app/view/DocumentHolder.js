@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *  DocumentHolder view
  *
  *  Created by Alexander Yuzhin on 1/11/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -311,7 +311,10 @@ define([
                     });
                     meEl.on('click', function(e){
                         if (e.target.localName == 'canvas') {
-                            meEl.focus();
+                            if (me._preventClick)
+                                me._preventClick = false;
+                            else
+                                meEl.focus();
                         }
                     });
                     meEl.on('mousedown', function(e){
@@ -609,6 +612,7 @@ define([
                 if (pasteContainer.length < 1) {
                     me._arrSpecialPaste = [];
                     me._arrSpecialPaste[Asc.c_oSpecialPasteProps.paste] = me.textPaste;
+                    me._arrSpecialPaste[Asc.c_oSpecialPasteProps.sourceformatting] = me.txtPasteSourceFormat;
                     me._arrSpecialPaste[Asc.c_oSpecialPasteProps.keepTextOnly] = me.txtKeepTextOnly;
 
                     pasteContainer = $('<div id="special-paste-container" style="position: absolute;"><div id="id-document-holder-btn-special-paste"></div></div>');
@@ -724,6 +728,46 @@ define([
 
             var onTextLanguage = function(langid) {
                 me._currLang.id = langid;
+            };
+
+            var onShowContentControlsActions = function(action, x, y) {
+                var menu = (action==1) ? me.contentsUpdateMenu : me.contentsMenu,
+                    menuContainer = me.cmpEl.find(Common.Utils.String.format('#menu-container-{0}', menu.id));
+
+                if (!menu) return;
+                me._fromShowContentControls = true;
+                Common.UI.Menu.Manager.hideAll();
+
+                if (!menu.rendered) {
+                    // Prepare menu container
+                    if (menuContainer.length < 1) {
+                        menuContainer = $(Common.Utils.String.format('<div id="menu-container-{0}" style="position: absolute; z-index: 10000;"><div class="dropdown-toggle" data-toggle="dropdown"></div></div>', menu.id));
+                        me.cmpEl.append(menuContainer);
+                    }
+
+                    menu.render(menuContainer);
+                    menu.cmpEl.attr({tabindex: "-1"});
+                    menu.on('hide:after', function(){
+                        if (!me._fromShowContentControls)
+                            me.api.asc_UncheckContentControlButtons();
+                    });
+                }
+
+                menuContainer.css({left: x, top : y});
+                menuContainer.attr('data-value', 'prevent-canvas-click');
+                me._preventClick = true;
+                menu.show();
+
+                menu.alignPosition();
+                _.delay(function() {
+                    menu.cmpEl.focus();
+                }, 10);
+                me._fromShowContentControls = false;
+            };
+
+            var onHideContentControlsActions = function() {
+                me.contentsMenu && me.contentsMenu.hide();
+                me.contentsUpdateMenu && me.contentsUpdateMenu.hide();
             };
 
             this.changeLanguageMenu = function(menu) {
@@ -1514,6 +1558,8 @@ define([
                         this.api.asc_registerCallback('asc_onDialogAddHyperlink',       onDialogAddHyperlink);
                         this.api.asc_registerCallback('asc_doubleClickOnChart',         onDoubleClickOnChart);
                         this.api.asc_registerCallback('asc_onSpellCheckVariantsFound',  _.bind(onSpellCheckVariantsFound, this));
+                        this.api.asc_registerCallback('asc_onShowContentControlsActions',_.bind(onShowContentControlsActions, this));
+                        this.api.asc_registerCallback('asc_onHideContentControlsActions',_.bind(onHideContentControlsActions, this));
                     }
                     this.api.asc_registerCallback('asc_onCoAuthoringDisconnect',        _.bind(onCoAuthoringDisconnect, this));
                     Common.NotificationCenter.on('api:disconnect',                      _.bind(onCoAuthoringDisconnect, this));
@@ -1789,6 +1835,41 @@ define([
                 } 
             }
             me.fireEvent('editcomplete', me);
+        },
+
+        onContentsMenuClick: function(type) {
+            if (this.api) {
+                var props = this.api.asc_GetTableOfContentsPr(true); // current TOC
+                if (type == 0 || type == 1) {
+                    if (!props) {
+                        props = new Asc.CTableOfContentsPr();
+                        props.put_OutlineRange(1, 9);
+                    }
+                    props.put_Hyperlink(true);
+                    props.put_ShowPageNumbers(type == 0);
+                    props.put_RightAlignTab(type == 0);
+                    props.put_TabLeader((type == 0) ? Asc.c_oAscTabLeader.Dot : Asc.c_oAscTabLeader.None);
+                    this.api.asc_SetTableOfContentsPr(props);
+                } else if (type == 'settings') {
+                    var me = this;
+                    var win = new DE.Views.TableOfContentsSettings({
+                        api: this.api,
+                        props: props,
+                        handler: function (result, value) {
+                            if (result == 'ok') {
+                                (props) ? me.api.asc_SetTableOfContentsPr(value) : me.api.asc_AddTableOfContents(null, value);
+                            }
+                            me.fireEvent('editcomplete', me);
+                        }
+                    });
+                    win.show();
+                } else if (type == 'remove') {
+                    this.api.asc_RemoveTableOfContents(props.get_InternalClass()); // remove current TOC
+                } else if (type == 'all' || type == 'pages') {
+                    this.api.asc_UpdateTableOfContents(type == 'pages', props.get_InternalClass()); // update current TOC
+                }
+                this.fireEvent('editcomplete', this);
+            }
         },
 
         createDelayedElementsViewer: function() {
@@ -3255,6 +3336,32 @@ define([
                 title       : me.textPrevPage + Common.Utils.String.platformKey('Alt+PgUp'),
                 placement   : 'top-right'
             });
+
+            var contentsTemplate = _.template('<a id="<%= id %>" tabindex="-1" type="menuitem" class="item-contents"><div style="background-position: 0 -<%= options.offsety %>px;" ></div></a>');
+            this.contentsMenu = new Common.UI.Menu({
+                items: [
+                    {template: contentsTemplate, offsety: 0, value: 0},
+                    {template: contentsTemplate, offsety: 72, value: 1},
+                    {caption: this.textContentsSettings, value: 'settings'},
+                    {caption: this.textContentsRemove, value: 'remove'}
+                ]
+            }).on('item:click', function (menu, item, e) {
+                setTimeout(function(){
+                    me.onContentsMenuClick(item.value);
+                }, 10);
+            });
+
+            this.contentsUpdateMenu = new Common.UI.Menu({
+                items: [
+                    {caption: this.textUpdateAll, value: 'all'},
+                    {caption: this.textUpdatePages, value: 'pages'}
+                ]
+            }).on('item:click', function (menu, item, e) {
+                setTimeout(function(){
+                    me.onContentsMenuClick(item.value);
+                }, 10);
+            });
+
         },
 
         setLanguages: function(langs){
@@ -3478,7 +3585,12 @@ define([
         txtDeleteChars: 'Delete enclosing characters',
         txtDeleteCharsAndSeparators: 'Delete enclosing characters and separators',
         txtKeepTextOnly: 'Keep text only',
-        textUndo: 'Undo'
+        textUndo: 'Undo',
+        textContentsSettings: 'Settings',
+        textContentsRemove: 'Remove table of contents',
+        textUpdateAll: 'Update entire table',
+        textUpdatePages: 'Update page numbers only',
+        txtPasteSourceFormat: 'Keep source formatting'
 
     }, DE.Views.DocumentHolder || {}));
 });

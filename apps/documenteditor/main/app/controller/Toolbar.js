@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -36,7 +36,7 @@
  *  Toolbar Controller
  *
  *  Created by Alexander Yuzhin on 1/15/14
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -2115,7 +2115,7 @@ define([
                     win.show();
                 } else if (item.value == 'remove') {
                     this.api.asc_RemoveTableOfContents();
-                } else if (item.value == 'all' || 'pages')
+                } else if (item.value == 'all' || item.value == 'pages')
                     this.api.asc_UpdateTableOfContents(item.value == 'pages');
 
                 Common.NotificationCenter.trigger('edit:complete', this.toolbar);

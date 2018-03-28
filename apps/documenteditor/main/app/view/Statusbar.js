@@ -1,6 +1,6 @@
 /*
  *
- * (c) Copyright Ascensio System Limited 2010-2017
+ * (c) Copyright Ascensio System Limited 2010-2018
  *
  * This program is a free software product. You can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License (AGPL)
@@ -34,7 +34,7 @@
  *  StatusBar View
  *
  *  Created by Maxim Kadushkin
- *  Copyright (c) 2014 Ascensio System SIA. All rights reserved.
+ *  Copyright (c) 2018 Ascensio System SIA. All rights reserved.
  *
  */
 
@@ -85,7 +85,7 @@ define([
 
             storeUsers: undefined,
             
-            tplUser: ['<li id="status-chat-user-<%= user.get("id") %>" class="<% if (!user.get("online")) { %> offline <% } if (user.get("view")) {%> viewmode <% } %>">',
+            tplUser: ['<li id="<%= user.get("iid") %>" class="<% if (!user.get("online")) { %> offline <% } if (user.get("view")) {%> viewmode <% } %>">',
                 '<div class="color" style="background-color: <%= user.get("color") %>;" >',
                     '<label class="name"><%= scope.getUserName(user.get("username")) %></label>',
                 '</div>',
@@ -441,7 +441,7 @@ define([
 
             _onUsersChanged: function(m) {
                 if (m.changed.online != undefined && this.panelUsersList) {
-                    this.panelUsersList.find('#status-chat-user-'+ m.get('id'))[m.changed.online?'removeClass':'addClass']('offline');
+                    this.panelUsersList.find('#'+ m.get('iid'))[m.changed.online?'removeClass':'addClass']('offline');
                     this.panelUsersList.scroller.update({minScrollbarLength  : 40, alwaysVisibleY: true});
                 }
             },
