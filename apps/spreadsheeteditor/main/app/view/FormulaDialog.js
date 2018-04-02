@@ -407,7 +407,7 @@ define([
         sCategoryEngineering:           'Engineering',
         sCategoryFinancial:             'Financial',
         sCategoryInformation:           'Information',
-        sCategoryLookupAndReference:    'LookupAndReference',
+        sCategoryLookupAndReference:    'Lookup and Reference',
         sCategoryMathematic:            'Math and trigonometry',
         sCategoryStatistical:           'Statistical',
         sCategoryTextAndData:           'Text and data',
