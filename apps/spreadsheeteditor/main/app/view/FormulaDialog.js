@@ -115,7 +115,8 @@ define([
                 this.translationTable[name] = {
                     en: this[translate],
                     de: this[translate+'_de'],
-                    ru: this[translate+'_ru']
+                    ru: this[translate+'_ru'],
+                    pl: this[translate+'_pl']
                 };
             }
 
@@ -237,7 +238,7 @@ define([
                     if (this.formulasGroups.at(i).get('functions').length) {
                         groupsListItems.push({
                             value           : this.formulasGroups.at(i).get('index'),
-                            displayValue    : this.translationTable[this.formulasGroups.at(i).get('name')][lang]
+                            displayValue    : this.translationTable[this.formulasGroups.at(i).get('name')][lang] || this.translationTable[this.formulasGroups.at(i).get('name')]['en']
                         });
                     }
                 }
@@ -437,6 +438,18 @@ define([
         sCategoryMathematic_ru:         'Математические',
         sCategoryStatistical_ru:        'Статистические',
         sCategoryTextAndData_ru:        'Текст и данные',
-        txtTitle:                       'Insert Function'
+        txtTitle:                       'Insert Function',
+        sCategoryAll_pl:                   'Wszystko',
+        sCategoryLogical_pl:               'Logiczny',
+        sCategoryCube_pl:                  'Sześcian',
+        sCategoryDatabase_pl:              'Baza danych',
+        sCategoryDateAndTime_pl:           'Data i czas',
+        sCategoryEngineering_pl:           'Inżyniera',
+        sCategoryFinancial_pl:             'Finansowe',
+        sCategoryInformation_pl:           'Informacja',
+        sCategoryLookupAndReference_pl:    'Wyszukiwanie i odniesienie',
+        sCategoryMathematic_pl:            'Matematyczne i trygonometryczne',
+        sCategoryStatistical_pl:           'Statystyczny',
+        sCategoryTextAndData_pl:           'Tekst i data'
     }, SSE.Views.FormulaDialog || {}));
 });
