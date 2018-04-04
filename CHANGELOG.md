@@ -4,7 +4,7 @@
 * 
 
 ### Document Editor
-* 
+* Export to RTF format
 
 ### Spreadsheet Editor
 * 
