@@ -1,10 +1,10 @@
 # Change log
-## 5.1.1
+## develop
 ### All Editors
-* 
+* Customize initial zoom for the embedded editors
 
 ### Document Editor
-* 
+* Export to RTF format
 
 ### Spreadsheet Editor
 * 
