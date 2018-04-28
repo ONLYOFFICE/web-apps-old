@@ -1159,7 +1159,7 @@
   "DE.Views.MailMergeSettings.textSendMsg": "Alle E-Mail-Nachrichten sind bereit und werden innerhalb einiger Zeit versendet. <br> Die Geschwindigkeit des Email-Versands hängt von Ihrem Mail-Dienst ab. Sie können an dem Dokument weiterarbeiten oder es schließen. Nachdem Email-Versand werden Sie per E-Mail, die Sie bei der Registriering wervendeten, benachrichtigt.",
   "DE.Views.MailMergeSettings.textTo": "Zu",
   "DE.Views.MailMergeSettings.txtFirst": "Zum ersten Datensatz",
-  "DE.Views.MailMergeSettings.txtFromToError": "Der Wert \"Von\" muss kleiner als \"Zu\" sein",
+  "DE.Views.MailMergeSettings.txtFromToError": "Der Wert \"Von\" muss kleiner als \"Bis\" sein",
   "DE.Views.MailMergeSettings.txtLast": "Zum letzten Datensatz",
   "DE.Views.MailMergeSettings.txtNext": "Zum nächsten Datensatz",
   "DE.Views.MailMergeSettings.txtPrev": "Zu den vorherigen Rekord",
