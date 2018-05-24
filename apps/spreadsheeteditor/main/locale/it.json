@@ -812,6 +812,7 @@
   "SSE.Views.ChartSettings.textWidth": "Larghezza",
   "SSE.Views.ChartSettings.textWinLossSpark": "Vinci/Perdi",
   "SSE.Views.ChartSettingsDlg.cancelButtonText": "Annulla",
+  "SSE.Views.ChartSettingsDlg.errorMaxPoints": "ERRORE! Il numero massimo di punti in serie per grafico è 4096.",
   "SSE.Views.ChartSettingsDlg.errorMaxRows": "ERRORE! Il numero massimo di serie di dati per grafico è 255.",
   "SSE.Views.ChartSettingsDlg.errorStockChart": "Ordine di righe scorretto. Per creare o grafico in pila posiziona i dati nel foglio nel seguente ordine:<br> prezzo di apertura, prezzo massimo, prezzo minimo, prezzo di chiusura.",
   "SSE.Views.ChartSettingsDlg.textAlt": "Testo alternativo",
