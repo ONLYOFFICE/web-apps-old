@@ -602,6 +602,8 @@ define([
                 data        : [
                     { value: 'en', displayValue: this.txtEn, exampleValue: this.txtExampleEn },
                     { value: 'de', displayValue: this.txtDe, exampleValue: this.txtExampleDe },
+                    { value: 'es', displayValue: this.txtEs, exampleValue: this.txtExampleEs },
+                    { value: 'fr', displayValue: this.txtFr, exampleValue: this.txtExampleFr },
                     { value: 'ru', displayValue: this.txtRu, exampleValue: this.txtExampleRu },
                     { value: 'pl', displayValue: this.txtPl, exampleValue: this.txtExamplePl }
                 ]
@@ -813,10 +815,14 @@ define([
         txtDe: 'Deutsch',
         txtRu: 'Russian',
         txtPl: 'Polish',
+        txtEs: 'Spanish',
+        txtFr: 'French',
         txtExampleEn: ' SUM; MIN; MAX; COUNT',
         txtExampleDe: ' SUMME; MIN; MAX; ANZAHL',
         txtExampleRu: ' СУММ; МИН; МАКС; СЧЁТ',
         txtExamplePl: ' SUMA; MIN; MAX; ILE.LICZB',
+        txtExampleEs: ' SUMA; MIN; MAX; CALCULAR',
+        txtExampleFr: ' SOMME; MIN; MAX; NB',
         strFuncLocale: 'Formula Language',
         strFuncLocaleEx: 'Example: SUM; MIN; MAX; COUNT',
         strRegSettings: 'Regional Settings',
