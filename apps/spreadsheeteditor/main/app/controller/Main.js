@@ -1280,6 +1280,10 @@ define([
                             }
                         }
                     }
+                    if (id == Asc.c_oAscError.ID.DataEncrypted) {
+                        this.api.asc_coAuthoringDisconnect();
+                        Common.NotificationCenter.trigger('api:disconnect');
+                    }
                 } else {
                     config.title    = this.notcriticalErrorTitle;
                     config.iconCls  = 'warn';
