@@ -248,7 +248,7 @@
   "SSE.Controllers.Main.errorAutoFilterHiddenRange": "The operation cannot be performed because the area contains filtered cells.<br>Please unhide the filtered elements and try again.",
   "SSE.Controllers.Main.errorBadImageUrl": "URL dell'immagine non corretto",
   "SSE.Controllers.Main.errorCoAuthoringDisconnect": "Connessione al server persa. Impossibile modificare il documento.",
-  "SSE.Controllers.Main.errorConnectToServer": "The document could not be saved. Please check connection settings or contact your administrator.<br>When you click the 'OK' button, you will be prompted to download the document.<br><br>Find more information about connecting Document Server <a href=\"https://api.onlyoffice.com/editors/callback\" target=\"_blank\">here</a>",
+  "SSE.Controllers.Main.errorConnectToServer": "Il documento non può essere salvato. Controllare le impostazioni di rete o contatta l'Amministratore.<br>Quando clicchi 'OK' Ti verrà richiesto di scaricare il documento.<br><br>Per maggiori dettagli sulla connessione al Document Server  <a href=\"https://api.onlyoffice.com/editors/callback\" target=\"_blank\">clicca qui</a>",
   "SSE.Controllers.Main.errorCopyMultiselectArea": "Questo comando non può essere applicato a selezioni multiple.<br>Seleziona un intervallo singolo e riprova.",
   "SSE.Controllers.Main.errorCountArg": "Un errore nella formula inserita.<br>E' stato utilizzato un numero di argomento scorretto.",
   "SSE.Controllers.Main.errorCountArgExceed": "Un errore nella formula inserita.<br>E' stato superato il numero di argomenti.",
