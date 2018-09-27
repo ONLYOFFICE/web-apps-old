@@ -21,6 +21,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-imagemin');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-htmlmin');
+    grunt.loadNpmTasks('grunt-json-minify');
     grunt.loadNpmTasks('grunt-text-replace');
     grunt.loadNpmTasks('grunt-mocha');
 
@@ -200,6 +201,12 @@ module.exports = function(grunt) {
                 }
             },
 
+            'json-minify': {
+                build: {
+                    files: packageFile['main']['jsonmin']['files']
+                }
+            },
+
             copy: {
                 localization: {
                     files: packageFile['main']['copy']['localization']
@@ -263,6 +270,12 @@ module.exports = function(grunt) {
                 }
             },
 
+            'json-minify': {
+                build: {
+                    files: packageFile['mobile']['jsonmin']['files']
+                }
+            },
+
             copy: {
                 'template-backup': {
                     files: packageFile['mobile']['copy']['template-backup']
@@ -280,7 +293,7 @@ module.exports = function(grunt) {
                     files: packageFile['mobile']['copy']['images-app']
                 }
             },
-            
+
             replace: {
                 writeVersion: {
                     src: ['<%= pkg.mobile.js.requirejs.options.out %>'],
@@ -376,12 +389,13 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy-requirejs',              ['requirejs-init', 'clean', 'uglify']);
 
     grunt.registerTask('deploy-app-main',               ['main-app-init', 'clean', 'imagemin', 'less', 'requirejs', 'concat',
-                                                            'copy', 'replace:writeVersion']);
+                                                            'copy', 'json-minify', 'replace:writeVersion']);
 
     grunt.registerTask('deploy-app-mobile',             ['mobile-app-init', 'clean:deploy', 'cssmin', 'copy:template-backup',
                                                             'htmlmin', 'requirejs', 'concat', 'copy:template-restore',
                                                             'clean:template-backup', 'copy:localization', 'copy:index-page',
-                                                            'copy:images-app', 'replace:writeVersion', 'replace:fixResourceUrl']);
+                                                            'copy:images-app', 'json-minify', 
+                                                            'replace:writeVersion','replace:fixResourceUrl']);
 
     grunt.registerTask('deploy-app-embed',              ['embed-app-init', 'clean:prebuild', 'uglify', 'less', 'copy', 
                                                             'clean:postbuild']);
