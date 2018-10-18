@@ -83,7 +83,7 @@
   "Common.Views.OpenDialog.cancelButtonText": "Abbrechen",
   "Common.Views.OpenDialog.okButtonText": "OK",
   "Common.Views.OpenDialog.txtDelimiter": "Trennzeichen",
-  "Common.Views.OpenDialog.txtEncoding": "Verschlüsselung",
+  "Common.Views.OpenDialog.txtEncoding": "Zeichenkodierung",
   "Common.Views.OpenDialog.txtOther": "Sonstige",
   "Common.Views.OpenDialog.txtPassword": "Kennwort",
   "Common.Views.OpenDialog.txtSpace": "Leerzeichen",
