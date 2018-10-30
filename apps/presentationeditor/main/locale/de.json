@@ -99,7 +99,7 @@
   "Common.Views.LanguageDialog.labelSelect": "Sprache des Dokuments wählen",
   "Common.Views.OpenDialog.cancelButtonText": "Abbrechen",
   "Common.Views.OpenDialog.okButtonText": "OK",
-  "Common.Views.OpenDialog.txtEncoding": "Verschlüsselung",
+  "Common.Views.OpenDialog.txtEncoding": "Zeichenkodierung",
   "Common.Views.OpenDialog.txtPassword": "Kennwort",
   "Common.Views.OpenDialog.txtTitle": "%1-Optionen wählen",
   "Common.Views.OpenDialog.txtTitleProtected": "Geschützte Datei",
