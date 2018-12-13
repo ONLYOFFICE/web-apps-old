@@ -266,7 +266,7 @@
   "DE.Controllers.Main.splitMaxRowsErrorText": "Die Zeilenanzahl muss weniger als %1 sein.",
   "DE.Controllers.Main.textAnonymous": "Anonym",
   "DE.Controllers.Main.textBuyNow": "Webseite besuchen",
-  "DE.Controllers.Main.textChangesSaved": "Alle Änderungen werden gespeichert",
+  "DE.Controllers.Main.textChangesSaved": "Alle Änderungen wurden gespeichert",
   "DE.Controllers.Main.textCloseTip": "Klicken Sie, um den Tipp zu schließen",
   "DE.Controllers.Main.textContactUs": "Verkaufsteam kontaktieren",
   "DE.Controllers.Main.textLoadingDocument": "Dokument wird geladen...",
