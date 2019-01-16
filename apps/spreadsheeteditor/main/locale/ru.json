@@ -1324,7 +1324,7 @@
   "SSE.Views.PrintSettings.textPrintGrid": "Печать сетки",
   "SSE.Views.PrintSettings.textPrintHeadings": "Печать заголовков строк и столбцов",
   "SSE.Views.PrintSettings.textPrintRange": "Диапазон печати",
-  "SSE.Views.PrintSettings.textSelection": "Выделение",
+  "SSE.Views.PrintSettings.textSelection": "Выделенный фрагмент",
   "SSE.Views.PrintSettings.textSettings": "Параметры листа",
   "SSE.Views.PrintSettings.textShowDetails": "Показать детали",
   "SSE.Views.PrintSettings.textTitle": "Параметры печати",
