@@ -122,7 +122,7 @@
   "SSE.Controllers.Main.errorCreateDefName": "无法编辑现有的命名范围，因此无法在其中编辑新的范围。",
   "SSE.Controllers.Main.errorDatabaseConnection": "外部错误。<br>数据库连接错误。如果错误仍然存​​在，请联系支持人员。",
   "SSE.Controllers.Main.errorDataRange": "数据范围不正确",
-  "SSE.Controllers.Main.errorDefaultMessage": "错误代码：％1",
+  "SSE.Controllers.Main.errorDefaultMessage": "错误代码：%1",
   "SSE.Controllers.Main.errorFilePassProtect": "该文档受密码保护，无法打开。",
   "SSE.Controllers.Main.errorFileRequest": "外部错误。<br>文件请求错误。如果错误仍然存​​在，请与支持部门联系。",
   "SSE.Controllers.Main.errorFileVKey": "外部错误。<br>安全密钥不正确。如果错误仍然存​​在，请与支持部门联系。",
