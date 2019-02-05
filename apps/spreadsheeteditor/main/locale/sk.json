@@ -1049,7 +1049,7 @@
   "SSE.Views.DocumentHolder.txtWidth": "Šírka",
   "SSE.Views.DocumentHolder.vertAlignText": "Vertikálne zarovnanie",
   "SSE.Views.FileMenu.btnBackCaption": "Prejsť do Dokumentov",
-  "SSE.Views.FileMenu.btnCloseMenuCaption": "Zavrieť menu",
+  "SSE.Views.FileMenu.btnCloseMenuCaption": "Zatvoriť menu",
   "SSE.Views.FileMenu.btnCreateNewCaption": "Vytvoriť nový",
   "SSE.Views.FileMenu.btnDownloadCaption": "Stiahnuť ako...",
   "SSE.Views.FileMenu.btnHelpCaption": "Pomoc...",
