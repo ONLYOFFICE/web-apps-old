@@ -614,7 +614,7 @@ define([
                     }
                     return false;
                 case 'help':
-                    if (!this.leftMenu.btnFile.isDisabled()) {
+                    if (!this.leftMenu.btnFile.isDisabled() && this.mode.canHelp) {
                         Common.UI.Menu.Manager.hideAll();
                         this.api.asc_closeCellEditor();
                         this.leftMenu.showMenu('file:help');

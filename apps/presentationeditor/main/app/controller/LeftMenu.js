@@ -455,7 +455,7 @@ define([
                     }
                     return false;
                 case 'help':
-                    if (!previewPanel || !previewPanel.isVisible()){
+                    if (this.mode.canHelp && (!previewPanel || !previewPanel.isVisible())){
                         Common.UI.Menu.Manager.hideAll();
                         this.leftMenu.showMenu('file:help');
                     }
