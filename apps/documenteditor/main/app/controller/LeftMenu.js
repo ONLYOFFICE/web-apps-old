@@ -561,8 +561,10 @@ define([
                     }
                     return false;
                 case 'help':
-                    Common.UI.Menu.Manager.hideAll();
-                    this.leftMenu.showMenu('file:help');
+                    if ( this.mode.canHelp ) {
+                        Common.UI.Menu.Manager.hideAll();
+                        this.leftMenu.showMenu('file:help');
+                    }
                     return false;
                 case 'file':
                     Common.UI.Menu.Manager.hideAll();

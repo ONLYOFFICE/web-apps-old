@@ -182,8 +182,7 @@ define([
 //                    'saveas'    : (new DE.Views.FileMenuPanels.ViewSaveAs({menu:me})).render(),
                 'opts'      : (new DE.Views.FileMenuPanels.Settings({menu:me})).render(),
                 'info'      : (new DE.Views.FileMenuPanels.DocumentInfo({menu:me})).render(),
-                'rights'    : (new DE.Views.FileMenuPanels.DocumentRights({menu:me})).render(),
-                'help'      : (new DE.Views.FileMenuPanels.Help({menu:me})).render()
+                'rights'    : (new DE.Views.FileMenuPanels.DocumentRights({menu:me})).render()
             };
 
             me.$el.find('.content-box').hide();
@@ -257,7 +256,12 @@ define([
             } else if (this.mode.canDownloadOrigin)
                 $('a',this.items[3].$el).text(this.textDownload);
 
-            this.panels['help'].setLangConfig(this.mode.lang);
+            this.items[13][this.mode.canHelp ?'show':'hide']();
+            this.items[13].$el.prev()[this.mode.canHelp ?'show':'hide']();
+            if (this.mode.canHelp) {
+                this.panels['help'] = ((new DE.Views.FileMenuPanels.Help({menu: this})).render());
+                this.panels['help'].setLangConfig(this.mode.lang);
+            }
 
             this.items[11][this.mode.canUseHistory&&!this.mode.isDisconnected?'show':'hide']();
         },

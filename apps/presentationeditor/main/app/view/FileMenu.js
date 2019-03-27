@@ -179,8 +179,7 @@ define([
                 'saveas'    : (new PE.Views.FileMenuPanels.ViewSaveAs({menu:me})).render(),
                 'opts'      : (new PE.Views.FileMenuPanels.Settings({menu:me})).render(),
                 'info'      : (new PE.Views.FileMenuPanels.DocumentInfo({menu:me})).render(),
-                'rights'    : (new PE.Views.FileMenuPanels.DocumentRights({menu:me})).render(),
-                'help'      : (new PE.Views.FileMenuPanels.Help({menu:me})).render()
+                'rights'    : (new PE.Views.FileMenuPanels.DocumentRights({menu:me})).render()
             };
 
             me.$el.find('.content-box').hide();
@@ -249,7 +248,12 @@ define([
                 this.$el.find('#fm-btn-create, #fm-btn-back, #fm-btn-create+.devider').hide();
             }
 
-            this.panels['help'].setLangConfig(this.mode.lang);
+            this.items[12][this.mode.canHelp ?'show':'hide']();
+            this.items[12].$el.prev()[this.mode.canHelp ?'show':'hide']();
+            if (this.mode.canHelp) {
+                this.panels['help'] = ((new PE.Views.FileMenuPanels.Help({menu: this})).render());
+                this.panels['help'].setLangConfig(this.mode.lang);
+            }
         },
 
         setMode: function(mode, delay) {
