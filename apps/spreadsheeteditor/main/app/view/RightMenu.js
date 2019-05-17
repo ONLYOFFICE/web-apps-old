@@ -190,7 +190,7 @@ define([
         },
 
         setMode: function(mode) {
-
+            this.mode = mode;
         },
 
         onBtnMenuClick: function(btn, e) {

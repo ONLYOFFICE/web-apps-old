@@ -845,7 +845,7 @@ define([
                     this.appOptions.canChat        = this.appOptions.canLicense && !this.appOptions.isOffline && !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.chat===false);
                     this.appOptions.canRename      = !!this.permissions.rename;
                     this.appOptions.trialMode      = params.asc_getLicenseMode();
-
+                    this.appOptions.canModifyFilter = (this.permissions.modifyFilter!==false);
                     this.appOptions.canBranding  = params.asc_getCustomization();
                     if (this.appOptions.canBranding)
                         this.headerView.setBranding(this.editorConfig.customization);
@@ -855,7 +855,8 @@ define([
                         this.updatePlugins(this.plugins, true);
 
                     this.appOptions.canRename && this.headerView.setCanRename(true);
-                }
+                }else
+                    this.appOptions.canModifyFilter = true;
 
                 this.appOptions.canRequestEditRights = this.editorConfig.canRequestEditRights;
                 this.appOptions.canEdit        = this.permissions.edit !== false && // can edit
@@ -1005,6 +1006,8 @@ define([
                     /** coauthoring end **/
                     if (me.appOptions.isEditDiagram)
                         me.api.asc_registerCallback('asc_onSelectionChanged',        _.bind(me.onSelectionChanged, me));
+
+                    me.api.asc_setFilteringMode && me.api.asc_setFilteringMode(me.appOptions.canModifyFilter);
 
                     if (me.stackLongActions.exist({id: ApplyEditRights, type: Asc.c_oAscAsyncActionType['BlockInteraction']})) {
                         me.onLongActionEnd(Asc.c_oAscAsyncActionType['BlockInteraction'], ApplyEditRights);
