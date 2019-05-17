@@ -166,6 +166,7 @@ define([
             }
 
             if (formatTableInfo) {
+                isTableLocked = (isTableLocked || !this.rightmenu.mode.canModifyFilter),
                 settingsType = Common.Utils.documentSettingsType.Table;
                 this._settings[settingsType].props = formatTableInfo;
                 this._settings[settingsType].locked = isTableLocked;
