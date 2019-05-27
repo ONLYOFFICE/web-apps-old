@@ -1319,7 +1319,7 @@ define([
             Common.util.Shortcuts.delegateShortcuts({
                 shortcuts: {
                     'command+l,ctrl+l': function(e) {
-                        if (me.editMode && !me._state.multiselect) {
+                        if (me.editMode && !me._state.multiselect && me.toolbar.mode.canModifyFilter) {
                             var formattableinfo = me.api.asc_getCellInfo().asc_getFormatTableInfo();
                             if (!formattableinfo) {
                                 if (_.isUndefined(me.toolbar.mnuTableTemplatePicker))
@@ -1334,7 +1334,7 @@ define([
                     'command+shift+l,ctrl+shift+l': function(e) {
                         var state = me._state.filter;
                         me._state.filter = undefined;
-                        if (me.editMode && me.api && !me._state.multiselect) {
+                        if (me.editMode && me.api && !me._state.multiselect && me.toolbar.mode.canModifyFilter) {
                             if (me._state.tablename || state)
                                 me.api.asc_changeAutoFilter(me._state.tablename, Asc.c_oAscChangeFilterOptions.filter, !state);
                             else
@@ -2010,6 +2010,11 @@ define([
 
                 need_disable = !!info.asc_getPivotTableInfo();
                 toolbar.lockToolbar(SSE.enumLock.editPivot, need_disable, { array: [toolbar.btnMerge, toolbar.btnInsertHyperlink, toolbar.btnSetAutofilter, toolbar.btnClearAutofilter, toolbar.btnSortDown, toolbar.btnSortUp, toolbar.btnAutofilter]});
+
+                need_disable = !toolbar.mode.canModifyFilter;
+                toolbar.lockToolbar(SSE.enumLock.cantModifyFilter, need_disable, { array: [toolbar.btnSortDown, toolbar.btnSortUp, toolbar.mnuitemSortAZ, toolbar.mnuitemSortZA, toolbar.btnSetAutofilter,
+                    toolbar.mnuitemAutoFilter, toolbar.btnTableTemplate, toolbar.btnClearStyle.menu.items[0], toolbar.btnClearStyle.menu.items[2] ]});
+
             }
 
             val = info.asc_getNumFormatInfo();

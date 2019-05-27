@@ -43,7 +43,8 @@
                     print: <can print>, // default = true
                     rename: <can rename>, // default = false
                     changeHistory: <can change history>, // default = false
-                    comment: <can comment in view mode> // default = edit
+                    comment: <can comment in view mode> // default = edit,
+                    modifyFilter: <can add, remove and save filter in the spreadsheet> // default = true
                 }
             },
             editorConfig: {
@@ -117,7 +118,8 @@
                     autosave: true,
                     forcesave: false,
                     commentAuthorOnly: false,
-                    showReviewChanges: false
+                    showReviewChanges: false,
+                    help: true
                 },
                 plugins: {
                     autoStartGuid: 'asc.{FFE1F462-1EA2-4391-990D-4CC84940B754}',

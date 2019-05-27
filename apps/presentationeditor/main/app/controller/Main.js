@@ -835,9 +835,10 @@ define([
                 this.appOptions.forcesave      = this.appOptions.canForcesave;
                 this.appOptions.canEditComments= this.appOptions.isOffline || !(typeof (this.editorConfig.customization) == 'object' && this.editorConfig.customization.commentAuthorOnly);
                 this.appOptions.trialMode      = params.asc_getLicenseMode();
+                this.appOptions.canHelp        = !((typeof (this.editorConfig.customization) == 'object') && this.editorConfig.customization.help===false);
 
                 var headerView = this.getApplication().getController('Viewport').getView('Common.Views.Header');
-                this.appOptions.canBranding  = (licType === Asc.c_oLicenseResult.Success) && (typeof this.editorConfig.customization == 'object');
+                this.appOptions.canBranding  = params.asc_getCustomization();
                 if (this.appOptions.canBranding)
                     headerView.setBranding(this.editorConfig.customization);
 
