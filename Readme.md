@@ -2,7 +2,7 @@
 
 ## This repository is now archived
 
-We have [released a new interface][4].
+We have [released a new user interface][4].
 
 ## web-apps
 
