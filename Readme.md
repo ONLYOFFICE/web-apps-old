@@ -1,5 +1,9 @@
 [![License](https://img.shields.io/badge/License-GNU%20AGPL%20V3-green.svg?style=flat)](https://www.gnu.org/licenses/agpl-3.0.en.html)
 
+## This repository is now archived.
+
+We have [released a new interface][4].
+
 ## web-apps
 
 The frontend for [ONLYOFFICE Document Server][2]. Builds the program interface and allows the user create, edit, save and export text, spreadsheet and presentation documents using the common interface of a document editor.
@@ -19,6 +23,7 @@ If you have any problems with or questions about [ONLYOFFICE Document Server][2]
   [1]: http://dev.onlyoffice.org
   [2]: https://github.com/ONLYOFFICE/DocumentServer
   [3]: http://stackoverflow.com/questions/tagged/onlyoffice
+  [4]: https://github.com/ONLYOFFICE/web-apps-pro
 
 ## License
 
